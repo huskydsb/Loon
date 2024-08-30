@@ -44,6 +44,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                     <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
                     <br><b>ASN编号：</b>${scamInfo.as_number}
                     <br><b>ASN机构：</b>${scamInfo['Organization Name']}
+                    <br><b>节点：</b>${nodeName}
                 `;
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
