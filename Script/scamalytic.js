@@ -32,19 +32,17 @@ $httpClient.get(requestParams, (error, response, data) => {
             } else {
                 var scamInfo = JSON.parse(data);
                 var countryCode = scamInfo.ip_country_code;
-                var countryFlag = flags.get(countryCode) || '';
+                var countryFlag = flags.get(countryCode.toUpperCase()) || '';
 
                 var scamDetails = `
-                    <br><b>IP地址：</b>${scamInfo.ip}
-                    <br><b>IP欺诈分数：</b>${scamInfo.score}
-                    <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
-                    <br><b>IP城市：</b>${scamInfo.ip_city}
-                    <br><b>IP国家：</b>${countryFlag} ${countryCode}
-                    <br><b>ISP名称：</b>${scamInfo['ISP Name']}
-                    <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
-                    <br><b>ASN编号：</b>${scamInfo.as_number}
-                    <br><b>ASN机构：</b>${scamInfo['Organization Name']}
-                    <br><b>节点：</b>${nodeName}
+                    <br>IP地址：${scamInfo.ip}
+                    <br>IP欺诈分数：${scamInfo.score}
+                    <br>IP风险等级：${scamInfo.risk === 'low' ? '低风险' : '高风险'}
+                    <br>IP城市：${scamInfo.ip_city}
+                    <br>IP国家：${countryFlag}
+                    <br>ISP名称：${scamInfo['ISP Name']}
+                    <br>ISP欺诈分数：${scamInfo['ISP Fraud Score']}
+                    <br>ASN编号：${scamInfo.as_number}
                 `;
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
