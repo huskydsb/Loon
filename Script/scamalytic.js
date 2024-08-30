@@ -1,4 +1,5 @@
 console.log($environment.params);
+
 var ipUrl = "https://ipapi.co/json/";
 var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
 
@@ -7,8 +8,8 @@ var nodeName = inputParams.node;
 
 var requestParams = {
     "url": ipUrl,
-    "node": nodeName,
-    "timeout": 60 // 将超时时间增加到60秒
+    "node": nodeName, // 确保通过当前节点访问
+    "timeout": 60 // 增加超时时间至60秒
 };
 
 function requestWithRetry(params, callback, retries = 3) {
@@ -34,8 +35,8 @@ requestWithRetry(requestParams, (error, response, data) => {
         var ip = ipInfo.ip;
         var scamRequestParams = {
             "url": scamUrl + ip,
-            "node": nodeName,
-            "timeout": 60 // 将超时时间增加到60秒
+            "node": nodeName, // 确保通过当前节点访问
+            "timeout": 60 // 增加超时时间至60秒
         };
 
         requestWithRetry(scamRequestParams, (error, response, data) => {
