@@ -1,59 +1,54 @@
 console.log($environment.params);
-var ipapiUrl = "https://ipapi.co/json/";
-var scamalyticsUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
+var ipUrl = "https://ipapi.co/json/";
+var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
+
+var inputParams = $environment.params;
+var nodeName = inputParams.node;
 
 var requestParams = {
-    "url": ipapiUrl
-}
+    "url": ipUrl,
+    "node": nodeName,
+    "timeout": 30 // 增加超时时间
+};
 
-var message = "";
 $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
-        message = "</br></br>🔴 查询超时";
-        message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">` + message + `</p>`;
-        $done({ "title": "  地理位置查询", "htmlMessage": message });
+        console.log("第一次请求错误：" + JSON.stringify(error)); // 输出第一次请求的错误信息
+        message = "<br><br>🔴 第一次请求超时";
+        message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
+        $done({ "title": "IP洁净度检测", "htmlMessage": message });
     } else {
-        var ipData = JSON.parse(data);
-        var ip = ipData.ip;
-        
-        var scamalyticsRequestParams = {
-            "url": scamalyticsUrl + ip
-        }
-        
-        $httpClient.get(scamalyticsRequestParams, (error, response, data) => {
+        console.log("第一次请求成功：" + data); // 输出第一次请求的响应数据
+        var ipInfo = JSON.parse(data);
+        var ip = ipInfo.ip;
+        var scamRequestParams = {
+            "url": scamUrl + ip,
+            "node": nodeName,
+            "timeout": 30 // 增加超时时间
+        };
+
+        $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
-                message = "</br></br>🔴 查询超时";
-                message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">` + message + `</p>`;
-                $done({ "title": "  IP 风险查询", "htmlMessage": message });
+                console.log("第二次请求错误：" + JSON.stringify(error)); // 输出第二次请求的错误信息
+                message = "<br><br>🔴 第二次请求超时";
+                message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
+                $done({ "title": "IP洁净度检测", "htmlMessage": message });
             } else {
-                var scamalyticsData = JSON.parse(data);
-                message = scamalyticsData ? json2info(scamalyticsData) : "";
-                $done({ "title": "  IP 风险查询", "htmlMessage": message });
+                console.log("第二次请求成功：" + data); // 输出第二次请求的响应数据
+                var scamInfo = JSON.parse(data);
+                var scamDetails = `
+                <br><b>IP地址</b> : ${scamInfo.ip}
+                <br><b>风险评分</b> : ${scamInfo.score}
+                <br><b>风险级别</b> : ${scamInfo.risk}
+                <br><b>ISP 名称</b> : ${scamInfo['ISP Name']}
+                <br><b>城市</b> : ${scamInfo.ip_city}
+                <br><b>国家</b> : ${scamInfo.ip_country_name}
+                <br><b>AS 编号</b> : ${scamInfo.as_number}
+                `;
+
+                message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
+                $done({ "title": "IP洁净度检测", "htmlMessage": message });
             }
         });
     }
 });
-
-function json2info(data) {
-    var res = "-------------------------------";
-    
-    const paras = {
-        "ip": "IP 地址",
-        "score": "风险评分",
-        "risk": "风险等级",
-        "ISP Name": "ISP 名称",
-        "ip_city": "城市",
-        "ip_country_name": "国家",
-        "as_number": "ASN"
-    };
-    
-    for (const [key, label] of Object.entries(paras)) {
-        res += data[key] ? "</br><b>" + "<font color=#000>" + label + "</font> : " + "</b>" + "<font color=#000>" + data[key] + "</font></br>" : "";
-    }
-    
-    res += "-------------------------------";
-    res += "</br>" + "<font color=#6959CD>" + "<b>节点</b> ➟ " + $environment.params.node + "</font>";
-    res = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + res + `</p>`;
-    
-    return res;
-}
