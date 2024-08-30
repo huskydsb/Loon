@@ -14,7 +14,7 @@ $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-        $done({ "title": "IP洁净度检测", "htmlMessage": message });
+        $done({ "title": "IP纯净度检测", "htmlMessage": message });
     } else {
         console.log(data);
         var ipInfo = JSON.parse(data);
@@ -28,7 +28,7 @@ $httpClient.get(requestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                $done({ "title": "IP纯净度检测", "htmlMessage": message });
             } else {
                 var scamInfo = JSON.parse(data);
                 var countryCode = scamInfo.ip_country_code;
@@ -46,7 +46,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 `;
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                $done({ "title": "IP纯净度检测", "htmlMessage": message });
             }
         });
     }
