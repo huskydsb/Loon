@@ -1,13 +1,13 @@
-// $environment.params with input params
-console.log($environment.params);
-
+// LOON 脚本
 var ipApiUrl = "http://ip-api.com/json/";
-var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
+var scamApiKey = "3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1";
+var scamApiUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=" + scamApiKey + "&ip=";
 
+console.log($environment.params);
 var inputParams = $environment.params;
 var nodeName = inputParams.node;
 
-// Request IP info
+// 查询 IP 地址
 var requestParams = {
     "url": ipApiUrl,
     "node": nodeName
@@ -17,15 +17,15 @@ $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-        $done({ "title": "IP洁净度检测", "htmlMessage": message });
+        $done({ "title": "IP查询", "htmlMessage": message });
     } else {
         console.log(data);
         var ipInfo = JSON.parse(data);
         var ip = ipInfo.query;
-
-        // Request scam info
+        
+        // 查询欺诈分数
         var scamRequestParams = {
-            "url": scamUrl + ip,
+            "url": scamApiUrl + ip,
             "node": nodeName
         };
 
@@ -33,22 +33,41 @@ $httpClient.get(requestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                $done({ "title": "IP欺诈检测", "htmlMessage": message });
             } else {
                 var scamInfo = JSON.parse(data);
-                var scamDetails = `
-                <br><b>IP地址</b> : ${scamInfo.ip}
-                <br><b>风险评分</b> : ${scamInfo.score}
-                <br><b>风险级别</b> : ${scamInfo.risk}
-                <br><b>ISP 名称</b> : ${scamInfo['ISP Name']}
-                <br><b>城市</b> : ${scamInfo.ip_city}
-                <br><b>国家</b> : ${scamInfo.ip_country_name}
-                <br><b>AS 编号</b> : ${scamInfo.as_number}
-                `;
+
+                // 格式化输出内容
+                var scamDetails = json2info(JSON.stringify(scamInfo), [
+                    "ip", "score", "risk", "ip_city", "ip_country_code", "ISP Name", "ISP Fraud Score", "as_number"
+                ]);
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                $done({ "title": "IP欺诈检测", "htmlMessage": message });
             }
         });
     }
 });
+
+function json2info(cnt, paras) {
+    var res = "-------------------------------";
+    cnt = JSON.parse(cnt);
+    console.log(cnt);
+    for (var i = 0; i < paras.length; i++) {
+        var key = paras[i];
+        var value = cnt[key];
+
+        if (key === "ip_country_code") {
+            value = flags.get(value) || value; // 处理国旗 emoji
+        }
+
+        res += value ? `</br><b><font color=>${key}</font> : </b><font color=>${value}</font></br>` : '';
+    }
+    res += "-------------------------------" + "</br>" + "<font color=#6959CD>" + "<b>节点</b> ➟ " + $environment.params.node + "</font>";
+    return `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${res}</p>`;
+}
+
+var flags = new Map([
+    ["HK", "🇭🇰"] // 香港的国旗 emoji
+    // 其他国家的国旗 emoji 可以在这里添加
+]);
