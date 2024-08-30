@@ -34,18 +34,10 @@ $httpClient.get(requestParams, (error, response, data) => {
                 var countryCode = scamInfo.ip_country_code;
                 var countryFlag = flags.get(countryCode.toUpperCase()) || '';
 
-                var scamDetails = `
-                    <br><b>IP地址：</b>${scamInfo.ip}
-                    <br><b>IP欺诈分数：</b>${scamInfo.score}
-                    <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
-                    <br><b>IP城市：</b>${scamInfo.ip_city}
-                    <br><b>IP国家：</b>${countryFlag} ${countryCode}
-                    <br><b>ISP名称：</b>${scamInfo['ISP Name']}
-                    <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
-                    <br><b>ASN编号：</b>${scamInfo.as_number}
-                    <br><b>ASN机构：</b>${scamInfo['Organization Name']}
-                    <br><b>节点：</b>${nodeName}
-                `;
+                var scamDetails = json2info(scamInfo, [
+                    "ip", "score", "risk", "ip_city", "ip_country_code", 
+                    "ISP Name", "ISP Fraud Score", "as_number", "Organization Name"
+                ]);
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -53,6 +45,26 @@ $httpClient.get(requestParams, (error, response, data) => {
         });
     }
 });
+
+function json2info(cnt, paras) {
+    var res = "-------------------------------";
+    cnt = JSON.parse(cnt);
+    console.log(cnt);
+    var paran = [
+        "IP地址", "IP欺诈分数", "IP风险等级", "IP城市", "IP国家", 
+        "ISP名称", "ISP欺诈分数", "ASN编号", "ASN机构"
+    ];
+    for (var i = 0; i < paras.length; i++) {
+        var value = cnt[paras[i]];
+        if (paras[i] === "ip_country_code") {
+            value = value + " ⟦" + (flags.get(value.toUpperCase()) || '') + "⟧";
+        }
+        res += value ? `</br><b><font color=>${paran[i]}</font> : </b><font color=>${value}</font></br>` : "";
+    }
+    res += "-------------------------------</br><font color=#6959CD><b>节点</b> ➟ " + nodeName + "</font>";
+    res = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${res}</p>`;
+    return res;
+}
 
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
