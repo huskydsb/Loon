@@ -8,12 +8,23 @@ var nodeName = inputParams.node;
 var requestParams = {
     "url": ipUrl,
     "node": nodeName,
-    "timeout": 30 // 增加超时时间
+    "timeout": 60 // 将超时时间增加到60秒
 };
 
-$httpClient.get(requestParams, (error, response, data) => {
+function requestWithRetry(params, callback, retries = 3) {
+    $httpClient.get(params, (error, response, data) => {
+        if (error && retries > 0) {
+            console.log(`请求失败，剩余重试次数: ${retries}, 错误信息: ` + JSON.stringify(error));
+            requestWithRetry(params, callback, retries - 1); // 重试
+        } else {
+            callback(error, response, data);
+        }
+    });
+}
+
+requestWithRetry(requestParams, (error, response, data) => {
     if (error) {
-        console.log("第一次请求错误：" + JSON.stringify(error)); // 输出第一次请求的错误信息
+        console.log("第一次请求失败：" + JSON.stringify(error)); // 输出第一次请求的错误信息
         message = "<br><br>🔴 第一次请求超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP洁净度检测", "htmlMessage": message });
@@ -24,12 +35,12 @@ $httpClient.get(requestParams, (error, response, data) => {
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName,
-            "timeout": 30 // 增加超时时间
+            "timeout": 60 // 将超时时间增加到60秒
         };
 
-        $httpClient.get(scamRequestParams, (error, response, data) => {
+        requestWithRetry(scamRequestParams, (error, response, data) => {
             if (error) {
-                console.log("第二次请求错误：" + JSON.stringify(error)); // 输出第二次请求的错误信息
+                console.log("第二次请求失败：" + JSON.stringify(error)); // 输出第二次请求的错误信息
                 message = "<br><br>🔴 第二次请求超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                 $done({ "title": "IP洁净度检测", "htmlMessage": message });
