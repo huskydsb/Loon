@@ -69,7 +69,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 var resultHtml = `
                 -------------------------------
                 <br><br> <!-- 空行 -->
-                <br><b>IP地址：</b><span style="color: red;">${scamInfo.ip}</span>
+                <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
