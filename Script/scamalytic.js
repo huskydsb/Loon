@@ -14,7 +14,7 @@ $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-        $done({ "title": "IP洁净度检测", "htmlMessage": message });
+        $done({ "title": "IP纯净度检测", "htmlMessage": message });
     } else {
         console.log(data);
         var ipInfo = JSON.parse(data);
@@ -28,7 +28,7 @@ $httpClient.get(requestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                $done({ "title": "IP纯净度检测", "htmlMessage": message });
             } else {
                 var scamInfo = JSON.parse(data);
                 var countryCode = scamInfo.ip_country_code;
@@ -40,14 +40,29 @@ $httpClient.get(requestParams, (error, response, data) => {
                     <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
                     <br><b>IP城市：</b>${scamInfo.ip_city}
                     <br><b>IP国家：</b>${countryFlag} ${countryCode}
-                    <br><b>ISP 名称：</b>${scamInfo['ISP Name']}
-                    <br><b>ISP 欺诈分数：</b>${scamInfo['ISP Fraud Score']}
-                    <br><b>ASN：</b>${scamInfo.as_number}
+                    <br><b>ISP名称：</b>${scamInfo['ISP Name']}
+                    <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
+                    <br><b>ASN编号：</b>${scamInfo.as_number}
                     <br><b>ASN机构：</b>${scamInfo['Organization Name']}
                 `;
 
-                var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${scamDetails}</p>`;
-                $done({ "title": "IP洁净度检测", "htmlMessage": message });
+                var resultHtml = `
+                    -------------------------------
+                    <br><b>IP地址：</b>${scamInfo.ip}
+                    <br><b>IP欺诈分数：</b>${scamInfo.score}
+                    <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
+                    <br><b>IP城市：</b>${scamInfo.ip_city}
+                    <br><b>IP国家：</b>${countryFlag} ${countryCode}
+                    <br><b>ISP名称：</b>${scamInfo['ISP Name']}
+                    <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
+                    <br><b>ASN编号：</b>${scamInfo.as_number}
+                    <br><b>ASN机构：</b>${scamInfo['Organization Name']}
+                    <br>-------------------------------
+                    <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
+                `;
+
+                var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
+                $done({ "title": "IP纯净度检测", "htmlMessage": message });
             }
         });
     }
