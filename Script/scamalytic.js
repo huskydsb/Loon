@@ -1,19 +1,17 @@
-// 从配置中读取参数
-var hostname = $argument.arg1 || 'api11.scamalytics.com'; // 默认值为原始主机名
-var username = $argument.arg2 || 'shaoxinweixuer'; // 默认值为原始用户名
-var apiKey = $argument.arg3 || '3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1'; // 默认值为原始API Key
-
-// 检查是否获取到参数
-if (!hostname || !username || !apiKey) {
-    console.error('必要的参数未提供');
-    $done({ "title": "错误", "htmlMessage": "配置参数不完整" });
-    return;
-}
+// 读取插件配置中的参数
+var hostname = $persistentStore.read("arg1") || 'api11.scamalytics.com'; // 从配置中读取主机名，若未设置则使用默认值
+var username = $persistentStore.read("arg2") || 'default-username'; // 从配置中读取用户名，若未设置则使用默认值
+var apiKey = $persistentStore.read("arg3") || 'default-api-key'; // 从配置中读取API Key，若未设置则使用默认值
 
 var ipUrl = "http://ip-api.com/json/";
-var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`; // 使用动态参数生成URL
+var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`;
 
-console.log($environment.params);
+// 打印调试信息
+console.log("Hostname:", hostname);
+console.log("Username:", username);
+console.log("API Key:", apiKey);
+console.log("IP URL:", ipUrl);
+console.log("Scam URL:", scamUrl);
 
 var inputParams = $environment.params;
 var nodeName = inputParams.node;
@@ -23,6 +21,7 @@ var requestParams = {
     "node": nodeName
 };
 
+// 查询IP信息
 $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
@@ -32,11 +31,13 @@ $httpClient.get(requestParams, (error, response, data) => {
         console.log(data);
         var ipInfo = JSON.parse(data);
         var ip = ipInfo.query;
+
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName
         };
 
+        // 查询Scamalytics数据
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
@@ -79,13 +80,15 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br>-------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
-
+                
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
             }
         });
     }
 });
+
+
 
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
