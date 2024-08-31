@@ -1,17 +1,10 @@
-// 读取插件配置中的参数
-var hostname = $persistentStore.read("arg1") || 'api11.scamalytics.com'; // 从配置中读取主机名，若未设置则使用默认值
-var username = $persistentStore.read("arg2") || 'default-username'; // 从配置中读取用户名，若未设置则使用默认值
-var apiKey = $persistentStore.read("arg3") || 'default-api-key'; // 从配置中读取API Key，若未设置则使用默认值
+console.log($environment.params);
 
 var ipUrl = "http://ip-api.com/json/";
-var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`;
-
-// 打印调试信息
-console.log("Hostname:", hostname);
-console.log("Username:", username);
-console.log("API Key:", apiKey);
-console.log("IP URL:", ipUrl);
-console.log("Scam URL:", scamUrl);
+var hostname = $environment.params.arg1 || 'api11.scamalytics.com'; // 从插件参数获取主机名，使用默认值作为备用
+var username = $environment.params.arg2 || 'shaoxinweixuer'; // 从插件参数获取用户名，使用默认值作为备用
+var apiKey = $environment.params.arg3 || '3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1'; // 从插件参数获取 API Key，使用默认值作为备用
+var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`; // 动态生成 Scamalytics API URL
 
 var inputParams = $environment.params;
 var nodeName = inputParams.node;
@@ -21,7 +14,6 @@ var requestParams = {
     "node": nodeName
 };
 
-// 查询IP信息
 $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
@@ -31,13 +23,11 @@ $httpClient.get(requestParams, (error, response, data) => {
         console.log(data);
         var ipInfo = JSON.parse(data);
         var ip = ipInfo.query;
-
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName
         };
 
-        // 查询Scamalytics数据
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
@@ -80,7 +70,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br>-------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
-                
+
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
             }
@@ -94,5 +84,5 @@ var flags = new Map([
     ["CA", "🇨🇦"], ["CF", "🇨🇫"], ["CH", "🇨🇭"], ["CK", "🇨🇰"], ["CL", "🇨🇱"], ["CM", "🇨🇲"], ["CN", "🇨🇳"], ["CO", "🇨🇴"], ["CP", "🇨🇵"], ["CR", "🇨🇷"], ["CU", "🇨🇺"], ["CV", "🇨🇻"], ["CW", "🇨🇼"], ["CX", "🇨🇽"], ["CY", "🇨🇾"], ["CZ", "🇨🇿"],
     ["DE", "🇩🇪"], ["DG", "🇩🇬"], ["DJ", "🇩🇯"], ["DK", "🇩🇰"], ["DM", "🇩🇲"], ["DO", "🇩🇴"], ["DZ", "🇩🇿"], ["EA", "🇪🇦"], ["EC", "🇪🇨"], ["EE", "🇪🇪"], ["EG", "🇪🇬"], ["EH", "🇪🇭"], ["ER", "🇪🇷"], ["ES", "🇪🇸"], ["ET", "🇪🇹"], ["EU", "🇪🇺"],
     ["FI", "🇫🇮"], ["FJ", "🇫🇯"], ["FK", "🇫🇰"], ["FM", "🇫🇲"], ["FO", "🇫🇴"], ["FR", "🇫🇷"], ["GA", "🇬🇦"], ["GB", "🇬🇧"], ["HK", "🇭🇰"], ["HU", "🇭🇺"], ["ID", "🇮🇩"], ["IE", "🇮🇪"], ["IL", "🇮🇱"], ["IM", "🇮🇲"], ["IN", "🇮🇳"], ["IS", "🇮🇸"], ["IT", "🇮🇹"], ["JP", "🇯🇵"], ["KR", "🇰🇷"], ["LU", "🇱🇺"], ["MO", "🇲🇴"], ["MX", "🇲🇽"], ["MY", "🇲🇾"], ["NL", "🇳🇱"], ["PH", "🇵🇭"], ["RO", "🇷🇴"], ["RS", "🇷🇸"], ["RU", "🇷🇺"], ["RW", "🇷🇼"],
-    ["SA", "🇸🇦"], ["SB", "🇸🇧"], ["SC", "🇸🇨"], ["SD", "🇸🇩"], ["SE", "🇸🇪"], ["SG", "🇸🇬"], ["TH", "🇹🇭"], ["TN", "🇹🇳"], ["TO", "🇹🇴"], ["TR", "🇹🇷"], ["TV", "🇹🇻"], ["TW", "🇹🇼"], ["UK", "🇬🇧"], ["UM", "🇺🇲"], ["US", "🇺🇸"], ["UY", "🇺🇾"], ["UZ", "🇺🇿"], ["VA", "🇻🇦"], ["VC", "🇻🇨"], ["VE", "🇻🇪"], ["VG", "🇻🇬"], ["VI", "🇻🇮"], ["VN", "🇻🇳"], ["WF", "🇼🇫"], ["WS", "🇼🇸"], ["YE", "🇾🇪"], ["YT", "🇾🇹"], ["ZA", "🇿🇦"], ["ZM", "🇿🇲"], ["ZW", "🇿🇼"]
+    ["SA", "🇸🇦"], ["SB", "🇸🇧"], ["SC", "🇸🇨"], ["SD", "🇸🇩"], ["SE", "🇸🇪"], ["SG", "🇸🇬"], ["TH", "🇹🇭"], ["TN", "🇹🇳"], ["TO", "🇹🇴"], ["TR", "🇹🇷"], ["TV", "🇹🇻"], ["TW", "🇨🇳"], ["UK", "🇬🇧"], ["UM", "🇺🇲"], ["US", "🇺🇸"], ["UY", "🇺🇾"], ["UZ", "🇺🇿"], ["VA", "🇻🇦"], ["VE", "🇻🇪"], ["VG", "🇻🇬"], ["VI", "🇻🇮"], ["VN", "🇻🇳"], ["ZA", "🇿🇦"]
 ]);
