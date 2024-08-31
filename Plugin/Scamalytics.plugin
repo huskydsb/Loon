@@ -3,8 +3,8 @@
 #!openUrl = https://scamalytics.com/
 #!author = @huskydsb
 #!tag = 节点检测
-#!system = IOS
-#!system_version = IOS18
+#!system = 
+#!system_version = 
 #!loon_version = 3.2.1
 #!homepage = https://github.com/huskydsb/Loon/tree/main//Plugin
 #!icon = https://raw.githubusercontent.com/huskydsb/Loon/2c55c6208dc90b36eb660d72c992bdcf6774ba43/icon/Scamalytics.png
