@@ -10,5 +10,10 @@
 #!icon = https://raw.githubusercontent.com/huskydsb/Loon/2c55c6208dc90b36eb660d72c992bdcf6774ba43/icon/Scamalytics.png
 #!date = 2024-08-31 08:35:34
 
+[Argument]
+arg1 = input,"api.example.com",tag=Hostname,desc=请输入API主机名
+arg2 = input,"your-username",tag=Username,desc=请输入用户名
+arg3 = input,"your-api-key",tag=API Key,desc=请输入API密钥
+
 [Script]
 generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/scamalytic.js, timeout = 30, tag = IP纯净度检测, img-url = location.circle.system
