@@ -48,15 +48,21 @@ $httpClient.get(requestParams, (error, response, data) => {
 
                 var resultHtml = `
                     -------------------------------
-                    <br><b>IP地址：</b>${scamInfo.ip}
+
+                    <br><b>IP地址：</b><span style="color: red;">${scamInfo.ip}</span>
+
                     <br><b>IP欺诈分数：</b>${scamInfo.score}
                     <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
+
                     <br><b>IP城市：</b>${scamInfo.ip_city}
                     <br><b>IP国家：</b>${countryFlag} ${countryCode}
+
                     <br><b>ISP名称：</b>${scamInfo['ISP Name']}
                     <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
+
                     <br><b>ASN编号：</b>${scamInfo.as_number}
                     <br><b>ASN机构：</b>${scamInfo['Organization Name']}
+
                     <br>-------------------------------
                     <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
                 `;
