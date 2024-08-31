@@ -1,41 +1,25 @@
-console.log($environment.params);
-var ipUrl = "http://ip-api.com/json/";
-
 // 从 $argument 读取传入的参数
-var apiHost = $argument.arg1;  // 读取API主机名，例如：api11.scamalytics.com
-var username = $argument.arg2; // 读取用户名，例如：shaoxinweixuer
-var apiKey = $argument.arg3;   // 读取API密钥，例如：3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1
+var apiHost = $argument.arg1;  // 例如：api11.scamalytics.com
+var username = $argument.arg2; // 例如：shaoxinweixuer
+var apiKey = $argument.arg3;   // 例如：3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1
 
-// 检查参数是否传入成功
 if (apiHost && username && apiKey) {
-    // 生成 scamUrl
     var scamUrl = `https://${apiHost}/${username}/?key=${apiKey}&ip=`;
 
-    var inputParams = $environment.params;
-    var nodeName = inputParams.node;
+    var ipUrl = "http://ip-api.com/json/";
 
-    var requestParams = {
-        "url": ipUrl,
-        "node": nodeName
-    };
-
-    // 获取 IP 信息
-    $httpClient.get(requestParams, (error, response, data) => {
+    $httpClient.get(ipUrl, (error, response, data) => {
         if (error) {
             var message = "<br><br>🔴 查询超时";
             message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
             $done({ "title": "IP纯净度检测", "htmlMessage": message });
         } else {
-            console.log(data);
             var ipInfo = JSON.parse(data);
             var ip = ipInfo.query;
-            var scamRequestParams = {
-                "url": scamUrl + ip,
-                "node": nodeName
-            };
 
-            // 使用生成的 scamUrl 获取 IP 纯净度信息
-            $httpClient.get(scamRequestParams, (error, response, data) => {
+            var scamRequestUrl = scamUrl + ip;
+
+            $httpClient.get(scamRequestUrl, (error, response, data) => {
                 if (error) {
                     var message = "<br><br>🔴 查询超时";
                     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
@@ -77,6 +61,7 @@ if (apiHost && username && apiKey) {
     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
     $done({ "title": "IP纯净度检测", "htmlMessage": message });
 }
+
 
 
 
