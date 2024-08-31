@@ -34,10 +34,24 @@ $httpClient.get(requestParams, (error, response, data) => {
                 var countryCode = scamInfo.ip_country_code;
                 var countryFlag = flags.get(countryCode) || '';
 
+                // 确定风险等级的 emoji
+                var riskemoji;
+                if (scamInfo.risk === 'very high') {
+                    riskemoji = '🔴'; // 代表非常高风险
+                } else if (scamInfo.risk === 'high') {
+                    riskemoji = '🟠'; // 代表高风险
+                } else if (scamInfo.risk === 'medium') {
+                    riskemoji = '🟡'; // 代表中等风险
+                } else if (scamInfo.risk === 'low') {
+                    riskemoji = '🟢'; // 代表低风险
+                } else {
+                    riskemoji = '⚪'; // 未知风险
+                }
+
                 var scamDetails = `
                     <br><b>IP地址：</b>${scamInfo.ip}
                     <br><b>IP欺诈分数：</b>${scamInfo.score}
-                    <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
+                    <br><b>IP风险等级：</b>${riskemoji} ${scamInfo.risk}
                     <br><b>IP城市：</b>${scamInfo.ip_city}
                     <br><b>IP国家：</b>${countryFlag} ${countryCode}
                     <br><b>ISP名称：</b>${scamInfo['ISP Name']}
@@ -52,7 +66,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br><b>IP地址：</b><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
-                <br><b>IP风险等级：</b>${scamInfo.risk === 'low' ? '低风险' : '高风险'}
+                <br><b>IP风险等级：</b>${riskemoji} ${scamInfo.risk}
                 <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.ip_city}
                 <br><b>IP国家：</b>${countryFlag} ${countryCode}
@@ -66,7 +80,6 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br>-------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
-            
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -83,6 +96,3 @@ var flags = new Map([
     ["FI", "🇫🇮"], ["FJ", "🇫🇯"], ["FK", "🇫🇰"], ["FM", "🇫🇲"], ["FO", "🇫🇴"], ["FR", "🇫🇷"], ["GA", "🇬🇦"], ["GB", "🇬🇧"], ["HK", "🇭🇰"], ["HU", "🇭🇺"], ["ID", "🇮🇩"], ["IE", "🇮🇪"], ["IL", "🇮🇱"], ["IM", "🇮🇲"], ["IN", "🇮🇳"], ["IS", "🇮🇸"], ["IT", "🇮🇹"], ["JP", "🇯🇵"], ["KR", "🇰🇷"], ["LU", "🇱🇺"], ["MO", "🇲🇴"], ["MX", "🇲🇽"], ["MY", "🇲🇾"], ["NL", "🇳🇱"], ["PH", "🇵🇭"], ["RO", "🇷🇴"], ["RS", "🇷🇸"], ["RU", "🇷🇺"], ["RW", "🇷🇼"],
     ["SA", "🇸🇦"], ["SB", "🇸🇧"], ["SC", "🇸🇨"], ["SD", "🇸🇩"], ["SE", "🇸🇪"], ["SG", "🇸🇬"], ["TH", "🇹🇭"], ["TN", "🇹🇳"], ["TO", "🇹🇴"], ["TR", "🇹🇷"], ["TV", "🇹🇻"], ["TW", "🇨🇳"], ["UK", "🇬🇧"], ["UM", "🇺🇲"], ["US", "🇺🇸"], ["UY", "🇺🇾"], ["UZ", "🇺🇿"], ["VA", "🇻🇦"], ["VE", "🇻🇪"], ["VG", "🇻🇬"], ["VI", "🇻🇮"], ["VN", "🇻🇳"], ["ZA", "🇿🇦"]
 ]);
-
-
-
