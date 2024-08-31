@@ -1,19 +1,17 @@
 console.log($environment.params);
 
-var ipUrl = "http://ip-api.com/json/";
-var hostname = $environment.params.arg1 || 'api11.scamalytics.com'; // 从插件参数获取主机名，使用默认值作为备用
-var username = $environment.params.arg2 || 'shaoxinweixuer'; // 从插件参数获取用户名，使用默认值作为备用
-var apiKey = $environment.params.arg3 || '3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1'; // 从插件参数获取 API Key，使用默认值作为备用
-var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`; // 动态生成 Scamalytics API URL
-
+// 从插件参数中获取配置
 var inputParams = $environment.params;
-var nodeName = inputParams.node;
+var ipUrl = "http://ip-api.com/json/";
+var scamUrl = `https://${inputParams.arg1}/shaoxinweixuer/?key=${inputParams.arg3}&ip=`; // 使用参数替换硬编码的 URL
+var nodeName = inputParams.node; // 从参数中获取节点名称
 
 var requestParams = {
     "url": ipUrl,
     "node": nodeName
 };
 
+// 请求 IP 信息
 $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
@@ -28,6 +26,7 @@ $httpClient.get(requestParams, (error, response, data) => {
             "node": nodeName
         };
 
+        // 请求 Scamalytics API
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
@@ -78,6 +77,7 @@ $httpClient.get(requestParams, (error, response, data) => {
     }
 });
 
+// 国家旗帜映射
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
     ["BA", "🇧🇦"], ["BB", "🇧🇧"], ["BD", "🇧🇩"], ["BE", "🇧🇪"], ["BF", "🇧🇫"], ["BG", "🇧🇬"], ["BH", "🇧🇭"], ["BI", "🇧🇮"], ["BJ", "🇧🇯"], ["BM", "🇧🇲"], ["BN", "🇧🇳"], ["BO", "🇧🇴"], ["BR", "🇧🇷"], ["BS", "🇧🇸"], ["BT", "🇧🇹"], ["BV", "🇧🇻"], ["BW", "🇧🇼"], ["BY", "🇧🇾"], ["BZ", "🇧🇿"],
