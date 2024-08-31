@@ -1,24 +1,15 @@
 console.log($environment.params);
 var ipUrl = "http://ip-api.com/json/";
 
-// 从环境变量中读取外部传入的参数
-var apiHost = $argument.arg1;  // 读取API主机名
-var username = $argument.arg2; // 读取用户名
-var apiKey = $argument.arg3;   // 读取API密钥
+// 从 $argument 读取传入的参数
+var apiHost = $argument.arg1;  // 读取API主机名，例如：api11.scamalytics.com
+var username = $argument.arg2; // 读取用户名，例如：shaoxinweixuer
+var apiKey = $argument.arg3;   // 读取API密钥，例如：3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1
 
-// 将这些参数存储到持久存储中
-$persistentStore.write(apiHost, "apiHost");
-$persistentStore.write(username, "username");
-$persistentStore.write(apiKey, "apiKey");
-
-// 读取存储的参数
-var storedApiHost = $persistentStore.read("apiHost");
-var storedUsername = $persistentStore.read("username");
-var storedApiKey = $persistentStore.read("apiKey");
-
-// 确保读取的参数有效
-if (storedApiHost && storedUsername && storedApiKey) {
-    var scamUrl = `https://${storedApiHost}/${storedUsername}/?key=${storedApiKey}&ip=`;
+// 检查参数是否传入成功
+if (apiHost && username && apiKey) {
+    // 生成 scamUrl
+    var scamUrl = `https://${apiHost}/${username}/?key=${apiKey}&ip=`;
 
     var inputParams = $environment.params;
     var nodeName = inputParams.node;
@@ -28,6 +19,7 @@ if (storedApiHost && storedUsername && storedApiKey) {
         "node": nodeName
     };
 
+    // 获取 IP 信息
     $httpClient.get(requestParams, (error, response, data) => {
         if (error) {
             var message = "<br><br>🔴 查询超时";
@@ -42,6 +34,7 @@ if (storedApiHost && storedUsername && storedApiKey) {
                 "node": nodeName
             };
 
+            // 使用生成的 scamUrl 获取 IP 纯净度信息
             $httpClient.get(scamRequestParams, (error, response, data) => {
                 if (error) {
                     var message = "<br><br>🔴 查询超时";
@@ -84,6 +77,9 @@ if (storedApiHost && storedUsername && storedApiKey) {
     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
     $done({ "title": "IP纯净度检测", "htmlMessage": message });
 }
+
+
+
 
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
