@@ -1,3 +1,8 @@
+// 从配置中读取参数
+var hostname = $argument.arg1 || 'api11.scamalytics.com'; // 默认值为原始主机名
+var username = $argument.arg2 || 'shaoxinweixuer'; // 默认值为原始用户名
+var apiKey = $argument.arg3 || '3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1'; // 默认值为原始API Key
+
 // 检查是否获取到参数
 if (!hostname || !username || !apiKey) {
     console.error('必要的参数未提供');
