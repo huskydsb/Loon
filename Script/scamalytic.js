@@ -1,14 +1,9 @@
-// 从持久化存储读取参数，如果读取不到则使用 argument 参数
-var apiHost = $persistentStore.read("apiHost") || $argument.arg1;
-var username = $persistentStore.read("username") || $argument.arg2;
-var apiKey = $persistentStore.read("apiKey") || $argument.arg3;
+// 读取持久化存储中的参数
+var apiHost = $persistentStore.read("apiHost");
+var username = $persistentStore.read("username");
+var apiKey = $persistentStore.read("apiKey");
 
-// 如果有参数更新，则保存到持久化存储
-$persistentStore.write(apiHost, "apiHost");
-$persistentStore.write(username, "username");
-$persistentStore.write(apiKey, "apiKey");
-
-// 检查是否成功获取到所有必要参数
+// 检查是否获取到所有必要参数
 if (apiHost && username && apiKey) {
     var scamUrl = `https://${apiHost}/${username}/?key=${apiKey}&ip=`;
 
@@ -63,10 +58,12 @@ if (apiHost && username && apiKey) {
         }
     });
 } else {
-    var message = "<br><br>🔴 外部参数读取失败，请检查配置";
+    var message = "<br><br>🔴 参数未配置或读取失败，请确保已保存API参数。";
     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
     $done({ "title": "IP纯净度检测", "htmlMessage": message });
 }
+
+
 
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
