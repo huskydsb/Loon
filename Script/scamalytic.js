@@ -71,11 +71,11 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br><br> <!-- 空行 -->
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
-                <br><b>IP欺诈分数：</b>${scamInfo.score}
-                <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-                <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.ip_city}
                 <br><b>IP国家：</b>${countryFlag} ${countryCode}
+                <br><br> <!-- 空行 -->
+                <br><b>IP欺诈分数：</b>${scamInfo.score}
+                <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                 <br><br> <!-- 空行 -->
                 <br><b>ISP名称：</b>${scamInfo['ISP Name']}
                 <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
