@@ -11,9 +11,10 @@
 #!date = 2024-08-31 08:35:34
 
 [Argument]
-arg1 = input,"例如: api11.scamalytics.com",tag=Hostname,desc=请输入API主机名
-arg2 = input,"请输入申请 Scamalytics API KEY 时填写的 username",tag=Username,desc=请输入用户名
-arg3 = input,"需在 https://scamalytics.com/ip/api/pricing 申请",tag=API Key,desc=请输入API密钥
+arg1 = input,"例如: api11.scamalytics.com",tag=apiHost,desc=请输入API主机名
+arg2 = input,"请输入申请 Scamalytics API KEY 时填写的 username",tag=username,desc=请输入用户名
+arg3 = input,"需在 https://scamalytics.com/ip/api/pricing 申请",tag=apiKey,desc=请输入API密钥
 
 [Script]
-generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/scamalytic.js, timeout = 30, tag = IP纯净度检测, img-url = location.circle.system argument=[{arg1},{arg2},{arg3}]
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/scamalytic.js, timeout = 30, tag = IP纯净度检测, img-url = location.circle.system argument = [{apiHost}, {username}, {apiKey}]
+
