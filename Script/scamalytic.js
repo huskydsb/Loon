@@ -1,8 +1,14 @@
-// 从 $argument 读取传入的参数
-var apiHost = $argument.arg1;  // 例如：api11.scamalytics.com
-var username = $argument.arg2; // 例如：shaoxinweixuer
-var apiKey = $argument.arg3;   // 例如：3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1
+// 从持久化存储读取参数，如果读取不到则使用 argument 参数
+var apiHost = $persistentStore.read("apiHost") || $argument.arg1;
+var username = $persistentStore.read("username") || $argument.arg2;
+var apiKey = $persistentStore.read("apiKey") || $argument.arg3;
 
+// 如果有参数更新，则保存到持久化存储
+$persistentStore.write(apiHost, "apiHost");
+$persistentStore.write(username, "username");
+$persistentStore.write(apiKey, "apiKey");
+
+// 检查是否成功获取到所有必要参数
 if (apiHost && username && apiKey) {
     var scamUrl = `https://${apiHost}/${username}/?key=${apiKey}&ip=`;
 
@@ -61,10 +67,6 @@ if (apiHost && username && apiKey) {
     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
     $done({ "title": "IP纯净度检测", "htmlMessage": message });
 }
-
-
-
-
 
 var flags = new Map([
     ["AC", "🇦🇨"], ["AE", "🇦🇪"], ["AF", "🇦🇫"], ["AI", "🇦🇮"], ["AL", "🇦🇱"], ["AM", "🇦🇲"], ["AQ", "🇦🇶"], ["AR", "🇦🇷"], ["AS", "🇦🇸"], ["AT", "🇦🇹"], ["AU", "🇦🇺"], ["AW", "🇦🇼"], ["AX", "🇦🇽"], ["AZ", "🇦🇿"],
