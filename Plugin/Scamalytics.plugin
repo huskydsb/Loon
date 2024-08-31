@@ -1,4 +1,4 @@
-#!name = Scamalytics 欺诈风险评分
+#!name = Scamalytics IP欺诈风险评分
 #!desc = 通过Scamalytics进行当前节点落地IP的欺诈评分查询。请在所有节点页面选择一个节点长按，出现菜单后进行测试。
 #!openUrl = https://scamalytics.com/
 #!author = @huskydsb
