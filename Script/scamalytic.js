@@ -1,25 +1,28 @@
+// 从参数中获取配置
+var hostname = $argument.arg1 || ''; // 从参数获取主机名
+var username = $argument.arg2 || ''; // 从参数获取用户名
+var apiKey = $argument.arg3 || ''; // 从参数获取API Key
+
+// 检查是否提供了必要的参数
+if (!hostname || !username || !apiKey) {
+    console.error('必要的参数未提供');
+    $done({ "title": "错误", "htmlMessage": "配置参数不完整" });
+    return;
+}
+
+var ipUrl = "http://ip-api.com/json/";
+var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`; // 使用动态参数生成URL
+
 console.log($environment.params);
 
-// 从输入参数中读取配置
-var hostname = $environment.params.hostname || 'api11.scamalytics.com';
-var username = $environment.params.username || 'default-username';
-var apiKey = $environment.params.key || 'default-api-key';
-
-// 生成 scamUrl
-var ipUrl = "http://ip-api.com/json/";
-var scamUrl = `https://${hostname}/${username}/?key=${apiKey}&ip=`;
-
-// 从环境参数中获取节点名称
 var inputParams = $environment.params;
 var nodeName = inputParams.node;
 
-// 设置请求参数
 var requestParams = {
     "url": ipUrl,
     "node": nodeName
 };
 
-// 发起第一个请求
 $httpClient.get(requestParams, (error, response, data) => {
     if (error) {
         var message = "<br><br>🔴 查询超时";
@@ -34,7 +37,6 @@ $httpClient.get(requestParams, (error, response, data) => {
             "node": nodeName
         };
 
-        // 发起第二个请求
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
                 var message = "<br><br>🔴 查询超时";
@@ -77,7 +79,6 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <br>-------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
-            
 
                 var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
