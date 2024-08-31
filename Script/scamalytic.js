@@ -1,14 +1,15 @@
-// 读取持久化存储中的参数
+// 从持久化存储中读取 API 参数
 var apiHost = $persistentStore.read("apiHost");
 var username = $persistentStore.read("username");
 var apiKey = $persistentStore.read("apiKey");
 
-// 检查是否获取到所有必要参数
+// 检查是否成功获取到所有必要的参数
 if (apiHost && username && apiKey) {
     var scamUrl = `https://${apiHost}/${username}/?key=${apiKey}&ip=`;
 
     var ipUrl = "http://ip-api.com/json/";
 
+    // 获取 IP 信息
     $httpClient.get(ipUrl, (error, response, data) => {
         if (error) {
             var message = "<br><br>🔴 查询超时";
@@ -20,6 +21,7 @@ if (apiHost && username && apiKey) {
 
             var scamRequestUrl = scamUrl + ip;
 
+            // 获取欺诈信息
             $httpClient.get(scamRequestUrl, (error, response, data) => {
                 if (error) {
                     var message = "<br><br>🔴 查询超时";
@@ -62,6 +64,7 @@ if (apiHost && username && apiKey) {
     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
     $done({ "title": "IP纯净度检测", "htmlMessage": message });
 }
+
 
 
 
