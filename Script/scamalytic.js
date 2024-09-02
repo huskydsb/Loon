@@ -1,5 +1,5 @@
 console.log($environment.params);
-var ipUrl = "http://ip-api.com/json/";
+var ipUrl = "http://ip-api.com/ json/";
 var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
 
 var inputParams = $environment.params;
@@ -32,6 +32,7 @@ $httpClient.get(requestParams, (error, response, data) => {
             } else {
                 var scamInfo = JSON.parse(data);
                 var countryCode = scamInfo.ip_country_code;
+                var countryName = scamInfo.ip_country_name;
                 var countryFlag = flags.get(countryCode) || '';
 
                 // 确定风险等级的 emoji 和描述
@@ -59,7 +60,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                     <br><b>IP欺诈分数：</b>${scamInfo.score}
                     <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                     <br><b>IP城市：</b>${scamInfo.ip_city}
-                    <br><b>IP国家：</b>${countryFlag} ${countryCode}
+                    <br><b>IP国家：</b>${countryFlag} ${countryName}
                     <br><b>ISP名称：</b>${scamInfo['ISP Name']}
                     <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
                     <br><b>ASN编号：</b>${scamInfo.as_number}
@@ -72,7 +73,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.ip_city}
-                <br><b>IP国家：</b>${countryFlag} ${countryCode}
+                <br><b>IP国家：</b>${countryFlag} ${countryName}
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
