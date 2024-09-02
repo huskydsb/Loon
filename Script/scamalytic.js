@@ -1,5 +1,5 @@
 console.log($environment.params);
-var ipUrl = "https://api.ipapi.is/";
+var ipUrl = "http://ip-api.com/ json/";
 var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
 
 var inputParams = $environment.params;
@@ -11,59 +11,27 @@ var requestParams = {
 };
 
 $httpClient.get(requestParams, (error, response, data) => {
-    if (error || response.statusCode !== 200) {
-        console.log("IP获取请求失败:", error || (response && response.statusCode));
+    if (error) {
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP纯净度检测", "htmlMessage": message });
     } else {
-        console.log("IP获取响应:", data);
-        var ipInfo;
-        try {
-            ipInfo = JSON.parse(data);
-        } catch (e) {
-            console.log("JSON解析错误:", e);
-            var message = "<br><br>🔴 数据解析失败";
-            message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-            $done({ "title": "IP纯净度检测", "htmlMessage": message });
-            return;
-        }
-
-        var ip = ipInfo.ip;
-        if (!ip) {
-            console.log("未获取到IP地址");
-            var message = "<br><br>🔴 未获取到IP地址";
-            message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-            $done({ "title": "IP纯净度检测", "htmlMessage": message });
-            return;
-        }
-
+        console.log(data);
+        var ipInfo = JSON.parse(data);
+        var ip = ipInfo.query;
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName
         };
 
         $httpClient.get(scamRequestParams, (error, response, data) => {
-            if (error || response.statusCode !== 200) {
-                console.log("欺诈评分请求失败:", error || (response && response.statusCode));
+            if (error) {
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
             } else {
-                console.log("欺诈评分响应:", data);
-                var scamInfo;
-                try {
-                    scamInfo = JSON.parse(data);
-                } catch (e) {
-                    console.log("JSON解析错误:", e);
-                    var message = "<br><br>🔴 数据解析失败";
-                    message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
-                    $done({ "title": "IP纯净度检测", "htmlMessage": message });
-                    return;
-                }
-
+                var scamInfo = JSON.parse(data);
                 var countryCode = scamInfo.ip_country_code;
-                var countryName = scamInfo.ip_country_name;
                 var countryFlag = flags.get(countryCode) || '';
 
                 // 确定风险等级的 emoji 和描述
@@ -91,7 +59,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                     <br><b>IP欺诈分数：</b>${scamInfo.score}
                     <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                     <br><b>IP城市：</b>${scamInfo.ip_city}
-                    <br><b>IP国家：</b>${countryFlag} ${countryName}
+                    <br><b>IP国家：</b>${countryFlag} ${countryCode}
                     <br><b>ISP名称：</b>${scamInfo['ISP Name']}
                     <br><b>ISP欺诈分数：</b>${scamInfo['ISP Fraud Score']}
                     <br><b>ASN编号：</b>${scamInfo.as_number}
@@ -104,7 +72,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.ip_city}
-                <br><b>IP国家：</b>${countryFlag} ${countryName}
+                <br><b>IP国家：</b>${countryFlag} ${countryCode}
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
@@ -125,9 +93,6 @@ $httpClient.get(requestParams, (error, response, data) => {
         });
     }
 });
-
-
-
 
 
 var flags = new Map([
