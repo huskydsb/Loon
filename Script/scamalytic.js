@@ -12,7 +12,7 @@ var requestParams = {
 
 $httpClient.get(requestParams, (error, response, data) => {
     if (error || response.statusCode !== 200) {
-        console.error("IP获取请求失败:", error || response.statusCode);
+        console.log("IP获取请求失败:", error || response.statusCode);
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -22,7 +22,7 @@ $httpClient.get(requestParams, (error, response, data) => {
         try {
             ipInfo = JSON.parse(data);
         } catch (e) {
-            console.error("JSON解析错误:", e);
+            console.log("JSON解析错误:", e);
             var message = "<br><br>🔴 数据解析失败";
             message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
             $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -31,7 +31,7 @@ $httpClient.get(requestParams, (error, response, data) => {
 
         var ip = ipInfo.ip;
         if (!ip) {
-            console.error("未获取到IP地址");
+            console.log("未获取到IP地址");
             var message = "<br><br>🔴 未获取到IP地址";
             message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
             $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -45,7 +45,7 @@ $httpClient.get(requestParams, (error, response, data) => {
 
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error || response.statusCode !== 200) {
-                console.error("欺诈评分请求失败:", error || response.statusCode);
+                console.log("欺诈评分请求失败:", error || response.statusCode);
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -55,7 +55,7 @@ $httpClient.get(requestParams, (error, response, data) => {
                 try {
                     scamInfo = JSON.parse(data);
                 } catch (e) {
-                    console.error("JSON解析错误:", e);
+                    console.log("JSON解析错误:", e);
                     var message = "<br><br>🔴 数据解析失败";
                     message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                     $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -125,6 +125,7 @@ $httpClient.get(requestParams, (error, response, data) => {
         });
     }
 });
+
 
 
 
