@@ -18,7 +18,7 @@ $httpClient.get(requestParams, (error, response, data) => {
     } else {
         console.log(data);
         var ipInfo = JSON.parse(data);
-        var ip = ipInfo.query;
+        var ip = ipInfo.ip;
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName
