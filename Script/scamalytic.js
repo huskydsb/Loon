@@ -1,5 +1,5 @@
 console.log($environment.params);
-var ipUrl = "http://ip-api.com/ json/";
+var ipUrl = "https://api.ipapi.is/";
 var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
 
 var inputParams = $environment.params;
