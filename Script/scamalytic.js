@@ -11,26 +11,57 @@ var requestParams = {
 };
 
 $httpClient.get(requestParams, (error, response, data) => {
-    if (error) {
+    if (error || response.statusCode !== 200) {
+        console.error("IP获取请求失败:", error || response.statusCode);
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP纯净度检测", "htmlMessage": message });
     } else {
-        console.log(data);
-        var ipInfo = JSON.parse(data);
+        console.log("IP获取响应:", data);
+        var ipInfo;
+        try {
+            ipInfo = JSON.parse(data);
+        } catch (e) {
+            console.error("JSON解析错误:", e);
+            var message = "<br><br>🔴 数据解析失败";
+            message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
+            $done({ "title": "IP纯净度检测", "htmlMessage": message });
+            return;
+        }
+
         var ip = ipInfo.ip;
+        if (!ip) {
+            console.error("未获取到IP地址");
+            var message = "<br><br>🔴 未获取到IP地址";
+            message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
+            $done({ "title": "IP纯净度检测", "htmlMessage": message });
+            return;
+        }
+
         var scamRequestParams = {
             "url": scamUrl + ip,
             "node": nodeName
         };
 
         $httpClient.get(scamRequestParams, (error, response, data) => {
-            if (error) {
+            if (error || response.statusCode !== 200) {
+                console.error("欺诈评分请求失败:", error || response.statusCode);
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
             } else {
-                var scamInfo = JSON.parse(data);
+                console.log("欺诈评分响应:", data);
+                var scamInfo;
+                try {
+                    scamInfo = JSON.parse(data);
+                } catch (e) {
+                    console.error("JSON解析错误:", e);
+                    var message = "<br><br>🔴 数据解析失败";
+                    message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
+                    $done({ "title": "IP纯净度检测", "htmlMessage": message });
+                    return;
+                }
+
                 var countryCode = scamInfo.ip_country_code;
                 var countryName = scamInfo.ip_country_name;
                 var countryFlag = flags.get(countryCode) || '';
@@ -94,6 +125,7 @@ $httpClient.get(requestParams, (error, response, data) => {
         });
     }
 });
+
 
 
 var flags = new Map([
