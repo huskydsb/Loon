@@ -1,3 +1,5 @@
+// Creation time: 2024-09-03 00:57:04
+
 console.log($environment.params);
 var ipUrl = "http://ip-api.com/json/";
 var scamUrl = "https://api11.scamalytics.com/shaoxinweixuer/?key=3d803bd1825826b88353d677e37d5f54ee5685e242347e88b8159c103bbc5ef1&ip=";
