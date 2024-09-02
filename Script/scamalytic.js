@@ -12,7 +12,7 @@ var requestParams = {
 
 $httpClient.get(requestParams, (error, response, data) => {
     if (error || response.statusCode !== 200) {
-        console.log("IP获取请求失败:", error || response.statusCode);
+        console.log("IP获取请求失败:", error || (response && response.statusCode));
         var message = "<br><br>🔴 查询超时";
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -45,7 +45,7 @@ $httpClient.get(requestParams, (error, response, data) => {
 
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error || response.statusCode !== 200) {
-                console.log("欺诈评分请求失败:", error || response.statusCode);
+                console.log("欺诈评分请求失败:", error || (response && response.statusCode));
                 var message = "<br><br>🔴 查询超时";
                 message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
                 $done({ "title": "IP纯净度检测", "htmlMessage": message });
@@ -125,6 +125,7 @@ $httpClient.get(requestParams, (error, response, data) => {
         });
     }
 });
+
 
 
 
