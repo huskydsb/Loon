@@ -11,4 +11,4 @@
 #!date = 2024-09-04
 
 [Script]
-generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/scamalytic.js, timeout = 30, tag = IP纯净度检测
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/scamalytic.js, timeout = 30, tag = IP欺诈分查询
