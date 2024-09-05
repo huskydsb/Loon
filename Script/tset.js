@@ -1,10 +1,15 @@
+/**
+ * 这是一个读取插件中用户配置参数的脚本，通过 $argument.xxx 获取配置的相关参数
+ */
+
 console.log($argument);
-let hostname = $argument.hostname;
-let username = $argument.username;
-let api = $argument.api;
 
-console.log("hostname: " + hostname);
-console.log("username: " + username);
-console.log("api: " + api);
+let appName = $argument.appName;
+let category = $argument.appCategory;
+let isC = $argument.isSupportChinese;
 
-$done();
+console.log("appName:" + appName);
+console.log("category:" + category);
+console.log("isSupportChinese:" + isC);
+
+$done({});
