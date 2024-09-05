@@ -1,0 +1,19 @@
+#!name = Scamalytics IP欺诈风险评分
+#!desc = 通过Scamalytics查询当前节点落地IP的欺诈评分。请在节点页面选择一个节点长按，出现菜单后进行测试。
+#!openUrl = https://scamalytics.com/
+#!author = @huskydsb
+#!tag = 节点检测
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.1
+#!homepage = https://github.com/huskydsb/Loon/tree/main//Plugin
+#!icon = https://raw.githubusercontent.com/huskydsb/Loon/2c55c6208dc90b36eb660d72c992bdcf6774ba43/icon/Scamalytics.png
+#!date = 2024-09-04
+
+[Argument]
+hostname = input,"",tag=hostname,desc=请输入 hostname (provided by Scamalytics),例如: api11.scamalytics.com
+username = input,"",tag=username ,desc=请输入申请 Scamalytics API KEY 时填写的 username
+api = input,"",tag=api,desc=请输入 Scamalytics API KEY,需在 https://scamalytics.com/ip/api/pricing 申请
+
+[Script]
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/tset.js, timeout = 30, tag = IP欺诈分查询,argument=[{hostname},{username},{api}]
