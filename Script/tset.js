@@ -1,4 +1,7 @@
 // 获取传递的参数
+
+console.log($argument);
+
 let hostname = $argument.hostname;
 let username = $argument.username;
 let api = $argument.api;
