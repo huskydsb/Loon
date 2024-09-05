@@ -1,4 +1,4 @@
-// Creation time: 2024-09-04
+// Creation time: 2024-09-05 09:25:30
 // 从 $argument 中提取参数
 let hostname = $argument.hostname;
 let username = $argument.username;
@@ -8,13 +8,19 @@ let api = $argument.api;
 console.log("hostname:" + hostname);
 console.log("username:" + username);
 console.log("api:" + api);
-console.log($environment.params);
+
+// 检查参数是否正确传递
+if (!hostname || !username || !api) {
+    console.log("缺少必要参数");
+    $done({ title: "错误", message: "请检查 hostname、username 和 api 参数是否正确传递" });
+}
 
 // 定义 IP 地址查询 URL
 var ipUrl = "http://ip-api.com/json/";
 
 // 使用 $argument 参数生成欺诈检查 URL
 var scamUrlTemplate = `https://${hostname}/${username}/?key=${api}&ip=`;
+
 
 // 从 $environment.params 获取节点名称
 var inputParams = $environment.params;
