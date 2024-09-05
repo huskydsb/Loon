@@ -11,9 +11,9 @@
 #!date = 2024-09-04
 
 [Argument]
-hostname = input,"",tag=hostname,desc=请输入 hostname (provided by Scamalytics),例如: api11.scamalytics.com
-username = input,"",tag=username ,desc=请输入申请 Scamalytics API KEY 时填写的 username
-api = input,"",tag=api,desc=请输入 Scamalytics API KEY,需在 https://scamalytics.com/ip/api/pricing 申请
+appName = input,"Loon",tag=app的名字,desc=填写app的用户名，用于提交app的相关信息
+appCategory = select,"Tool","Video&Photo","Game",tag=app的分类
+isSupportChinese = switch,true,tag=是否支持中文,desc=选择app是否支持中文
 
 [Script]
 generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/tset.js, timeout = 30, tag = IP欺诈分查询,argument=[{appName},{appCategory},{isSupportChinese}]
