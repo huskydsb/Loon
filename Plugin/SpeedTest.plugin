@@ -11,6 +11,6 @@
 
 
 [script]
-generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/SpeedTest.js, timeout = 60, tag = SpeedTest测速
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/SpeedTest.js, tag = SpeedTest测速
 
 
