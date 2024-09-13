@@ -4,7 +4,7 @@
 #!author=huskydsb
 
 [Script]
-http-response ^https?:\/\/nicegram\.cloud\/api\/v\d\/(ai-assistant\/purchase-list|user\/info|telegram\/auth),script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Nicegram.js, requires-body=true, timeout=60, tag=nicegram
+http-response ^https?:\/\/nicegram\.cloud\/api\/v\d\/(ai-assistant\/purchase-list|user\/info|telegram\/auth) script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Nicegram.js, requires-body=true, timeout=60, tag=nicegram
 
 [MITM]
 hostname = nicegram.cloud
