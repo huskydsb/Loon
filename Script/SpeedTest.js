@@ -2,6 +2,9 @@ const pingUrl = "http://connectivitycheck.gstatic.com/generate_204";
 const downloadUrl = "https://speed.cloudflare.com/__down?bytes=10485760"; // 10MB 文件
 const fileSizeInMB = 10; // 文件大小 10MB
 
+// 获取当前节点名称
+const nodeName = $environment.params.node || "当前节点"; // 默认值为 "当前节点" 如果未定义
+
 let pingStart = Date.now();
 let pingDuration;
 let downloadStart, downloadEnd, downloadSpeed;
@@ -10,6 +13,12 @@ let downloadStart, downloadEnd, downloadSpeed;
 $httpClient.get(pingUrl, (error, response, data) => {
     if (error) {
         console.log("Ping 测试失败");
+        $done({
+            title: "IP欺诈分查询",
+            content: `节点: ${nodeName}\nPing 测试失败`,
+            icon: "network",
+            "icon-color": "#FF0000"
+        });
     } else {
         pingDuration = Date.now() - pingStart;
         console.log(`Ping 延迟: ${pingDuration} ms`);
@@ -19,19 +28,22 @@ $httpClient.get(pingUrl, (error, response, data) => {
         $httpClient.get(downloadUrl, (error, response, data) => {
             if (error) {
                 console.log("下载速度测试失败");
+                $done({
+                    title: "网络速度测试结果",
+                    content: `节点: ${nodeName}\n下载速度测试失败`,
+                    icon: "network",
+                    "icon-color": "#FF0000"
+                });
             } else {
                 downloadEnd = Date.now();
                 let durationInSeconds = (downloadEnd - downloadStart) / 1000;
                 downloadSpeed = (fileSizeInMB / durationInSeconds).toFixed(2); // 计算下载速度
                 console.log(`下载速度: ${downloadSpeed} MB/s`);
                 
-                // 输出测试结果
-                console.log(`测试完成! \n延迟: ${pingDuration} ms \n下载速度: ${downloadSpeed} MB/s`);
-                
                 // 显示最终测试结果
                 $done({
                     title: "网络速度测试结果",
-                    content: `延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
+                    content: `节点: ${nodeName}\n延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
                     icon: "network",
                     "icon-color": "#5AC8FA"
                 });
