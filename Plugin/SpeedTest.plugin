@@ -1,5 +1,5 @@
-#!name= Speed Test Plugin
-#!desc= 这是一个网络测速插件，能够测试网络延迟与下载速度
+#!name= SpeedTest
+#!desc= 这是一个网络测速插件，能够测试网络延迟与下载速度.
 #!author= huskydsb
 #!icon= https://raw.githubusercontent.com/huskydsb/Loon/main/icon/SpeedTest.png
 #!input = testFileSize
