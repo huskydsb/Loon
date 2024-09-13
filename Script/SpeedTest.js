@@ -27,6 +27,14 @@ $httpClient.get(pingUrl, (error, response, data) => {
                 
                 // 输出测试结果
                 console.log(`测试完成! \n延迟: ${pingDuration} ms \n下载速度: ${downloadSpeed} MB/s`);
+                
+                // 显示最终测试结果
+                $done({
+                    title: "网络速度测试结果",
+                    content: `延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
+                    icon: "network",
+                    "icon-color": "#5AC8FA"
+                });
             }
         });
     }
