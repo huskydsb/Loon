@@ -18,7 +18,11 @@ $httpClient.get({
         console.log("Ping 测试失败");
         $done({
             title: "网络速度测试结果",
-            content: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">节点: ${nodeName}<br><br>Ping 测试失败</p>`,
+            htmlMessage: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
+                            <span style="color: red;"><b>当前节点：</b>${nodeName}</span>
+                            <br><br> <!-- 空行 -->
+                            <b>网络延迟：</b>测试失败
+                          </p>`,
             icon: "network",
             "icon-color": "#FF0000"
         });
@@ -36,7 +40,13 @@ $httpClient.get({
                 console.log("下载速度测试失败");
                 $done({
                     title: "网络速度测试结果",
-                    content: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">节点: ${nodeName}<br><br>下载速度测试失败</p>`,
+                    htmlMessage: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
+                                    <span style="color: red;"><b>当前节点：</b>${nodeName}</span>
+                                    <br><br> <!-- 空行 -->
+                                    <b>网络延迟：</b>${pingDuration} ms
+                                    <br><br> <!-- 空行 -->
+                                    <b>下载速度：</b>测试失败
+                                  </p>`,
                     icon: "network",
                     "icon-color": "#FF0000"
                 });
@@ -49,16 +59,17 @@ $httpClient.get({
                 // 显示最终测试结果
                 $done({
                     title: "网络速度测试结果",
-                    content: `
-                        -------------------------------
-                        <br><br> <!-- 空行 -->
-                        <span style="color: red;"><b>当前节点：</b>${nodeName}</span>
-                        <br><br> <!-- 空行 -->
-                        <b>网络延迟：</b>${pingDuration} ms
-                        <br><br> <!-- 空行 -->
-                        <b>下载速度：</b>${downloadSpeed} MB/s
-                        <br><br> <!-- 空行 -->
-                        -------------------------------
+                    htmlMessage: `
+                        <p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
+                            <span style="color: red;"><b>当前节点：</b>${nodeName}</span>
+                            <br><br> <!-- 空行 -->
+                            <b>网络延迟：</b>${pingDuration} ms
+                            <br><br> <!-- 空行 -->
+                            <b>下载速度：</b>${downloadSpeed} MB/s
+                        </p>
+                        <p style="text-align: center; font-family: -apple-system; font-size: small; color: #888;">
+                            -------------------------------
+                        </p>
                     `,
                     icon: "network",
                     "icon-color": "#5AC8FA"
