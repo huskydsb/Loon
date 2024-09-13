@@ -1,33 +1,10 @@
-const isLoon = typeof $loon !== 'undefined';
-const isSurge = typeof $httpClient !== 'undefined';
-const isQuantumultX = typeof $task !== 'undefined';
+// Loon 脚本
+let body = $response.body;
 
-if (isLoon) {
-    console.log('\nR·E Nicegram Script Log:\nNicegram Premium已解锁😎');
-    $done({
-        status: "HTTP/1.1 200 OK",
-        headers: { "Content-Type": "application/json" },
-        body: '{"data": {"premiumAccess": true}}'
-    });
-} else if (isSurge) {
-    console.log('\nR·E Nicegram Script Log:\nNicegram Premium已解锁😎');
-    $done({
-        response: {
-            status: 200,
-            body: '{"data": {"premiumAccess": true}}'
-        }
-    });
-} else if (isQuantumultX) {
-    console.log('\nR·E Nicegram Script Log:\nNicegram Premium已解锁😎');
-    $done({
-        status: "HTTP/1.1 200 OK",
-        headers: { "Content-Type": "application/json" },
-        body: '{"data": {"premiumAccess": true}}'
-    });
-} else {
-    console.log('\nR·E Nicegram Script Log:\nNicegram Premium已解锁😎');
-    $done({
-        status: 200,
-        body: '{"data": {"premiumAccess": true}}'
-    });
-}
+// 替换订阅状态
+body = body.replace(/"store_subscription":false/g, '"store_subscription":true');
+body = body.replace(/"lifetime_subscription":false/g, '"lifetime_subscription":true');
+body = body.replace(/"subscription":false/g, '"subscription":true');
+
+// 完成并返回修改后的 body
+$done({ body });
