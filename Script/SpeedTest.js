@@ -1,4 +1,4 @@
-const pingUrl = "http://connectivitycheck.gstatic.com/generate_204";
+const pingUrl = "	http://www.gstatic.com/generate_204";
 const downloadUrl = "https://speed.hetzner.de/100MB.bin"; // 100MB 文件
 const fileSizeInMB = 100; // 文件大小 100MB
 
@@ -18,7 +18,7 @@ $httpClient.get({
         console.log("Ping 测试失败");
         $done({
             title: "网络速度测试结果",
-            content: `节点: ${nodeName}\nPing 测试失败`,
+            content: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">节点: ${nodeName}<br><br>Ping 测试失败</p>`,
             icon: "network",
             "icon-color": "#FF0000"
         });
@@ -36,7 +36,7 @@ $httpClient.get({
                 console.log("下载速度测试失败");
                 $done({
                     title: "网络速度测试结果",
-                    content: `节点: ${nodeName}\n下载速度测试失败`,
+                    content: `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">节点: ${nodeName}<br><br>下载速度测试失败</p>`,
                     icon: "network",
                     "icon-color": "#FF0000"
                 });
@@ -49,7 +49,14 @@ $httpClient.get({
                 // 显示最终测试结果
                 $done({
                     title: "网络速度测试结果",
-                    content: `当前节点: ${nodeName}\n网络延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
+                    content: `
+                        <p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
+                            <span style="color: red;"><b>当前节点:</b> ${nodeName}</span>
+                            <br><br> <!-- 空行 -->
+                            <b>网络延迟:</b> ${pingDuration} ms
+                            <br><br> <!-- 空行 -->
+                            <b>下载速度:</b> ${downloadSpeed} MB/s
+                        </p>`,
                     icon: "network",
                     "icon-color": "#5AC8FA"
                 });
