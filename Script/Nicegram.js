@@ -1,3 +1,5 @@
+[mitm]
+hostname = nicegram.cloud
 
 let body = $response.body;
 
