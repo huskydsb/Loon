@@ -10,7 +10,10 @@ let pingDuration;
 let downloadStart, downloadEnd, downloadSpeed;
 
 // 1. 进行延迟测试（Ping Test）
-$httpClient.get(pingUrl, (error, response, data) => {
+$httpClient.get({
+    url: pingUrl,
+    node: nodeName // 使用当前节点
+}, (error, response, data) => {
     if (error) {
         console.log("Ping 测试失败");
         $done({
@@ -25,7 +28,10 @@ $httpClient.get(pingUrl, (error, response, data) => {
 
         // 2. 进行下载速度测试
         downloadStart = Date.now();
-        $httpClient.get(downloadUrl, (error, response, data) => {
+        $httpClient.get({
+            url: downloadUrl,
+            node: nodeName // 使用当前节点
+        }, (error, response, data) => {
             if (error) {
                 console.log("下载速度测试失败");
                 $done({
