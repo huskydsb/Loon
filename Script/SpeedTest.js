@@ -14,7 +14,7 @@ $httpClient.get(pingUrl, (error, response, data) => {
     if (error) {
         console.log("Ping 测试失败");
         $done({
-            title: "IP欺诈分查询",
+            title: "网络速度测试结果",
             content: `节点: ${nodeName}\nPing 测试失败`,
             icon: "network",
             "icon-color": "#FF0000"
