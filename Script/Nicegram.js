@@ -1,6 +1,3 @@
-[mitm]
-hostname = nicegram.cloud
-
 var body = $response.body;
 
 body = body.replace(/"store_subscription":false/g, '"store_subscription":true');
