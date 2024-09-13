@@ -49,7 +49,7 @@ $httpClient.get({
                 // 显示最终测试结果
                 $done({
                     title: "网络速度测试结果",
-                    content: `节点: ${nodeName}\n延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
+                    content: `当前节点: ${nodeName}\n网络延迟: ${pingDuration} ms\n下载速度: ${downloadSpeed} MB/s`,
                     icon: "network",
                     "icon-color": "#5AC8FA"
                 });
