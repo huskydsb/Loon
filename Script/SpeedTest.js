@@ -1,6 +1,6 @@
 const pingUrl = "http://connectivitycheck.gstatic.com/generate_204";
 const downloadUrl = "https://speed.cloudflare.com/__down?bytes=10485760"; // 10MB 文件
-const fileSizeInMB = 10; // 文件大小 10MB
+const fileSizeInMB = 100; // 文件大小 10MB
 
 // 获取当前节点名称
 const nodeName = $environment.params.node || "当前节点"; // 默认值为 "当前节点" 如果未定义
