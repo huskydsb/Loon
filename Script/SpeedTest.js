@@ -68,11 +68,12 @@ $httpClient.get({
                     htmlMessage: `
                         <p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
                             <hr style="border: 1px solid #888;" />
-                            <br>-------------------------------
-                            <b style="display: block; text-align: center;">网络延迟：</b>${pingDuration} ms
-                            <hr style="border: 1px solid #888;" />
-                            <b style="display: block; text-align: center;">下载速度：</b>${downloadSpeed} MB/s
-                            <br>-------------------------------
+                            <br>--------------------------------------------------------------
+                            <div style="display: flex; justify-content: center;">
+                                <div style="margin-right: 10px;"><b>网络延迟：</b>${pingDuration} ms</div>
+                                <div><b>下载速度：</b>${downloadSpeed} MB/s</div>
+                            </div>
+                            <br>--------------------------------------------------------------
                             <br><br>
                             <span style="color: red; text-align: center; display: block;"><b>当前节点：</b>${nodeName}</span>
                         </p>`,
