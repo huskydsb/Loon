@@ -2,20 +2,15 @@
 #!desc= 这是一个网络测速插件，能够测试网络延迟与下载速度.
 #!author= huskydsb
 #!icon= https://raw.githubusercontent.com/huskydsb/Loon/main/icon/SpeedTest.png
-#!input = testFileSize
-#!select = price,0.99,1.99,4.99
 #!system = iOS,iPadOS,tvOS,macOS
 #!system_version = 18
 #!loon_version = 3.2.1(372)
 #!tag = 网络,测速
 
-[Argument]
-testFileSize = input,"100",tag=文件大小(MB),desc=用于测速下载的文件大小
-timeout = input,"10000",tag=超时时间(ms),desc=网络延迟测试的超时时间
+
 
 
 [script]
-http-response ^https?:\/\/speed\.com\/speedtest script-path = speed_test.js, requires-body = true, tag = 网络测速,argument=[{testFileSize},{timeout}]
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/SpeedTest.js, tag = 网络测速
 
-[mitm]
-speed.cloudflare.com
+
