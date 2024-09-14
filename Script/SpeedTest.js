@@ -64,22 +64,24 @@ $httpClient.get({
                 
                 // 显示最终测试结果
                 $done({
-                    title: "网络速度测试结果",
-                    htmlMessage: `
-                    <p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
-                    <br>-------------------------------------------------------
-                    <br>
-                    <div style="display: flex; justify-content: center; align-items: center; margin: 0 auto;">
-                    <div style="margin-right: 20px;"><b>网络延迟：</b>${pingDuration} ms</div>
-                    <div><b>下载速度：</b>${downloadSpeed} MB/s</div>
-                    </div>
-                    <br>-------------------------------------------------------
-                    <br><br>
-                    <span style="color: red; text-align: center; display: block;"><b>当前节点：</b>${nodeName}</span>
-                    </p>`,
-                    icon: "network",
-                    "icon-color": "#5AC8FA"
-                });
+                  title: "网络速度测试结果",
+                  htmlMessage: `
+                      <div style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
+                          <br>-------------------------------------------------------
+                          <br>
+                          <div style="display: inline-block; text-align: left;">
+                              <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                                  <div><b>网络延迟：</b>${pingDuration} ms</div>
+                                  <div><b>下载速度：</b>${downloadSpeed} MB/s</div>
+                              </div>
+                          </div>
+                          <br>-------------------------------------------------------
+                          <br><br>
+                          <div style="color: red;"><b>当前节点：</b>${nodeName}</div>
+                      </div>`,
+                  icon: "network",
+                  "icon-color": "#5AC8FA"
+              });
             }
         });
     }
