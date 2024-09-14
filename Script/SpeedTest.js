@@ -71,8 +71,8 @@ $httpClient.get({
                           <br>
                           <div style="display: inline-block; text-align: center;">
                               <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-                                  <div><b>网络延迟：</b>${pingDuration} ms</div>
-                                  <div><b>下载速度：</b>${downloadSpeed} MB/s</div>
+                                  <div><b>          网络延迟：</b>${pingDuration} ms</div>
+                                  <div><b>          下载速度：</b>${downloadSpeed} MB/s</div>
                               </div>
                           </div>
                           <br>-------------------------------------------------------
