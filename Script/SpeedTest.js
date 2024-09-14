@@ -53,8 +53,8 @@ $httpClient.get({
                             <div><b>下载速度：</b>${downloadResult}</div>
                         </div>
                     </div>
-                    <br>-------------------------------------------------------
                     <br><br>
+                    <br>-------------------------------------------------------
                     <div style="color: red;"><b>当前节点：</b>${nodeName}</div>
                 </div>`,
             icon: "network",
