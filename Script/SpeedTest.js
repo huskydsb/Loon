@@ -42,7 +42,7 @@ $httpClient.get({
             htmlMessage: `
                 <div style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
                     <br><br> <!-- 两行空行 -->
-                    <br>-------------------------------------------------------
+                    <br>-------------------------------
                     <div style="display: inline-block; text-align: center;">
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                             <div><b>网络延迟：</b>${pingDuration}</div>
@@ -52,7 +52,7 @@ $httpClient.get({
                             <div><b>下载速度：</b>${downloadSpeed}</div>
                         </div>
                     </div>
-                    <br>-------------------------------------------------------
+                    <br>-------------------------------
                     <br><br>
                     <div style="color: red; font-weight: thin;"><b>当前节点：</b>${nodeName}</div>
                 </div>`,
