@@ -55,7 +55,7 @@ $httpClient.get({
                     </div>
                     <br>-------------------------------
                     <br><br>
-                    <div style="color: red; font-weight: thin;"><b>当前节点：</b>${nodeName}</div>
+                    <div style="color: red; font-weight: thin; font-size: small;"><b>当前节点：</b>${nodeName}</div> <!-- 字体缩小为 small -->
                 </div>`,
             icon: "network",
             "icon-color": "#5AC8FA"
