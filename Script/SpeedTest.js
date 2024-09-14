@@ -20,9 +20,9 @@ $httpClient.get({
             title: "网络速度测试结果",
             htmlMessage: `
                 <p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
-                    <hr style="border: 1px solid #888;" />
+
                     <b style="display: block; text-align: center;">网络延迟：</b>测试失败
-                    <hr style="border: 1px solid #888;" />
+
                     <b style="display: block; text-align: center;">下载速度：</b>测试失败
                     <br><br>
                     <span style="color: red; text-align: center; display: block;"><b>当前节点：</b>${nodeName}</span>
