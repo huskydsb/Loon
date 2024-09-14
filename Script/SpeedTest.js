@@ -48,7 +48,6 @@ $httpClient.get({
                         </div>
                     </div>
                     <br><br>
-                    <br>-------------------------------------------------------
                     <div style="color: red;"><b>当前节点：</b>${nodeName}</div>
                 </div>`,
             icon: "network",
