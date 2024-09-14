@@ -43,7 +43,7 @@ $httpClient.get({
                 <div style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin;">
                     <br> <!-- 一行空行 -->
                     <br>-------------------------------
-                    <br> <!-- 一行空行 -->
+                    <br><br> <!-- 两行空行 --> 
                     <div style="display: inline-block; text-align: center;">
                         <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
                             <div><b>网络延迟：</b>${pingDuration}</div>
