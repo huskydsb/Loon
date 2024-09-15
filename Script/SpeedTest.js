@@ -1,6 +1,6 @@
 const pingUrl = "http://www.gstatic.com/generate_204";
-const downloadUrl = "http://lax.download.datapacket.com/100mb.bin"; // 100MB 文件
-const fileSizeInMB = 100; // 文件大小 100MB
+const downloadUrl = "http://speedtest.sagg.us.kg/50m"; // 50MB 文件
+const fileSizeInMB = 50; // 文件大小 50MB
 
 // 获取当前节点名称
 const nodeName = $environment.params.node || "当前节点"; // 默认值为 "当前节点" 如果未定义
