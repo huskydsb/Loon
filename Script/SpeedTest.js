@@ -1,5 +1,5 @@
 const pingUrl = "http://www.gstatic.com/generate_204";
-const downloadUrl = "https://speed.hetzner.de/100MB.bin"; // 100MB 文件
+const downloadUrl = "https://194-147-71-155.lg.looking.house/100.mb"; // 100MB 文件
 const fileSizeInMB = 100; // 文件大小 100MB
 
 // 获取当前节点名称
