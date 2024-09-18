@@ -7,7 +7,7 @@
 #!system_version = 
 #!loon_version = 3.2.1
 #!homepage = https://github.com/huskydsb/Loon/tree/main//Plugin
-#!icon = https://raw.githubusercontent.com/huskydsb/Loon/2c55c6208dc90b36eb660d72c992bdcf6774ba43/icon/Scamalytics.png
+#!icon = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Scamalytics.png
 #!date = 2024-09-04
 
 [Script]
