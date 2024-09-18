@@ -1,18 +1,14 @@
 #!name= Aptv
 #!desc= 解锁会员
 #!author= @huskydsb
-#!icon= 插件的图标
-#!input = appName
-#!input = author
-#!select = appType,tool,social,health,sport
-#!select = price,0.99,1.99,4.99
+#!icon= https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Aptv.png
 #!system = iOS,iPadOS,tvOS,macOS
-#!system_version = 15
+#!system_version = 18
 #!loon_version = 3.2.1(372)
-#!tag = 去广告,Youtube
+#!tag = 功能解锁
 
 [rewrite_local]
-^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-response-body https://raw.githubusercontent.com/afengye/QX/main/aptv.js
-^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-request-header https://raw.githubusercontent.com/afengye/QX/main/aptv.js
+^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-response-body https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Aptv.js
+^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) url script-request-header https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Aptv.js
 [mitm] 
 hostname = api.revenuecat.com
