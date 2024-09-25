@@ -1,7 +1,6 @@
 #!name= DNS分流
 #!desc= 国内域名使用国内DNS进行解析
 #!icon= https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/DNS.png
-#!author= @huskydsb
 #!system = iOS,iPadOS,tvOS,macOS
 #!system_version = iOS18.1
 #!loon_version = 3.2.2
