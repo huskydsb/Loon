@@ -9,6 +9,8 @@
 
 [Host]
 #
+#
+#
 ## > 国内外DNS解析
 #
 # > 国内DNS解析
@@ -30,6 +32,8 @@ https://doh.360.cn = server:218.30.118.6
 https://doh.360.cn = server:123.125.81.6
 https://doh.360.cn = server:140.207.198.6
 #
+#
+#
 # > 国外DNS解析
 # > Google Public DNS
 https://dns.google/dns-query = server:8.8.8.8
@@ -48,6 +52,8 @@ https://dns.adguard-dns.com/dns-query = server:94.140.14.14
 https://dns.adguard-dns.com/dns-query = server:94.140.15.15
 https://dns.adguard-dns.com/dns-query = server:2a10:50c0::ad1:ff
 https://dns.adguard-dns.com/dns-query = server:2a10:50c0::ad2:ff
+#
+#
 #
 ## > 国内域名使用国内DNS进行解析
 # > 苹果中国域名解析
