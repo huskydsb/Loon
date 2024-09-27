@@ -1,5 +1,5 @@
 #!name= DNS分流
-#!desc= 国内常用域名使用国内DNS进行解析
+#!desc= 国内常用域名使用阿里DNS进行解析
 #!icon= https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/Dns.png
 #!system = iOS,iPadOS,tvOS,macOS
 #!system_version = iOS18.1
