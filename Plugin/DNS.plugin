@@ -1,7 +1,7 @@
 #!name= DNS分流
 #!desc= 国内常用域名使用阿里DNS进行解析
 #!icon= https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/Dns.png
-#!system = iOS,iPadOS,tvOS,macOS
+#!system = iOS
 #!system_version = iOS18.1
 #!loon_version = 3.2.2
 #!tag = DNS解析
