@@ -10,6 +10,7 @@
 [Host]
 #
 ## > 国内外DNS解析
+#
 # > 国内DNS解析
 # > 腾讯 DNS (DNSPod)
 https://doh.pub/dns-query = server:119.29.29.29
