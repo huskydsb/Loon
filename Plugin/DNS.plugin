@@ -195,6 +195,7 @@ apple.cn = server:223.5.5.5
 apple.com.cn = server:223.5.5.5
 appleappstore.cn = server:223.5.5.5
 apple-appstore.cn = server:223.5.5.5
+appledownload.qtlcdn.com.cdnmg.com = server:223.5.5.5
 applecenter.cn = server:223.5.5.5
 applecenter.com.cn = server:223.5.5.5
 applecomputer.cn = server:223.5.5.5
