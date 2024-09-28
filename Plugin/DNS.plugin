@@ -5,7 +5,7 @@
 #!system_version = iOS18.1
 #!loon_version = 3.2.2
 #!tag = DNS解析
-#!date = 2024-09-28 23:31:44
+#!date = 2024-09-29 00:32:01
 
 [Host]
 #
@@ -101,6 +101,58 @@ https://dns.sse.cisco.com/dns-query= server:2620:119:53::53
 #
 ## > 国内域名使用国内DNS进行解析
 # > 苹果中国域名解析
+*.aaplimg.com = server:223.5.5.5
+*.apple.cn = server:223.5.5.5
+*.apple.com = server:223.5.5.5
+*.apple.com.akadns.net = server:223.5.5.5
+*.apple.com.cn = server:223.5.5.5
+*.appleappstore.cn = server:223.5.5.5
+*.apple-appstore.cn = server:223.5.5.5
+*.applecenter.cn = server:223.5.5.5
+*.applecomputer.cn = server:223.5.5.5
+*.appledns.cn = server:223.5.5.5
+*.apple-dns.cn = server:223.5.5.5
+*.apple-ibooks.cn = server:223.5.5.5
+*.appleicloud.cn = server:223.5.5.5
+*.apple-icloud.cn = server:223.5.5.5
+*.apple-itunes.cn = server:223.5.5.5
+*.apple-maps.cn = server:223.5.5.5
+*.apple-mapkit.com = server:223.5.5.5
+*.applepaycash.cn = server:223.5.5.5
+*.applepaysupplies.cn = server:223.5.5.5
+*.applesiri.cn = server:223.5.5.5
+*.applestore.cn = server:223.5.5.5
+*.apple-store.cn = server:223.5.5.5
+*.applestore.com.cn = server:223.5.5.5
+*.apple-support.akadns.net = server:223.5.5.5
+*.appletv4.cn = server:223.5.5.5
+*.appstoreapple.cn = server:223.5.5.5
+*.beats1.cn = server:223.5.5.5
+*.beats4.cn = server:223.5.5.5
+*.beatsbydre.com = server:223.5.5.5
+*.beatsep.cn = server:223.5.5.5
+*.faceshift.cn = server:223.5.5.5
+*.homepod.cn = server:223.5.5.5
+*.icloud.com = server:223.5.5.5
+*.icloud.com.cn = server:223.5.5.5
+*.icloud.net.cn = server:223.5.5.5
+*.icloudapple.cn = server:223.5.5.5
+*.icloud-apple.cn = server:223.5.5.5
+*.insidear.cn = server:223.5.5.5
+*.itunesapple.cn = server:223.5.5.5
+*.itunes-apple.cn = server:223.5.5.5
+*.itunesradio.cn = server:223.5.5.5
+*.livephotos.cn = server:223.5.5.5
+*.macbookair.cn = server:223.5.5.5
+*.mzstatic.com = server:223.5.5.5
+*.researchkit.cn = server:223.5.5.5
+*.swiftui.cn = server:223.5.5.5
+*.xn--czrs0t4phtr3a.cn = server:223.5.5.5
+*.xn--fiqs8sxootzz.cn = server:223.5.5.5
+*.xn--ohq11k7pl25iyo8a.cn = server:223.5.5.5
+*apple.com = server:223.5.5.5
+*apple.com.cn = server:223.5.5.5
+*apple.com.akadns.net = server:223.5.5.5
 a1.mzstatic.com = server:223.5.5.5
 a2.mzstatic.com = server:223.5.5.5
 a3.mzstatic.com = server:223.5.5.5
@@ -309,7 +361,7 @@ myapp.itunes.apple.com = server:223.5.5.5
 np-edge.itunes.apple.com = server:223.5.5.5
 ocsp.apple.com = server:223.5.5.5
 ocsp2.apple.com = server:223.5.5.5
-ocsp2.apple.com" = server:223.5.5.5
+ocsp2.apple.com = server:223.5.5.5
 ocsp2-lb.apple.com.akadns.net = server:223.5.5.5
 ocsp-lb.apple.com.akadns.net = server:223.5.5.5
 oscdn.apple.com = server:223.5.5.5
