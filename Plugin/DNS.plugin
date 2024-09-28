@@ -244,6 +244,7 @@ homepod.cn = server:https://dns.alidns.com/dns-query
 iadsdk.apple.com = server:https://dns.alidns.com/dns-query
 icloud.cdn-apple.com = server:https://dns.alidns.com/dns-query
 icloud.com.cn = server:https://dns.alidns.com/dns-query
+icloud.com = server:https://dns.alidns.com/dns-query
 icloud.net.cn = server:https://dns.alidns.com/dns-query
 icloudapple.cn = server:https://dns.alidns.com/dns-query
 icloud-apple.cn = server:https://dns.alidns.com/dns-query
