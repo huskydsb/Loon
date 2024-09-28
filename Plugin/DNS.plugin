@@ -5,7 +5,7 @@
 #!system_version = iOS18.1
 #!loon_version = 3.2.2
 #!tag = DNS解析
-#!date = 2024-09-28 20:09:01
+#!date = 2024-09-28 23:31:44
 
 [Host]
 #
@@ -1710,6 +1710,8 @@ zjump.cn = server:223.5.5.5
 *.18183.com = server:223.5.5.5
 *.18374ir.com = server:223.5.5.5
 *.189.cn = server:223.5.5.5
+*.189smarthome.com = server:223.5.5.5
+*.189smarthome.cn = server:223.5.5.5
 *.1905.com = server:223.5.5.5
 *.19lou.com = server:223.5.5.5
 *.1v1.com = server:223.5.5.5
@@ -2350,6 +2352,7 @@ zjump.cn = server:223.5.5.5
 *.taofen8.com = server:223.5.5.5
 *.taoguba.com.cn = server:223.5.5.5
 *.tb51.com = server:223.5.5.5
+*.tbcdn.com = server:223.5.5.5
 *.teambition.com = server:223.5.5.5
 *.tencent.com = server:223.5.5.5
 *.tgbus.com = server:223.5.5.5
