@@ -127,6 +127,7 @@ https://dns.sse.cisco.com/dns-query= server:2620:119:53::53
 *.apple-support.akadns.net = server:223.5.5.5
 *.appletv4.cn = server:223.5.5.5
 *.appstoreapple.cn = server:223.5.5.5
+*.cdn-apple.com.akadns.net = server:223.5.5.5
 *.beats1.cn = server:223.5.5.5
 *.beats4.cn = server:223.5.5.5
 *.beatsbydre.com = server:223.5.5.5
