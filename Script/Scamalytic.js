@@ -18,7 +18,7 @@ $httpClient.get(requestParams, (error, response, data) => {
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP欺诈分查询", "htmlMessage": message });
     } else {
-console.log(data);
+console.log(JSON.stringify(JSON.parse(data), null, 2));
         var ipInfo = JSON.parse(data);
         var ip = ipInfo.query;
         var scamRequestParams = {
