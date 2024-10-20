@@ -18,13 +18,27 @@ $httpClient.get(requestParams, (error, response, data) => {
         message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: bold;">${message}</p>`;
         $done({ "title": "IP欺诈分查询", "htmlMessage": message });
     } else {
-        console.log(data);
-        var ipInfo = JSON.parse(data);
-        var ip = ipInfo.query;
-        var scamRequestParams = {
-            "url": scamUrl + ip,
-            "node": nodeName
-        };
+        // 打印格式化后的 JSON 输出
+console.log(JSON.stringify({
+    data: JSON.parse(data),  // 确保 data 是对象
+    ipInfo: ipInfo,
+    ip: ip,
+    scamRequestParams: scamRequestParams,
+    nodeInfo: nodeInfo
+}, null, 2));
+
+// 解析数据
+var ipInfo = JSON.parse(data);
+var ip = ipInfo.query;
+var scamRequestParams = {
+    "url": scamUrl + ip,
+    "node": nodeName
+};
+
+// 打印 node 信息，解决 Unicode 显示问题
+console.log(JSON.stringify(nodeInfo, (key, value) => 
+    typeof value === 'string' ? value : value, 2)
+);
 
         $httpClient.get(scamRequestParams, (error, response, data) => {
             if (error) {
