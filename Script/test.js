@@ -27,7 +27,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
 
     if (ipInfo.status === "success") {
         let ipValue = ipInfo.query; // 获取查询的 IP 地址
-        console.log("Fetched IP:", ipValue);
+        console.log("Fetched IP:", ipValue); // 输出到控制台
 
         // 从 IP API 获取的其他信息
         let city = ipInfo.city || "N/A";
@@ -35,6 +35,13 @@ $httpClient.get(ipApiParams, function(error, response, data) {
         let isp = ipInfo.isp || "N/A";
         let org = ipInfo.org || "N/A";
         let as = ipInfo.as || "N/A";
+
+        // 输出获取到的所有信息
+        console.log(`City: ${city}`);
+        console.log(`Country: ${country}`);
+        console.log(`ISP: ${isp}`);
+        console.log(`Organization: ${org}`);
+        console.log(`ASN: ${as}`);
 
         // 请求参数
         var requestParams = {
