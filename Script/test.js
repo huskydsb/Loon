@@ -1,5 +1,5 @@
 // 第一步：获取 IP 地址
-$httpClient.get("https://scamalytics.com/", function (error, response, data) {
+$httpClient.get("https://scamalytics.com/", function(error, response, data) {
     if (error) {
         console.error("Error fetching the page:", error);
         return;
@@ -14,42 +14,32 @@ $httpClient.get("https://scamalytics.com/", function (error, response, data) {
         console.log("Fetched IP:", ipValue);
 
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function (error, response, data) {
+        $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function(error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 return;
             }
 
-            // 使用正则表达式提取 <pre> 标签中的内容
-            let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
-            let preMatch = data.match(preRegex);
-            let preContent = preMatch ? preMatch[1] : null;
+            // 提取城市、国家、IP 名称、ASN 编号和 ASN 机构
+            let cityRegex = /<th>City<\/th>\s*<td>(.*?)<\/td>/;
+            let countryRegex = /<th>Country Name<\/th>\s*<td>(.*?)<\/td>/;
+            let ipNameRegex = /<th>Organization Name<\/th>\s*<td>(.*?)<\/td>/;
+            let asnNumberRegex = /<th>ASN<\/th>\s*<td>(.*?)<\/td>/;
+            let asnOrgRegex = /<th>ASN Organization<\/th>\s*<td>(.*?)<\/td>/;
 
-            if (preContent) {
-                // 使用正则提取 JSON 字符串
-                let jsonRegex = /({[\s\S]*?})/;
-                let jsonMatch = preContent.match(jsonRegex);
+            let cityMatch = data.match(cityRegex);
+            let countryMatch = data.match(countryRegex);
+            let ipNameMatch = data.match(ipNameRegex);
+            let asnNumberMatch = data.match(asnNumberRegex);
+            let asnOrgMatch = data.match(asnOrgRegex);
 
-                if (jsonMatch) {
-                    let jsonData = jsonMatch[1];
+            let city = cityMatch ? cityMatch[1] : "N/A";
+            let country = countryMatch ? countryMatch[1] : "N/A";
+            let ipName = ipNameMatch ? ipNameMatch[1] : "N/A";
+            let asnNumber = asnNumberMatch ? asnNumberMatch[1] : "N/A";
+            let asnOrg = asnOrgMatch ? asnOrgMatch[1] : "N/A";
 
-                    // 尝试解析 JSON 数据
-                    try {
-                        let parsedData = JSON.parse(jsonData);
-                        let ip = parsedData.ip;
-                        let score = parsedData.score;
-                        let risk = parsedData.risk;
-
-                        console.log(`IP: ${ip}, Score: ${score}, Risk: ${risk}`);
-                    } catch (e) {
-                        console.error("Error parsing JSON:", e);
-                    }
-                } else {
-                    console.log("No JSON found in <pre> content.");
-                }
-            } else {
-                console.log("No <pre> content found.");
-            }
+            console.log(`City: ${city}, Country: ${country}, IP Name: ${ipName}, ASN Number: ${asnNumber}, ASN Org: ${asnOrg}`);
         });
     } else {
         console.log("No IP found.");
