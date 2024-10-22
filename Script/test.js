@@ -33,16 +33,6 @@ $httpClient.get(ipApiParams, function(error, response, data) {
         let org = ipInfo.org || "N/A";
         let as = ipInfo.as || "N/A";
 
-        // 控制台输出当前节点名称和信息
-        console.log("当前节点名称和信息 ：");
-        console.log(`节点名称：${nodeName}`);
-        console.log(`IP地址：${ipValue}`);
-        console.log(`IP城市：${city}`);
-        console.log(`IP国家：${country}`);
-        console.log(`ISP：${isp}`);
-        console.log(`ORG：${org}`);
-        console.log(`AS：${as}`);
-
         // 请求参数
         var requestParams = {
             "url": `https://scamalytics.com/search?ip=${ipValue}`,
@@ -62,7 +52,8 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             let preMatch = data.match(preRegex);
             let preContent = preMatch ? preMatch[1] : null;
 
-            let score, risk;
+            let score = "N/A";
+            let risk = "N/A";
             if (preContent) {
                 // 使用正则提取 JSON 字符串
                 let jsonRegex = /({[\s\S]*?})/;
@@ -81,6 +72,17 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                     }
                 }
             }
+
+            // 控制台输出查询结果
+            console.log(`节点名称：${nodeName}`);
+            console.log(`IP地址：${ipValue}`);
+            console.log(`IP欺诈分数：${score}`);
+            console.log(`IP风险等级：${risk}`);
+            console.log(`IP城市：${city}`);
+            console.log(`IP国家：${country}`);
+            console.log(`ISP：${isp}`);
+            console.log(`ORG：${org}`);
+            console.log(`AS：${as}`);
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
@@ -105,8 +107,8 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             // 组织最终结果
             let scamInfo = {
                 ip: ipValue,
-                score: score || "N/A",
-                risk: risk || "N/A",
+                score: score,
+                risk: risk,
                 city: city,
                 country: country,
                 isp: isp,
@@ -119,7 +121,6 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 -------------------------------
                 <br><br> <!-- 空行 -->
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
-                <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                 <br><br> <!-- 空行 -->
