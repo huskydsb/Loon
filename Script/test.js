@@ -33,8 +33,9 @@ $httpClient.get(ipApiParams, function(error, response, data) {
         let org = ipInfo.org || "N/A";
         let as = ipInfo.as || "N/A";
 
-        // 控制台输出信息
+        // 控制台输出当前节点名称和信息
         console.log("当前节点名称和信息 ：");
+        console.log(`节点名称：${nodeName}`);
         console.log(`IP地址：${ipValue}`);
         console.log(`IP城市：${city}`);
         console.log(`IP国家：${country}`);
