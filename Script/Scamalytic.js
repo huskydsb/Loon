@@ -88,8 +88,6 @@ console.log(JSON.stringify(JSON.parse(data), null, 2));
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
 
-                var message = `<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">${resultHtml}</p>`;
-                $done({ "title": "IP欺诈分查询", "htmlMessage": message });
             }
         });
     }

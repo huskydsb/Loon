@@ -13,6 +13,10 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
     if (ipValue) {
         console.log("Fetched IP:", ipValue);
 
+        // 获取环境参数
+        var inputParams = $environment.params;
+        var nodeName = inputParams.node;
+
         // 第二步：使用获取到的 IP 进行请求
         $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function(error, response, data) {
             if (error) {
@@ -58,18 +62,38 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
             }
 
             // 组织最终结果
-            let result = {
+            let scamInfo = {
                 ip: ip || "N/A",
                 score: score || "N/A",
                 risk: risk || "N/A",
-                city: cityMatch ? cityMatch[1] : "N/A",
+                ip_city: cityMatch ? cityMatch[1] : "N/A",
                 country: countryMatch ? countryMatch[1] : "N/A",
-                asnNumber: asnNumberMatch ? asnNumberMatch[1] : "N/A",
-                asnOrg: organizationNameMatch ? organizationNameMatch[1] : "N/A" // 使用组织名称作为 ASN 机构
+                as_number: asnNumberMatch ? asnNumberMatch[1] : "N/A",
+                organizationName: organizationNameMatch ? organizationNameMatch[1] : "N/A"
             };
 
-            // 输出结果为 JSON 格式
-            console.log(JSON.stringify(result, null, 2));
+            // 创建结果 HTML
+            var resultHtml = `
+                -------------------------------
+                <br><br> <!-- 空行 -->
+                <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+                <br><br> <!-- 空行 -->
+                <br><b>IP欺诈分数：</b>${scamInfo.score}
+                <br><b>IP风险等级：</b>${risk} <!-- 替换为 riskemoji 和 riskDescription -->
+                <br><br> <!-- 空行 -->
+                <br><b>IP城市：</b>${scamInfo.ip_city}
+                <br><b>IP国家：</b>${scamInfo.country}
+                <br><br> <!-- 空行 -->
+                <br><b>ASN编号：</b>${scamInfo.as_number}
+                <br><b>ASN机构：</b>${scamInfo.organizationName}
+                <br><br> <!-- 空行 -->
+                <br>-------------------------------
+                <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
+            `;
+
+            // 输出结果为 JSON 格式或 HTML
+            console.log(JSON.stringify(scamInfo, null, 2));
+            // 可以选择将 resultHtml 发送到前端或进一步处理
         });
     } else {
         console.log("No IP found.");
