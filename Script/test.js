@@ -20,18 +20,16 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                 return;
             }
 
-            // 提取城市、国家、组织名称、ASN 编号和 ASN 机构
+            // 提取城市、国家、组织名称、ASN 编号
             let cityRegex = /<th>City<\/th>\s*<td>(.*?)<\/td>/;
             let countryRegex = /<th>Country Name<\/th>\s*<td>(.*?)<\/td>/;
             let organizationNameRegex = /<th>Organization Name<\/th>\s*<td>(.*?)<\/td>/;
             let asnNumberRegex = /<th>ASN<\/th>\s*<td>(.*?)<\/td>/;
-            let asnOrgRegex = /<th>ASN Organization<\/th>\s*<td>(.*?)<\/td>/;
 
             let cityMatch = data.match(cityRegex);
             let countryMatch = data.match(countryRegex);
             let organizationNameMatch = data.match(organizationNameRegex);
             let asnNumberMatch = data.match(asnNumberRegex);
-            // asnOrgMatch 在这里不再需要
 
             // 使用正则表达式提取 <pre> 标签中的内容
             let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
@@ -66,7 +64,6 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                 risk: risk || "N/A",
                 city: cityMatch ? cityMatch[1] : "N/A",
                 country: countryMatch ? countryMatch[1] : "N/A",
-                organizationName: organizationNameMatch ? organizationNameMatch[1] : "N/A",
                 asnNumber: asnNumberMatch ? asnNumberMatch[1] : "N/A",
                 asnOrg: organizationNameMatch ? organizationNameMatch[1] : "N/A" // 使用组织名称作为 ASN 机构
             };
