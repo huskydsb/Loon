@@ -8,7 +8,7 @@ var ipApiParams = {
     "node": nodeName
 };
 
-$httpClient.get(ipApiParams, function (error, response, data) {
+$httpClient.get(ipApiParams, function(error, response, data) {
     if (error) {
         console.error("Error fetching IP info:", error);
         $done(); // 结束请求
@@ -29,6 +29,13 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         let ipValue = ipInfo.query; // 获取查询的 IP 地址
         console.log("Fetched IP:", ipValue);
 
+        // 从 IP API 获取的其他信息
+        let city = ipInfo.city || "N/A";
+        let country = ipInfo.country || "N/A";
+        let isp = ipInfo.isp || "N/A";
+        let org = ipInfo.org || "N/A";
+        let as = ipInfo.as || "N/A";
+
         // 请求参数
         var requestParams = {
             "url": `https://scamalytics.com/search?ip=${ipValue}`,
@@ -36,44 +43,32 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         };
 
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(requestParams, function (error, response, data) {
+        $httpClient.get(requestParams, function(error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 $done(); // 结束请求
                 return;
             }
 
-            // 提取城市、国家、组织名称、ASN 编号
-            let cityRegex = /<th>City<\/th>\s*<td>(.*?)<\/td>/;
-            let countryRegex = /<th>Country Name<\/th>\s*<td>(.*?)<\/td>/;
-            let organizationNameRegex = /<th>Organization Name<\/th>\s*<td>(.*?)<\/td>/;
-            let asnNumberRegex = /<th>ASN<\/th>\s*<td>(.*?)<\/td>/;
-
-            let cityMatch = data.match(cityRegex);
-            let countryMatch = data.match(countryRegex);
-            let organizationNameMatch = data.match(organizationNameRegex);
-            let asnNumberMatch = data.match(asnNumberRegex);
-
             // 使用正则表达式提取 <pre> 标签中的内容
             let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
             let preMatch = data.match(preRegex);
             let preContent = preMatch ? preMatch[1] : null;
 
-            let ip, score, risk;
+            let score, risk;
             if (preContent) {
                 // 使用正则提取 JSON 字符串
                 let jsonRegex = /({[\s\S]*?})/;
                 let jsonMatch = preContent.match(jsonRegex);
-
+                
                 if (jsonMatch) {
                     let jsonData = jsonMatch[1];
 
                     // 尝试解析 JSON 数据
                     try {
                         let parsedData = JSON.parse(jsonData);
-                        ip = parsedData.ip;
-                        score = parsedData.score;
-                        risk = parsedData.risk;
+                        score = parsedData.score || "N/A";
+                        risk = parsedData.risk || "N/A";
                     } catch (e) {
                         console.error("Error parsing JSON:", e);
                     }
@@ -82,13 +77,14 @@ $httpClient.get(ipApiParams, function (error, response, data) {
 
             // 组织最终结果
             let scamInfo = {
-                ip: ip || ipValue || "N/A", // 使用从 IP API 获取的 IP
+                ip: ipValue,
                 score: score || "N/A",
                 risk: risk || "N/A",
-                ip_city: cityMatch ? cityMatch[1] : "N/A",
-                country: countryMatch ? countryMatch[1] : "N/A",
-                as_number: asnNumberMatch ? asnNumberMatch[1] : "N/A",
-                organizationName: organizationNameMatch ? organizationNameMatch[1] : "N/A"
+                city: city,
+                country: country,
+                isp: isp,
+                org: org,
+                as: as
             };
 
             // 创建结果 HTML
@@ -100,11 +96,12 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${scamInfo.risk}
                 <br><br> <!-- 空行 -->
-                <br><b>IP城市：</b>${scamInfo.ip_city}
+                <br><b>IP城市：</b>${scamInfo.city}
                 <br><b>IP国家：</b>${scamInfo.country}
                 <br><br> <!-- 空行 -->
-                <br><b>ASN编号：</b>${scamInfo.as_number}
-                <br><b>ASN机构：</b>${scamInfo.organizationName}
+                <br><b>ISP：</b>${scamInfo.isp}
+                <br><b>组织：</b>${scamInfo.org}
+                <br><b>ASN：</b>${scamInfo.as}
                 <br><br> <!-- 空行 -->
                 <br>-------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
