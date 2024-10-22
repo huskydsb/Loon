@@ -119,9 +119,10 @@ $httpClient.get(ipApiParams, function(error, response, data) {
 
             // 创建结果 HTML
             var resultHtml = `
-                -------------------------------
+                <br>------------------------------------------------
                 <br><br> <!-- 空行 -->
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+                <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
                 <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                 <br><br> <!-- 空行 -->
@@ -132,7 +133,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 <br><b>组织：</b>${scamInfo.org}
                 <br><b>ASN：</b>${scamInfo.as}
                 <br><br> <!-- 空行 -->
-                <br>-------------------------------
+                <br>------------------------------------------------
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
 
