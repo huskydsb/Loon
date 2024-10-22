@@ -8,7 +8,7 @@ var ipApiParams = {
     "node": nodeName
 };
 
-$httpClient.get(ipApiParams, function(error, response, data) {
+$httpClient.get(ipApiParams, function (error, response, data) {
     if (error) {
         console.error("Error fetching IP info:", error);
         $done(); // 结束请求
@@ -40,7 +40,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
         };
 
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(requestParams, function(error, response, data) {
+        $httpClient.get(requestParams, function (error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 $done(); // 结束请求
@@ -58,7 +58,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 // 使用正则提取 JSON 字符串
                 let jsonRegex = /({[\s\S]*?})/;
                 let jsonMatch = preContent.match(jsonRegex);
-                
+
                 if (jsonMatch) {
                     let jsonData = jsonMatch[1];
 
@@ -119,23 +119,26 @@ $httpClient.get(ipApiParams, function(error, response, data) {
 
             // 创建结果 HTML
             var resultHtml = `
-                <br>------------------------------------------------
-                <br><br> <!-- 空行 -->
-                <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
-                <br><br> <!-- 空行 -->
-                <br><b>IP欺诈分数：</b>${scamInfo.score}
-                <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-                <br><br> <!-- 空行 -->
-                <br><b>IP城市：</b>${scamInfo.city}
-                <br><b>IP国家：</b>${scamInfo.country}
-                <br><br> <!-- 空行 -->
-                <br><b>ISP：</b>${scamInfo.isp}
-                <br><b>Org：</b>${scamInfo.org}
-                <br><b>ASN：</b>${scamInfo.as}
-                <br><br> <!-- 空行 -->
-                <br>------------------------------------------------
-                <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+            <br>------------------------------------------------
+            <br><br> <!-- 空行 -->
+            <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+            <br><br> <!-- 空行 -->
+            <br><b>IP欺诈分数：</b>${scamInfo.score}
+            <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
+            <br><br> <!-- 空行 -->
+            <br><b>IP城市：</b>${scamInfo.city}
+            <br><b>IP国家：</b>${scamInfo.country}
+            <br><br> <!-- 空行 -->
+            <br><b>ISP：</b>${scamInfo.isp}
+            <br><b>Org：</b>${scamInfo.org}
+            <br><b>ASN：</b>${scamInfo.as}
+            <br><br> <!-- 空行 -->
+            <br>------------------------------------------------
+            <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
+            </div>
             `;
+
 
             // 调用 $done 结束请求并返回结果
             $done({ "title": "IP欺诈分查询", "htmlMessage": resultHtml });
