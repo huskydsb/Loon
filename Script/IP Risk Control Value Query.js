@@ -5,7 +5,7 @@ var nodeName = inputParams.node || "N/A"; // 获取节点名称
 // 第一步：获取响应数据
 $httpClient.get("https://ping0.cc/", function(error, response, data) {
     if (error) {
-        console.error("Error fetching the page:", error);
+        console.log("Error fetching the page:", error);
         $done(); // 结束请求
         return;
     }
