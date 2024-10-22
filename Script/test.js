@@ -1,17 +1,23 @@
-// 第一步：获取 IP 地址
-$httpClient.get("https://scamalytics.com/", function(error, response, data) {
+// 第一步：获取外部 IP 地址信息
+$httpClient.get("http://ip-api.com/json/", function(error, response, data) {
     if (error) {
-        console.error("Error fetching the page:", error);
+        console.error("Error fetching IP info:", error);
         $done(); // 结束请求
         return;
     }
 
-    // 使用正则表达式提取 input 中的 value
-    let regex = /<input[^>]+name="ip"[^>]+value='([^']+)'/;
-    let match = data.match(regex);
-    let ipValue = match ? match[1] : null;
+    // 尝试解析 JSON 数据
+    let ipInfo;
+    try {
+        ipInfo = JSON.parse(data);
+    } catch (e) {
+        console.error("Error parsing IP info JSON:", e);
+        $done(); // 结束请求
+        return;
+    }
 
-    if (ipValue) {
+    if (ipInfo.status === "success") {
+        let ipValue = ipInfo.query; // 获取查询的 IP 地址
         console.log("Fetched IP:", ipValue);
 
         // 获取环境参数
@@ -71,7 +77,7 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
 
             // 组织最终结果
             let scamInfo = {
-                ip: ip || "N/A",
+                ip: ip || ipValue || "N/A", // 使用从 IP API 获取的 IP
                 score: score || "N/A",
                 risk: risk || "N/A",
                 ip_city: cityMatch ? cityMatch[1] : "N/A",
@@ -103,7 +109,7 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
             $done({ "title": "IP欺诈分查询", "htmlMessage": resultHtml });
         });
     } else {
-        console.log("No IP found.");
+        console.log("Failed to retrieve IP info.");
         $done(); // 结束请求
     }
 });
