@@ -20,11 +20,25 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                 return;
             }
 
+            // 提取城市、国家、IP 名称、ASN 编号和 ASN 机构
+            let cityRegex = /<th>City<\/th>\s*<td>(.*?)<\/td>/;
+            let countryRegex = /<th>Country Name<\/th>\s*<td>(.*?)<\/td>/;
+            let ipNameRegex = /<th>Organization Name<\/th>\s*<td>(.*?)<\/td>/;
+            let asnNumberRegex = /<th>ASN<\/th>\s*<td>(.*?)<\/td>/;
+            let asnOrgRegex = /<th>ASN Organization<\/th>\s*<td>(.*?)<\/td>/;
+
+            let cityMatch = data.match(cityRegex);
+            let countryMatch = data.match(countryRegex);
+            let ipNameMatch = data.match(ipNameRegex);
+            let asnNumberMatch = data.match(asnNumberRegex);
+            let asnOrgMatch = data.match(asnOrgRegex);
+
             // 使用正则表达式提取 <pre> 标签中的内容
             let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
             let preMatch = data.match(preRegex);
             let preContent = preMatch ? preMatch[1] : null;
 
+            let ip, score, risk;
             if (preContent) {
                 // 使用正则提取 JSON 字符串
                 let jsonRegex = /({[\s\S]*?})/;
@@ -36,28 +50,29 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                     // 尝试解析 JSON 数据
                     try {
                         let parsedData = JSON.parse(jsonData);
-                        let ip = parsedData.ip;
-                        let score = parsedData.score;
-                        let risk = parsedData.risk;
-
-                        // 组织最终结果
-                        let result = {
-                            ip: ip,
-                            score: score,
-                            risk: risk
-                        };
-
-                        // 输出结果为 JSON 格式
-                        console.log(JSON.stringify(result, null, 2));
+                        ip = parsedData.ip;
+                        score = parsedData.score;
+                        risk = parsedData.risk;
                     } catch (e) {
                         console.error("Error parsing JSON:", e);
                     }
-                } else {
-                    console.log("No JSON found in <pre> content.");
                 }
-            } else {
-                console.log("No <pre> content found.");
             }
+
+            // 组织最终结果
+            let result = {
+                ip: ip || "N/A",
+                score: score || "N/A",
+                risk: risk || "N/A",
+                city: cityMatch ? cityMatch[1] : "N/A",
+                country: countryMatch ? countryMatch[1] : "N/A",
+                ipName: ipNameMatch ? ipNameMatch[1] : "N/A",
+                asnNumber: asnNumberMatch ? asnNumberMatch[1] : "N/A",
+                asnOrg: asnOrgMatch ? asnOrgMatch[1] : "N/A"
+            };
+
+            // 输出结果为 JSON 格式
+            console.log(JSON.stringify(result, null, 2));
         });
     } else {
         console.log("No IP found.");
