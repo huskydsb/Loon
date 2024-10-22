@@ -2,6 +2,7 @@
 $httpClient.get("https://scamalytics.com/", function(error, response, data) {
     if (error) {
         console.error("Error fetching the page:", error);
+        $done(); // 结束请求
         return;
     }
 
@@ -21,6 +22,7 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
         $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function(error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
+                $done(); // 结束请求
                 return;
             }
 
@@ -94,9 +96,12 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
             // 输出结果为 JSON 格式或 HTML
             console.log(JSON.stringify(scamInfo, null, 2));
             console.log(resultHtml); // 输出 HTML 内容
-            // 你可以选择将 resultHtml 发送到前端或进一步处理
+            
+            // 调用 $done 结束请求并返回结果
+            $done({title: "IP 信息", body: resultHtml});
         });
     } else {
         console.log("No IP found.");
+        $done(); // 结束请求
     }
 });
