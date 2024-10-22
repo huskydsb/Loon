@@ -99,12 +99,8 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                 <br><font color="red"><b>节点：</b> ➟ ${nodeName}</font>
             `;
 
-            // 输出结果为 JSON 格式或 HTML
-            console.log(JSON.stringify(scamInfo, null, 2));
-            console.log(resultHtml); // 输出 HTML 内容
-            
             // 调用 $done 结束请求并返回结果
-            $done({title: "IP 信息", body: resultHtml});
+            $done({ "title": "IP欺诈分查询", "htmlMessage": resultHtml });
         });
     } else {
         console.log("No IP found.");
