@@ -10,13 +10,16 @@ $httpClient.get("https://ping0.cc/", function(error, response, data) {
         return;
     }
 
+    // 输出全部响应数据
+    console.log("完整响应数据：", data);
+
     // 使用正则表达式提取 IP 地址
-    let ipRegex = /<div class="name">\s*IP 地址\s*<\/div>\s*<div class="content">\s*([\da-fA-F:.]+)\s*<span v-if="rdns.length>0">/;
+    let ipRegex = /<div class="name">\s*IP 地址\s*<\/div>\s*<div class="content">\s*([^<]+)\s*<span v-if="rdns.length>0">/;
     let ipMatch = data.match(ipRegex);
     let ipAddress = ipMatch ? ipMatch[1].trim() : "N/A";
 
     // 使用正则表达式提取 IP 位置
-    let locationRegex = /<div class="name">\s*IP 位置\s*<\/div>\s*<div class="content">\s*<img[^>]*>\s*(.*?)&mdash;/;
+    let locationRegex = /<div class="name">\s*IP 位置\s*<\/div>\s*<div class="content">\s*<img[^>]*>\s*([^&]+)&mdash;/;
     let locationMatch = data.match(locationRegex);
     let ipLocation = locationMatch ? locationMatch[1].trim() : "N/A";
 
