@@ -11,12 +11,12 @@ $httpClient.get("https://ping0.cc/", function(error, response, data) {
     }
 
     // 使用正则表达式提取 IP 地址
-    let ipRegex = /<div class="content">\s*(.*?)\s*<span v-if="rdns.length>0">/;
+    let ipRegex = /<div class="name">\s*IP 地址\s*<\/div>\s*<div class="content">\s*([\da-fA-F:.]+)\s*<span v-if="rdns.length>0">/;
     let ipMatch = data.match(ipRegex);
     let ipAddress = ipMatch ? ipMatch[1].trim() : "N/A";
 
     // 使用正则表达式提取 IP 位置
-    let locationRegex = /<div class="content">\s*<img[^>]*>\s*(.*?)&mdash;/;
+    let locationRegex = /<div class="name">\s*IP 位置\s*<\/div>\s*<div class="content">\s*<img[^>]*>\s*(.*?)&mdash;/;
     let locationMatch = data.match(locationRegex);
     let ipLocation = locationMatch ? locationMatch[1].trim() : "N/A";
 
@@ -59,9 +59,9 @@ $httpClient.get("https://ping0.cc/", function(error, response, data) {
     let riskDescription = riskValueMatch ? riskValueMatch[2].trim() : "N/A";
 
     // 使用正则表达式提取 原生 IP
-    let nativeIpRegex = /<div class="name">\s*<span>原生 IP<\/span>\s*<a[^>]*>\(说明\?\)<\/a>\s*<\/span>\s*<\/div>/;
+    let nativeIpRegex = /<div class="name">\s*<span>原生 IP<\/span>\s*<a[^>]*>\(说明\?\)<\/a>\s*<\/span>\s*<\/div>\s*<div class="content">\s*<span class="label orange"[^>]*>(.*?)<\/span>/;
     let nativeIpMatch = data.match(nativeIpRegex);
-    let nativeIp = nativeIpMatch ? "原生 IP" : "N/A";
+    let nativeIp = nativeIpMatch ? nativeIpMatch[1].trim() : "N/A";
 
     // 控制台输出获取到的信息
     console.log("节点名称：", nodeName);
