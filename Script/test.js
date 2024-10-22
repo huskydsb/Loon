@@ -124,7 +124,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             <br><br> <!-- 空行 -->
             <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
             <br><br> <!-- 空行 -->
-            <br><b>IP欺诈分数：</b>   ${scamInfo.score}
+            <br><b>IP欺诈分数：</b>       ${scamInfo.score}
             <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
             <br><br> <!-- 空行 -->
             <br><b>IP城市：</b>${scamInfo.city}
@@ -135,6 +135,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             <br><b>ASN：</b>${scamInfo.as}
             <br><br> <!-- 空行 -->
             <br>------------------------------------------
+            <br><br> <!-- 空行 -->
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
             `;
