@@ -82,6 +82,26 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 }
             }
 
+            // 确定风险等级的 emoji 和描述
+            var riskemoji;
+            var riskDescription;
+            if (risk === 'very high') {
+                riskemoji = '🔴'; // 代表非常高风险
+                riskDescription = '非常高风险';
+            } else if (risk === 'high') {
+                riskemoji = '🟠'; // 代表高风险
+                riskDescription = '高风险';
+            } else if (risk === 'medium') {
+                riskemoji = '🟡'; // 代表中等风险
+                riskDescription = '中等风险';
+            } else if (risk === 'low') {
+                riskemoji = '🟢'; // 代表低风险
+                riskDescription = '低风险';
+            } else {
+                riskemoji = '⚪'; // 未知风险
+                riskDescription = '未知风险';
+            }
+
             // 组织最终结果
             let scamInfo = {
                 ip: ipValue,
@@ -101,7 +121,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
-                <br><b>IP风险等级：</b>${scamInfo.risk}
+                <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
                 <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.city}
                 <br><b>IP国家：</b>${scamInfo.country}
