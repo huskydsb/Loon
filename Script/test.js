@@ -130,7 +130,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 <br><b>IP国家：</b>${scamInfo.country}
                 <br><br> <!-- 空行 -->
                 <br><b>ISP：</b>${scamInfo.isp}
-                <br><b>ORG：</b>${scamInfo.org}
+                <br><b>Org：</b>${scamInfo.org}
                 <br><b>ASN：</b>${scamInfo.as}
                 <br><br> <!-- 空行 -->
                 <br>------------------------------------------------
