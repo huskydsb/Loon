@@ -18,8 +18,14 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
         var inputParams = $environment.params || {}; // 确保 params 存在
         var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
+        // 请求参数
+        var requestParams = {
+            "url": `https://scamalytics.com/search?ip=${ipValue}`,
+            "node": nodeName
+        };
+
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function(error, response, data) {
+        $httpClient.get(requestParams, function(error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 $done(); // 结束请求
