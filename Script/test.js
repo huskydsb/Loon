@@ -1,5 +1,14 @@
+// 获取环境参数
+var inputParams = $environment.params || {}; // 确保 params 存在
+var nodeName = inputParams.node || "N/A"; // 获取节点名称
+
 // 第一步：获取外部 IP 地址信息
-$httpClient.get("http://ip-api.com/json/", function(error, response, data) {
+var ipApiParams = {
+    "url": "http://ip-api.com/json/",
+    "node": nodeName
+};
+
+$httpClient.get(ipApiParams, function (error, response, data) {
     if (error) {
         console.error("Error fetching IP info:", error);
         $done(); // 结束请求
@@ -20,10 +29,6 @@ $httpClient.get("http://ip-api.com/json/", function(error, response, data) {
         let ipValue = ipInfo.query; // 获取查询的 IP 地址
         console.log("Fetched IP:", ipValue);
 
-        // 获取环境参数
-        var inputParams = $environment.params || {}; // 确保 params 存在
-        var nodeName = inputParams.node || "N/A"; // 获取节点名称
-
         // 请求参数
         var requestParams = {
             "url": `https://scamalytics.com/search?ip=${ipValue}`,
@@ -31,7 +36,7 @@ $httpClient.get("http://ip-api.com/json/", function(error, response, data) {
         };
 
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(requestParams, function(error, response, data) {
+        $httpClient.get(requestParams, function (error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 $done(); // 结束请求
@@ -59,7 +64,7 @@ $httpClient.get("http://ip-api.com/json/", function(error, response, data) {
                 // 使用正则提取 JSON 字符串
                 let jsonRegex = /({[\s\S]*?})/;
                 let jsonMatch = preContent.match(jsonRegex);
-                
+
                 if (jsonMatch) {
                     let jsonData = jsonMatch[1];
 
