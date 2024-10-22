@@ -14,8 +14,8 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
         console.log("Fetched IP:", ipValue);
 
         // 获取环境参数
-        var inputParams = $environment.params;
-        var nodeName = inputParams.node;
+        var inputParams = $environment.params || {}; // 确保 params 存在
+        var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
         // 第二步：使用获取到的 IP 进行请求
         $httpClient.get(`https://scamalytics.com/search?ip=${ipValue}`, function(error, response, data) {
@@ -79,7 +79,7 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
                 <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                 <br><br> <!-- 空行 -->
                 <br><b>IP欺诈分数：</b>${scamInfo.score}
-                <br><b>IP风险等级：</b>${risk} <!-- 替换为 riskemoji 和 riskDescription -->
+                <br><b>IP风险等级：</b>${scamInfo.risk}
                 <br><br> <!-- 空行 -->
                 <br><b>IP城市：</b>${scamInfo.ip_city}
                 <br><b>IP国家：</b>${scamInfo.country}
@@ -93,7 +93,8 @@ $httpClient.get("https://scamalytics.com/", function(error, response, data) {
 
             // 输出结果为 JSON 格式或 HTML
             console.log(JSON.stringify(scamInfo, null, 2));
-            // 可以选择将 resultHtml 发送到前端或进一步处理
+            console.log(resultHtml); // 输出 HTML 内容
+            // 你可以选择将 resultHtml 发送到前端或进一步处理
         });
     } else {
         console.log("No IP found.");
