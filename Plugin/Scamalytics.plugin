@@ -3,12 +3,12 @@
 #!openUrl = https://scamalytics.com/
 #!author = @huskydsb
 #!tag = 节点检测
-#!system = 
+#!system = IOS
 #!system_version = 
 #!loon_version = 3.2.1
-#!homepage = https://github.com/huskydsb/Loon/tree/main//Plugin
+#!homepage = https://scamalytics.com/
 #!icon = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Scamalytics.png
 #!date = 2024-09-04
 
 [Script]
-generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Scamalytic.js, timeout = 30, tag = IP欺诈分查询
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Scamalytic.js, timeout = 30, tag = IP欺诈评分查询
