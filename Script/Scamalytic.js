@@ -121,7 +121,6 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             var resultHtml = `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
             <br>------------------------------------------
-            <br><br> <!-- 空行 -->
             <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
             <br><b>IP城市：</b>${scamInfo.city}
             <br><b>IP国家：</b>${scamInfo.country}
