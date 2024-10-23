@@ -84,7 +84,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 IP国家：${country}
                 ISP：${isp}
                 ORG：${org}
-                AS：${as}`;
+                AS：${as}`.trim();
             
             console.log(result);
             
