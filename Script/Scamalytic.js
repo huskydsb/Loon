@@ -123,12 +123,11 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             <br>------------------------------------------
             <br><br> <!-- 空行 -->
             <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+            <br><b>IP城市：</b>${scamInfo.city}
+            <br><b>IP国家：</b>${scamInfo.country}
             <br><br> <!-- 空行 -->
             <br><b>IP欺诈分数：</b>       ${scamInfo.score}
             <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-            <br><br> <!-- 空行 -->
-            <br><b>IP城市：</b>${scamInfo.city}
-            <br><b>IP国家：</b>${scamInfo.country}
             <br><br> <!-- 空行 -->
             <br><b>ISP：</b>${scamInfo.isp}
             <br><b>Org：</b>${scamInfo.org}
