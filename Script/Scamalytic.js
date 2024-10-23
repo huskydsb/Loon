@@ -134,7 +134,6 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             <br><b>ASN：</b>${scamInfo.as}
             <br><br> <!-- 空行 -->
             <br>------------------------------------------
-            <br><br> <!-- 空行 -->
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
             `;
