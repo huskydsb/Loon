@@ -74,20 +74,16 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             }
 
             // 控制台输出查询结果
-            const result = 
-            `IP欺诈评分查询结果：
-                节点名称：${nodeName}
-                IP地址：${ipValue}
-                IP欺诈分数：${score}
-                IP风险等级：${risk}
-                IP城市：${city}
-                IP国家：${country}
-                ISP：${isp}
-                ORG：${org}
-                AS：${as}`.trim();
-            
-            console.log(result);
-            
+            console.log("IP欺诈评分查询结果 ：");
+            console.log(`节点名称：${nodeName}`);
+            console.log(`IP地址：${ipValue}`);
+            console.log(`IP欺诈分数：${score}`);
+            console.log(`IP风险等级：${risk}`);
+            console.log(`IP城市：${city}`);
+            console.log(`IP国家：${country}`);
+            console.log(`ISP：${isp}`);
+            console.log(`ORG：${org}`);
+            console.log(`AS：${as}`);
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
