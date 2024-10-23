@@ -4,11 +4,11 @@ var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
 // 第一步：获取外部 IP 地址信息
 var ipApiParams = {
-    "url": "http://ip-api.com/json/",
-    "node": nodeName
+    url: "http://ip-api.com/json/",
+    node: nodeName,
 };
 
-$httpClient.get(ipApiParams, function(error, response, data) {
+$httpClient.get(ipApiParams, function (error, response, data) {
     if (error) {
         console.error("Error fetching IP info:", error);
         $done(); // 结束请求
@@ -35,12 +35,12 @@ $httpClient.get(ipApiParams, function(error, response, data) {
 
         // 请求参数
         var requestParams = {
-            "url": `https://scamalytics.com/search?ip=${ipValue}`,
-            "node": nodeName
+            url: `https://scamalytics.com/search?ip=${ipValue}`,
+            node: nodeName,
         };
 
         // 第二步：使用获取到的 IP 进行请求
-        $httpClient.get(requestParams, function(error, response, data) {
+        $httpClient.get(requestParams, function (error, response, data) {
             if (error) {
                 console.error("Error fetching the IP details:", error);
                 $done(); // 结束请求
@@ -74,35 +74,38 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             }
 
             // 控制台输出查询结果
-            console.log("查询结果 ：");
-            console.log(`节点名称：${nodeName}`);
-            console.log(`IP地址：${ipValue}`);
-            console.log(`IP欺诈分数：${score}`);
-            console.log(`IP风险等级：${risk}`);
-            console.log(`IP城市：${city}`);
-            console.log(`IP国家：${country}`);
-            console.log(`ISP：${isp}`);
-            console.log(`ORG：${org}`);
-            console.log(`AS：${as}`);
+            const ipFraudResult = {
+                "节点名称": nodeName,
+                "IP地址": ipValue,
+                "IP欺诈分数": score,
+                "IP风险等级": risk,
+                "IP城市": city,
+                "IP国家": country,
+                "ISP": isp,
+                "ORG": org,
+                "AS": as
+            };
+
+            console.log("IP欺诈评分查询结果：", JSON.stringify(ipFraudResult, null, 2));
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
             var riskDescription;
-            if (risk === 'very high') {
-                riskemoji = '🔴'; // 代表非常高风险
-                riskDescription = '非常高风险';
-            } else if (risk === 'high') {
-                riskemoji = '🟠'; // 代表高风险
-                riskDescription = '高风险';
-            } else if (risk === 'medium') {
-                riskemoji = '🟡'; // 代表中等风险
-                riskDescription = '中等风险';
-            } else if (risk === 'low') {
-                riskemoji = '🟢'; // 代表低风险
-                riskDescription = '低风险';
+            if (risk === "very high") {
+                riskemoji = "🔴"; // 代表非常高风险
+                riskDescription = "非常高风险";
+            } else if (risk === "high") {
+                riskemoji = "🟠"; // 代表高风险
+                riskDescription = "高风险";
+            } else if (risk === "medium") {
+                riskemoji = "🟡"; // 代表中等风险
+                riskDescription = "中等风险";
+            } else if (risk === "low") {
+                riskemoji = "🟢"; // 代表低风险
+                riskDescription = "低风险";
             } else {
-                riskemoji = '⚪'; // 未知风险
-                riskDescription = '未知风险';
+                riskemoji = "⚪"; // 未知风险
+                riskDescription = "未知风险";
             }
 
             // 组织最终结果
@@ -114,7 +117,7 @@ $httpClient.get(ipApiParams, function(error, response, data) {
                 country: country,
                 isp: isp,
                 org: org,
-                as: as
+                as: as,
             };
 
             // 创建结果 HTML
@@ -140,11 +143,10 @@ $httpClient.get(ipApiParams, function(error, response, data) {
             </div>
             `;
 
-
             // 调用 $done 结束请求并返回结果
             $done({
-                "title": "IP欺诈评分查询",
-                "htmlMessage": resultHtml
+                title: "IP欺诈评分查询",
+                htmlMessage: resultHtml,
             });
         });
     } else {
