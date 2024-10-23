@@ -74,20 +74,17 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             }
 
             // 控制台输出查询结果
-            const ipFraudResult = {
-                "节点名称": nodeName,
-                "IP地址": ipValue,
-                "IP欺诈分数": score,
-                "IP风险等级": risk,
-                "IP城市": city,
-                "IP国家": country,
-                "ISP": isp,
-                "ORG": org,
-                "AS": as
-            };
-
-            console.log("IP欺诈评分查询结果：", JSON.stringify(ipFraudResult, null, 2));
-
+            console.log(`IP欺诈评分查询结果：
+                节点名称：${nodeName}
+                IP地址：${ipValue}
+                IP欺诈分数：${score}
+                IP风险等级：${risk}
+                IP城市：${city}
+                IP国家：${country}
+                ISP：${isp}
+                ORG：${org}
+                AS：${as}`);
+                
             // 确定风险等级的 emoji 和描述
             var riskemoji;
             var riskDescription;
