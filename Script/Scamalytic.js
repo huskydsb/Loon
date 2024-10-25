@@ -83,7 +83,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             console.log(`IP国家：${country}`);
             console.log(`ISP：${isp}`);
             console.log(`ORG：${org}`);
-            console.log(`AS：${as}`);
+            console.log(`ASN：${as}`);
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
