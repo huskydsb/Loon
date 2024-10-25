@@ -74,7 +74,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             }
 
             // 控制台输出查询结果
-            console.log("IP欺诈评分查询结果 ：");
+            console.log("IP欺诈评分查询结果：");
             console.log(`节点名称：${nodeName}`);
             console.log(`IP地址：${ipValue}`);
             console.log(`IP城市：${city}`);
