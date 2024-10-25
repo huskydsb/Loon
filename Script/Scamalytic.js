@@ -138,7 +138,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
 
             // 调用 $done 结束请求并返回结果
             $done({
-                title: "IP欺诈评分查询",
+                title: "Scamalytics IP欺诈评分查询",
                 htmlMessage: resultHtml,
             });
         });
