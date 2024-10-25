@@ -4,7 +4,7 @@ var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
 // 第一步：获取外部 IP 地址信息
 var ipApiParams = {
-    url: "http://ip-api.com/json/",
+    url: "https://api.ipapi.is/?q=",
     node: nodeName,
 };
 
@@ -25,13 +25,13 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         return;
     }
 
-    if (ipInfo.status === "success") {
-        let ipValue = ipInfo.query; // 获取查询的 IP 地址
-        let city = ipInfo.city || "N/A";
-        let country = ipInfo.country || "N/A";
-        let isp = ipInfo.isp || "N/A";
-        let org = ipInfo.org || "N/A";
-        let as = ipInfo.as || "N/A";
+    if (ipInfo) {
+        let ipValue = ipInfo.ip || "N/A"; // 获取查询的 IP 地址
+        let city = ipInfo.location.city || "N/A";
+        let country = ipInfo.location.country || "N/A";
+        let isp = ipInfo.company.name || "N/A";
+        let org = ipInfo.asn.org || "N/A";
+        let asn = ipInfo.asn.asn || "N/A";
 
         // 请求参数
         var requestParams = {
@@ -83,7 +83,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             console.log(`IP国家：${country}`);
             console.log(`ISP：${isp}`);
             console.log(`ORG：${org}`);
-            console.log(`AS：${as}`);
+            console.log(`ASN：${asn}`);
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
@@ -114,7 +114,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 country: country,
                 isp: isp,
                 org: org,
-                as: as,
+                asn: asn,
             };
 
             // 创建结果 HTML
@@ -130,7 +130,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             <br><br> <!-- 空行 -->
             <br><b>ISP：</b>${scamInfo.isp}
             <br><b>Org：</b>${scamInfo.org}
-            <br><b>ASN：</b>${scamInfo.as}
+            <br><b>ASN：</b>${scamInfo.asn}
             <br>------------------------------------------
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
