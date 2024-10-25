@@ -4,7 +4,7 @@ var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
 // 第一步：获取外部 IP 地址信息
 var ipApiParams = {
-    url: "https://api.ipapi.is/?q=",
+    url: "http://ip-api.com/json/",
     node: nodeName,
 };
 
@@ -25,13 +25,13 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         return;
     }
 
-    if (ipInfo) {
-        let ipValue = ipInfo.ip || "N/A"; // 获取查询的 IP 地址
-        let city = ipInfo.location.city || "N/A";
-        let country = ipInfo.location.country || "N/A";
-        let isp = ipInfo.company.name || "N/A";
-        let org = ipInfo.asn.org || "N/A";
-        let asn = ipInfo.asn.asn || "N/A";
+    if (ipInfo.status === "success") {
+        let ipValue = ipInfo.query; // 获取查询的 IP 地址
+        let city = ipInfo.city || "N/A";
+        let country = ipInfo.country || "N/A";
+        let isp = ipInfo.isp || "N/A";
+        let org = ipInfo.org || "N/A";
+        let as = ipInfo.as || "N/A";
 
         // 请求参数
         var requestParams = {
@@ -74,16 +74,16 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             }
 
             // 控制台输出查询结果
-            console.log("IP欺诈评分查询结果：");
+            console.log("IP欺诈评分查询结果 ：");
             console.log(`节点名称：${nodeName}`);
             console.log(`IP地址：${ipValue}`);
-            console.log(`IP城市：${city}`);
-            console.log(`IP国家：${country}`);
             console.log(`IP欺诈分数：${score}`);
             console.log(`IP风险等级：${risk}`);
+            console.log(`IP城市：${city}`);
+            console.log(`IP国家：${country}`);
             console.log(`ISP：${isp}`);
             console.log(`ORG：${org}`);
-            console.log(`ASN：${asn}`);
+            console.log(`AS：${as}`);
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
@@ -114,7 +114,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 country: country,
                 isp: isp,
                 org: org,
-                asn: asn,
+                as: as,
             };
 
             // 创建结果 HTML
@@ -130,7 +130,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             <br><br> <!-- 空行 -->
             <br><b>ISP：</b>${scamInfo.isp}
             <br><b>Org：</b>${scamInfo.org}
-            <br><b>ASN：</b>${scamInfo.asn}
+            <br><b>ASN：</b>${scamInfo.as}
             <br>------------------------------------------
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
@@ -138,7 +138,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
 
             // 调用 $done 结束请求并返回结果
             $done({
-                title: "Scamalytics IP欺诈评分查询",
+                title: "IP欺诈评分查询",
                 htmlMessage: resultHtml,
             });
         });
