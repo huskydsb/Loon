@@ -22,4 +22,4 @@ http-request ^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ scrip
 cron {cron-wps-signin} script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/wps.js, timeout=120, enabled=false, tag=WPS_PC签到, img-url=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/task/wps.png
 
 [MitM]
-hostname = vip.wps.cn, account.wps.cn
+hostname = *.wps.cn
