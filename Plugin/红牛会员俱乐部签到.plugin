@@ -1,0 +1,25 @@
+#!name = 红牛会员俱乐部
+#!desc = 自动获取红牛会员俱乐部的 Token 并定时签到，需开启 HTTPS 解密。
+#!openUrl = 
+#!tag = 签到脚本
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.4(787)
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/redbull.png
+#!date = 2024-12-31 12:00
+
+[Argument]
+# 控制是否启用获取 Token 脚本
+enable-redbull-token = switch, true, false, tag = 获取Token开关, desc = 是否启用获取 Token 功能
+# 设置自动签到的定时任务
+cron-redbull-signin = input, "0 8 * * *", tag = 自动签到任务, desc = 定时任务表达式（例如每天早上 8 点）
+
+[Script]
+# 获取 Token 脚本
+http-response ^https:\/\/xiaodian\.miyatech\.com\/api\/user\/login\/wx-jc script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RedBull/RedBull.js, requires-body=true, enable={enable-redbull-token}, timeout=10, tag=红牛会员俱乐部_获取Token
+
+# 自动签到脚本
+cron {cron-redbull-signin} script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RedBull/RedBull.js, tag=红牛会员俱乐部_自动签到
+
+[MitM]
+hostname = xiaodian.miyatech.com
