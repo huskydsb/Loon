@@ -9,18 +9,18 @@
 #!date = 2024-12-31 12:00
 
 [Argument]
-# 控制是否启用百度贴吧签到脚本
-enable-tieba-signin = switch, true, false, tag = 启用签到脚本, desc = 是否启用百度贴吧签到脚本
+# 控制是否启用百度贴吧获取Cookie脚本
+enable-tieba-cookie = switch, true, false, tag = 启用获取Cookie, desc = 是否启用百度贴吧获取Cookie脚本
 # 设置签到的定时任务
 cron-tieba-signin = input, "0 10 * * *", tag = 自动签到任务, desc = 定时任务表达式（例如每天10:00执行）
 
 [Script]
+# 获取百度贴吧 Cookie 的请求，触发获取 Cookie 脚本
+http-request ^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, tag=贴吧_获取Cookie1, enable={enable-tieba-cookie}, timeout=60, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
 
-http-request ^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, timeout=60, tag=tieba_signin, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
+http-request ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, tag=贴吧_新版Cookie2, enable={enable-tieba-cookie}, timeout=60, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
 
-http-request ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, timeout=60, tag=tieba_signin, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
-
-http-request ^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, timeout=60, tag=tieba_signin, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
+http-request ^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, tag=贴吧_新版Cookie3, enable={enable-tieba-cookie}, timeout=60, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
 
 # 百度贴吧签到脚本，定时每天10:00执行
 cron {cron-tieba-signin} script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js, timeout=60, tag=tieba_signin, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
