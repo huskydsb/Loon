@@ -1,0 +1,25 @@
+#!name = ZIPPO 会员中心签到任务
+#!desc = 自动签到 ZIPPO 会员中心并获取授权，签到任务默认在每天上午 10:00 执行。需要启用获取 Cookie 脚本。
+#!openUrl = 
+#!tag = 签到脚本
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.4(787)
+#!icon = https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+#!date = 2024-12-31 12:00
+
+[Argument]
+# 控制是否启用获取ZIPPO授权Cookie的脚本
+enable-zippo-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取ZIPPO授权Cookie功能
+# 设置签到的定时任务
+cron-zippo-signin = input, "0 10 * * *", tag = 自动签到任务, desc = 定时任务表达式（例如每天10:00执行）
+
+[Script]
+# 获取 ZIPPO 会员中心授权
+http-request ^https?:\/\/wx-center\.zippo\.com\.cn\/api\/users\/profile script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, requires-body=true, enable={enable-zippo-cookie}, timeout=120, tag=𝐙𝐈𝐏𝐏𝐎会员中心获取Authorization, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+
+# ZIPPO 会员中心签到任务
+cron {cron-zippo-signin} script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, timeout=10, enabled=false, tag=𝐙𝐈𝐏𝐏𝐎会员中心签到, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+
+[MitM]
+hostname = wx-center.zippo.com.cn
