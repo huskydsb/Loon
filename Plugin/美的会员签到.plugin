@@ -1,4 +1,4 @@
-#!name = 美的会员签到
+#!name = 美的会员签到任务
 #!desc = 获取美的会员 Cookie 并定时签到，需开启 HTTPS 解密。
 #!openUrl = 
 #!tag = 签到脚本
