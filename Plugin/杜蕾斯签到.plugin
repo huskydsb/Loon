@@ -1,0 +1,25 @@
+#!name = 杜蕾斯签到任务
+#!desc = 自动签到杜蕾斯会员中心并获取token，签到任务默认在上午9:30执行。需要启用获取 Cookie 脚本。
+#!openUrl = 
+#!tag = 签到脚本
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.4(787)
+#!icon = https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/Durex.png
+#!date = 2024-12-31 12:00
+
+[Argument]
+# 控制是否启用获取 Cookie 的脚本
+enable-durex-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取杜蕾斯会员 Cookie 功能
+# 设置签到的定时任务
+cron-durex-signin = input, "30 9 * * *", tag = 自动签到任务, desc = 定时任务表达式（例如每天9:30执行）
+
+[Script]
+# 获取 Cookie 脚本
+http-request ^https:\/\/vip\.ixiliu\.cn\/mp\/user\/info$ script-path=https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/dls.js, requires-body=true, enable={enable-durex-cookie}, tag=杜蕾斯获取token, img-url=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/Durex.png
+
+# 杜蕾斯会员中心签到
+cron {cron-durex-signin} script-path=https://raw.githubusercontent.com/czy13724/Quantumult-X/main/scripts/dls.js, timeout=120, tag=杜蕾斯会员中心签到, img-url=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/icon/Durex.png
+
+[MitM]
+hostname = vip.ixiliu.cn
