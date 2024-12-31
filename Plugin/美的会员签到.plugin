@@ -5,7 +5,7 @@
 #!system = 
 #!system_version = 
 #!loon_version = 3.2.4(787)
-#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/midea.png
+#!icon = https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
 #!date = 2024-12-31 12:00
 
 [Argument]
@@ -16,10 +16,10 @@ cron-midea-signin = input, "9 9 * * *", tag = 自动签到任务, desc = 定时�
 
 [Script]
 # 获取 Cookie 脚本
-http-request ^https:\/\/mvip\.midea\.cn\/next\/mucuserinfo\/getmucuserinfo script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, requires-body=true, enable={enable-midea-cookie}, timeout=10, tag=美的会员获取Cookie
+http-request ^https:\/\/mvip\.midea\.cn\/next\/mucuserinfo\/getmucuserinfo script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, requires-body=true, enable={enable-midea-cookie}, timeout=10, tag=美的会员获取Cookie, icon=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
 
 # 自动签到脚本
-cron {cron-midea-signin} script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, timeout=300, tag=美的会员签到
+cron {cron-midea-signin} script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, timeout=300, tag=美的会员签到, icon=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
 
 [MitM]
 hostname = mvip.midea.cn
