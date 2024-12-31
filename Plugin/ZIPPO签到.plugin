@@ -19,7 +19,7 @@ cron-zippo-signin = input, "0 10 * * *", tag = 自动签到任务, desc = 定时
 http-request ^https?:\/\/wx-center\.zippo\.com\.cn\/api\/users\/profile script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, requires-body=true, enable={enable-zippo-cookie}, timeout=120, tag=𝐙𝐈𝐏𝐏𝐎会员中心获取Authorization, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
 
 # ZIPPO 会员中心签到任务
-cron {cron-zippo-signin} script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, timeout=10, enabled=false, tag=𝐙𝐈𝐏𝐏𝐎会员中心签到, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+cron {cron-zippo-signin} script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, timeout=10, tag=𝐙𝐈𝐏𝐏𝐎会员中心签到, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
 
 [MitM]
 hostname = wx-center.zippo.com.cn
