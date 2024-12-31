@@ -1,4 +1,4 @@
-#!name = 蜜雪冰城签到
+#!name = 蜜雪冰城签到任务
 #!desc = 自动签到蜜雪冰城并获取token，需开启 HTTPS 解密。
 #!openUrl = 
 #!tag = 签到脚本
