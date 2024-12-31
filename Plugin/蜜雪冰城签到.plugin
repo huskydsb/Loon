@@ -1,0 +1,23 @@
+#!name = 蜜雪冰城签到
+#!desc = 自动签到蜜雪冰城并获取token，需开启 HTTPS 解密。
+#!openUrl = 
+#!tag = 签到脚本
+#!system = 
+#!system_version = 
+#!loon_version = 3.2.4(787)
+#!icon = https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true
+#!date = 2024-12-31 12:00
+
+[Argument]
+# 设置签到的定时任务
+cron-mxbc-signin = input, "0 */12 * * *", tag = 自动签到任务, desc = 定时任务表达式（例如每12小时运行一次）
+
+[Script]
+# 定时签到脚本
+cron {cron-mxbc-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, timeout=60, tag=蜜雪冰城签到, img-url=https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true
+
+# 获取 token 脚本
+http-response ^https:\/\/mxsa\.mxbc\.net\/api\/v1\/customer\/info script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, requires-body=true, timeout=60, tag=蜜雪冰城获取token, img-url=https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true
+
+[MitM]
+hostname = mxsa.mxbc.net
