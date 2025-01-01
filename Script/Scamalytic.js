@@ -13,7 +13,7 @@ var ipApiParams = {
     url: "http://ip-api.com/json/",
     timeout: 5000, // 增加超时时间
     headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18.3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1", // 添加请求头，避免接口拒绝请求
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1", // 添加请求头，避免接口拒绝请求
     },
     node: nodeName,
 };
@@ -43,12 +43,21 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         let org = ipInfo.org || "N/A";
         let as = ipInfo.as || "N/A";
 
+        // 控制台输出基础信息
+        console.log("IP信息查询成功：");
+        console.log(`IP地址: ${ipValue}`);
+        console.log(`城市: ${city}`);
+        console.log(`国家: ${country}`);
+        console.log(`ISP: ${isp}`);
+        console.log(`组织: ${org}`);
+        console.log(`ASN: ${as}`);
+
         // 请求参数
         var requestParams = {
             url: `https://scamalytics.com/search?ip=${ipValue}`,
             timeout: 5000, // 增加超时时间
             headers: {
-                "User-Agent": "Mozilla/5.0", // 添加请求头
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1", // 添加请求头
             },
             node: nodeName,
         };
@@ -89,6 +98,11 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 }
             }
 
+            // 控制台输出查询结果
+            console.log("Scamalytics IP欺诈评分查询结果：");
+            console.log(`IP欺诈分数: ${score}`);
+            console.log(`IP风险等级: ${risk}`);
+
             // 确定风险等级的 emoji 和描述
             var riskemoji;
             var riskDescription;
@@ -120,6 +134,18 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                 org: org,
                 as: as,
             };
+
+            // 控制台输出完整信息
+            console.log(`
+                IP地址: ${scamInfo.ip}
+                IP城市: ${scamInfo.city}
+                IP国家: ${scamInfo.country}
+                IP欺诈分数: ${scamInfo.score}
+                IP风险等级: ${riskemoji} ${riskDescription}
+                ISP: ${scamInfo.isp}
+                组织: ${scamInfo.org}
+                ASN: ${scamInfo.as}
+            `);
 
             // 创建结果 HTML
             var resultHtml = `
