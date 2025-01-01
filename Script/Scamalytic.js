@@ -2,17 +2,22 @@
 var inputParams = $environment.params || {}; // 确保 params 存在
 var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
+// 定义通用的错误处理函数
+function handleError(message, error = null) {
+    console.error(message, error || "");
+    $done(); // 确保脚本资源释放
+}
+
 // 第一步：获取外部 IP 地址信息
 var ipApiParams = {
     url: "http://ip-api.com/json/",
+    timeout: 5000, // 增加超时时间
     node: nodeName,
 };
 
 $httpClient.get(ipApiParams, function (error, response, data) {
     if (error) {
-        console.error("Error fetching IP info:", error);
-        $done(); // 结束请求
-        return;
+        return handleError("Error fetching IP info:", error);
     }
 
     // 尝试解析 JSON 数据
@@ -20,9 +25,7 @@ $httpClient.get(ipApiParams, function (error, response, data) {
     try {
         ipInfo = JSON.parse(data);
     } catch (e) {
-        console.error("Error parsing IP info JSON:", e);
-        $done(); // 结束请求
-        return;
+        return handleError("Error parsing IP info JSON:", e);
     }
 
     if (ipInfo.status === "success") {
@@ -33,18 +36,16 @@ $httpClient.get(ipApiParams, function (error, response, data) {
         let org = ipInfo.org || "N/A";
         let as = ipInfo.as || "N/A";
 
-        // 请求参数
+        // 第二步：使用获取到的 IP 进行请求
         var requestParams = {
             url: `https://scamalytics.com/search?ip=${ipValue}`,
+            timeout: 5000, // 增加超时时间
             node: nodeName,
         };
 
-        // 第二步：使用获取到的 IP 进行请求
         $httpClient.get(requestParams, function (error, response, data) {
             if (error) {
-                console.error("Error fetching the IP details:", error);
-                $done(); // 结束请求
-                return;
+                return handleError("Error fetching the IP details:", error);
             }
 
             // 使用正则表达式提取 <pre> 标签中的内容
@@ -68,13 +69,12 @@ $httpClient.get(ipApiParams, function (error, response, data) {
                         score = parsedData.score || "N/A";
                         risk = parsedData.risk || "N/A";
                     } catch (e) {
-                        console.error("Error parsing JSON:", e);
+                        console.error("Error parsing JSON from Scamalytics:", e);
                     }
                 }
             }
 
             // 控制台输出查询结果
-            
             console.log("Scamalytics IP欺诈评分查询结果：");
 
             const logMessage = `
@@ -88,33 +88,26 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             ORG：${org}
             ASN：${as}
             `;
-            
-            // 删除每行前面的空格
-            const formattedMessage = logMessage
-                .split('\n')
-                .map(line => line.trimStart()) // 删除每行前面的空格
-                .join('\n');
-            
-            console.log(formattedMessage);
-            
+
+            console.log(logMessage.trim());
 
             // 确定风险等级的 emoji 和描述
             var riskemoji;
             var riskDescription;
             if (risk === "very high") {
-                riskemoji = "🔴"; // 代表非常高风险
+                riskemoji = "🔴";
                 riskDescription = "非常高风险";
             } else if (risk === "high") {
-                riskemoji = "🟠"; // 代表高风险
+                riskemoji = "🟠";
                 riskDescription = "高风险";
             } else if (risk === "medium") {
-                riskemoji = "🟡"; // 代表中等风险
+                riskemoji = "🟡";
                 riskDescription = "中等风险";
             } else if (risk === "low") {
-                riskemoji = "🟢"; // 代表低风险
+                riskemoji = "🟢";
                 riskDescription = "低风险";
             } else {
-                riskemoji = "⚪"; // 未知风险
+                riskemoji = "⚪";
                 riskDescription = "未知风险";
             }
 
@@ -137,10 +130,10 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
             <br><b>IP城市：</b>${scamInfo.city}
             <br><b>IP国家：</b>${scamInfo.country}
-            <br><br> <!-- 空行 -->
-            <br><b>IP欺诈分数：</b>       ${scamInfo.score}
+            <br><br>
+            <br><b>IP欺诈分数：</b>${scamInfo.score}
             <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-            <br><br> <!-- 空行 -->
+            <br><br>
             <br><b>ISP：</b>${scamInfo.isp}
             <br><b>Org：</b>${scamInfo.org}
             <br><b>ASN：</b>${scamInfo.as}
@@ -156,7 +149,6 @@ $httpClient.get(ipApiParams, function (error, response, data) {
             });
         });
     } else {
-        console.log("Failed to retrieve IP info.");
-        $done(); // 结束请求
+        handleError("Failed to retrieve IP info. Status: " + ipInfo.status);
     }
 });
