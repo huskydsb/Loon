@@ -102,15 +102,15 @@ async function fetchIpInfo() {
         };
 
         // 输出最终结果日志
-        console.log(`Scamalytics IP欺诈评分查询结果：
-        IP地址: ${scamInfo.ip}
-        IP城市: ${scamInfo.city}
-        IP国家: ${scamInfo.country}
-        IP欺诈分数: ${scamInfo.score}
-        IP风险等级: ${riskemoji} ${riskDescription}
-        ISP: ${scamInfo.isp}
-        Org: ${scamInfo.org}
-        ASN: ${scamInfo.as}`);
+console.log(`Scamalytics IP欺诈评分查询结果：
+IP地址: ${scamInfo.ip}
+IP城市: ${scamInfo.city}
+IP国家: ${scamInfo.country}
+IP欺诈分数: ${scamInfo.score}
+IP风险等级: ${riskemoji} ${riskDescription}
+ISP: ${scamInfo.isp}
+Org: ${scamInfo.org}
+ASN: ${scamInfo.as}`);
 
         // 返回 HTML 结果
         const resultHtml = `
