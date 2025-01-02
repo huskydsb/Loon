@@ -55,15 +55,6 @@ async function fetchIpInfo() {
 
         const { query: ipValue, city = "N/A", country = "N/A", isp = "N/A", org = "N/A", as = "N/A" } = ipInfo;
 
-        // IP信息查询结果日志
-        let logOutput = `IP信息查询成功：
-        IP地址: ${ipValue}
-        IP城市: ${city}
-        IP国家: ${country}
-        ISP: ${isp}
-        Org: ${org}
-        ASN: ${as}\n`;
-
         // 使用 IP 查询 Scamalytics
         const requestParams = {
             url: `https://scamalytics.com/search?ip=${ipValue}`,
@@ -89,11 +80,6 @@ async function fetchIpInfo() {
             }
         }
 
-        // Scamalytics结果日志
-        logOutput += `Scamalytics IP欺诈评分查询结果：
-        IP欺诈分数: ${score}
-        IP风险等级: ${risk}\n`;
-
         const riskMap = {
             "very high": ["🔴", "非常高风险"],
             high: ["🟠", "高风险"],
@@ -115,8 +101,8 @@ async function fetchIpInfo() {
             as: as,
         };
 
-        // 最终结果日志
-        logOutput += `最终查询结果：
+        // 输出最终结果日志
+        console.log(`Scamalytics IP欺诈评分查询结果：
         IP地址: ${scamInfo.ip}
         IP城市: ${scamInfo.city}
         IP国家: ${scamInfo.country}
@@ -124,10 +110,7 @@ async function fetchIpInfo() {
         IP风险等级: ${riskemoji} ${riskDescription}
         ISP: ${scamInfo.isp}
         Org: ${scamInfo.org}
-        ASN: ${scamInfo.as}\n`;
-
-        // 输出日志到控制台
-        console.log(logOutput);
+        ASN: ${scamInfo.as}`);
 
         // 返回 HTML 结果
         const resultHtml = `
@@ -157,7 +140,6 @@ async function fetchIpInfo() {
         handleError(e.message);
     }
 }
-
 
 // 启动查询
 fetchIpInfo();
