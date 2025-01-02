@@ -111,9 +111,6 @@ async function fetchIpInfo() {
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
         `;
-        // 将 HTML 输出到日志
-console.log("Scamalytics IP欺诈评分查询结果:");
-console.log(resultHtml);
 
         $done({
             title: "Scamalytics IP欺诈评分查询",
