@@ -55,7 +55,14 @@ async function fetchIpInfo() {
 
         const { query: ipValue, city = "N/A", country = "N/A", isp = "N/A", org = "N/A", as = "N/A" } = ipInfo;
 
-        console.log("IP信息查询成功：", ipInfo);
+        // IP信息查询结果日志
+        let logOutput = `IP信息查询成功：
+        IP地址: ${ipValue}
+        IP城市: ${city}
+        IP国家: ${country}
+        ISP: ${isp}
+        Org: ${org}
+        ASN: ${as}\n`;
 
         // 使用 IP 查询 Scamalytics
         const requestParams = {
@@ -82,7 +89,10 @@ async function fetchIpInfo() {
             }
         }
 
-        console.log("Scamalytics IP欺诈评分查询结果：", { score, risk });
+        // Scamalytics结果日志
+        logOutput += `Scamalytics IP欺诈评分查询结果：
+        IP欺诈分数: ${score}
+        IP风险等级: ${risk}\n`;
 
         const riskMap = {
             "very high": ["🔴", "非常高风险"],
@@ -93,20 +103,46 @@ async function fetchIpInfo() {
 
         const [riskemoji = "⚪", riskDescription = "未知风险"] = riskMap[risk] || [];
 
+        // 组织最终结果
+        const scamInfo = {
+            ip: ipValue,
+            score: score,
+            risk: risk,
+            city: city,
+            country: country,
+            isp: isp,
+            org: org,
+            as: as,
+        };
+
+        // 最终结果日志
+        logOutput += `最终查询结果：
+        IP地址: ${scamInfo.ip}
+        IP城市: ${scamInfo.city}
+        IP国家: ${scamInfo.country}
+        IP欺诈分数: ${scamInfo.score}
+        IP风险等级: ${riskemoji} ${riskDescription}
+        ISP: ${scamInfo.isp}
+        Org: ${scamInfo.org}
+        ASN: ${scamInfo.as}\n`;
+
+        // 输出日志到控制台
+        console.log(logOutput);
+
         // 返回 HTML 结果
         const resultHtml = `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
             <br>------------------------------------------
-            <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${ipValue}</span>
-            <br><b>IP城市：</b>${city}
-            <br><b>IP国家：</b>${country}
+            <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+            <br><b>IP城市：</b>${scamInfo.city}
+            <br><b>IP国家：</b>${scamInfo.country}
             <br><br>
-            <br><b>IP欺诈分数：</b>       ${score}
+            <br><b>IP欺诈分数：</b>       ${scamInfo.score}
             <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
             <br><br>
-            <br><b>ISP：</b>${isp}
-            <br><b>Org：</b>${org}
-            <br><b>ASN：</b>${as}
+            <br><b>ISP：</b>${scamInfo.isp}
+            <br><b>Org：</b>${scamInfo.org}
+            <br><b>ASN：</b>${scamInfo.as}
             <br>------------------------------------------
             <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
             </div>
