@@ -69,15 +69,6 @@ function fetchIpInfo() {
                 let org = ipInfo.org || "N/A";
                 let as = ipInfo.as || "N/A";
 
-                // 控制台输出基础信息
-                console.log("IP信息查询成功：");
-                console.log(`IP地址: ${ipValue}`);
-                console.log(`城市: ${city}`);
-                console.log(`国家: ${country}`);
-                console.log(`ISP: ${isp}`);
-                console.log(`组织: ${org}`);
-                console.log(`ASN: ${as}`);
-
                 // 请求参数
                 var requestParams = {
                     url: `https://scamalytics.com/search?ip=${ipValue}`,
@@ -124,8 +115,14 @@ function fetchIpInfo() {
 
                     // 控制台输出查询结果
                     console.log("Scamalytics IP欺诈评分查询结果：");
+                    console.log(`IP地址: ${ipValue}`);
+                    console.log(`城市: ${city}`);
+                    console.log(`国家: ${country}`);
                     console.log(`IP欺诈分数: ${score}`);
                     console.log(`IP风险等级: ${risk}`);
+                    console.log(`ISP: ${isp}`);
+                    console.log(`组织: ${org}`);
+                    console.log(`ASN: ${as}`);
 
                     // 确定风险等级的 emoji 和描述
                     var riskemoji;
