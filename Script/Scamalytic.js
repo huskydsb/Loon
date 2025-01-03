@@ -1,6 +1,6 @@
 // 获取环境参数
-var inputParams = $environment.params || {};
-var nodeName = inputParams.node || "N/A"; 
+var inputParams = $environment.params || {}; // 确保 params 存在
+var nodeName = inputParams.node || "N/A"; // 获取节点名称
 
 // 通用错误处理函数
 function handleError(message, error = null) {
@@ -18,128 +18,180 @@ const headers = {
     "Connection": "keep-alive"
 };
 
-// 获取外部 IP 地址信息
-async function fetchIpInfo() {
-    const ipApiParams = {
-        url: "http://ip-api.com/json/",
-        timeout: 5000,
-        headers: headers,
-    };
+// 第一步：获取外部 IP 地址信息
+var ipApiParams = {
+    url: "http://ip-api.com/json/",
+    timeout: 5000, // 增加超时时间
+    headers: headers,
+    node: nodeName,
+};
 
-    // 请求函数封装
-    async function requestWithRetry(params, retries = 3) {
-        for (let i = 0; i < retries; i++) {
+// 并行发起三个请求来提高访问速度
+function fetchIpInfo() {
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    // 封装请求以便重试
+    function attemptFetch() {
+        return new Promise((resolve, reject) => {
+            $httpClient.get(ipApiParams, function (error, response, data) {
+                if (error || !data || data.trim() === "") {
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        console.log(`获取IP信息失败，正在第${retryCount}次重试...`);
+                        resolve(attemptFetch()); // 递归调用重试
+                    } else {
+                        reject("获取IP信息失败，已重试3次。");
+                    }
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+    }
+
+    // 并行发起3次请求
+    Promise.all([attemptFetch(), attemptFetch(), attemptFetch()])
+        .then(results => {
+            const data = results[0]; // 只取第一个成功的请求结果
+            let ipInfo;
             try {
-                return await new Promise((resolve, reject) => {
-                    $httpClient.get(params, (error, response, data) => {
-                        if (error || !data || data.trim() === "") {
-                            reject(error || "空数据返回");
-                        } else {
-                            resolve(data);
+                ipInfo = JSON.parse(data);
+            } catch (e) {
+                return handleError("解析IP信息JSON时出错:", e);
+            }
+
+            if (ipInfo.status === "success") {
+                let ipValue = ipInfo.query; // 获取查询的 IP 地址
+                let city = ipInfo.city || "N/A";
+                let country = ipInfo.country || "N/A";
+                let isp = ipInfo.isp || "N/A";
+                let org = ipInfo.org || "N/A";
+                let as = ipInfo.as || "N/A";
+
+                // 控制台输出基础信息
+                console.log("IP信息查询成功：");
+                console.log(`IP地址: ${ipValue}`);
+                console.log(`城市: ${city}`);
+                console.log(`国家: ${country}`);
+                console.log(`ISP: ${isp}`);
+                console.log(`组织: ${org}`);
+                console.log(`ASN: ${as}`);
+
+                // 请求参数
+                var requestParams = {
+                    url: `https://scamalytics.com/search?ip=${ipValue}`,
+                    timeout: 5000, // 增加超时时间
+                    headers: headers,
+                    node: nodeName,
+                };
+
+                // 第二步：使用获取到的 IP 进行请求
+                $httpClient.get(requestParams, function (error, response, data) {
+                    if (error) {
+                        return handleError("获取Scamalytics IP详情时出错:", error);
+                    }
+
+                    if (!data || data.trim() === "") {
+                        return handleError("Scamalytics返回内容为空，请检查接口是否有效。");
+                    }
+
+                    // 使用正则表达式提取 <pre> 标签中的内容
+                    let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
+                    let preMatch = data.match(preRegex);
+                    let preContent = preMatch ? preMatch[1] : null;
+
+                    let score = "N/A";
+                    let risk = "N/A";
+                    if (preContent) {
+                        // 使用正则提取 JSON 字符串
+                        let jsonRegex = /({[\s\S]*?})/;
+                        let jsonMatch = preContent.match(jsonRegex);
+
+                        if (jsonMatch) {
+                            let jsonData = jsonMatch[1];
+
+                            // 尝试解析 JSON 数据
+                            try {
+                                let parsedData = JSON.parse(jsonData);
+                                score = parsedData.score || "N/A";
+                                risk = parsedData.risk || "N/A";
+                            } catch (e) {
+                                console.error("解析Scamalytics JSON时出错:", e);
+                            }
                         }
+                    }
+
+                    // 控制台输出查询结果
+                    console.log("Scamalytics IP欺诈评分查询结果：");
+                    console.log(`IP欺诈分数: ${score}`);
+                    console.log(`IP风险等级: ${risk}`);
+
+                    // 确定风险等级的 emoji 和描述
+                    var riskemoji;
+                    var riskDescription;
+                    if (risk === "very high") {
+                        riskemoji = "🔴"; // 代表非常高风险
+                        riskDescription = "非常高风险";
+                    } else if (risk === "high") {
+                        riskemoji = "🟠"; // 代表高风险
+                        riskDescription = "高风险";
+                    } else if (risk === "medium") {
+                        riskemoji = "🟡"; // 代表中等风险
+                        riskDescription = "中等风险";
+                    } else if (risk === "low") {
+                        riskemoji = "🟢"; // 代表低风险
+                        riskDescription = "低风险";
+                    } else {
+                        riskemoji = "⚪"; // 未知风险
+                        riskDescription = "未知风险";
+                    }
+
+                    // 组织最终结果
+                    let scamInfo = {
+                        ip: ipValue,
+                        score: score,
+                        risk: risk,
+                        city: city,
+                        country: country,
+                        isp: isp,
+                        org: org,
+                        as: as,
+                    };
+
+                    // 创建结果 HTML
+                    var resultHtml = `
+                    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                    <br>------------------------------------------
+                    <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
+                    <br><b>IP城市：</b>${scamInfo.city}
+                    <br><b>IP国家：</b>${scamInfo.country}
+                    <br><br> <!-- 空行 -->
+                    <br><b>IP欺诈分数：</b>       ${scamInfo.score}
+                    <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
+                    <br><br> <!-- 空行 -->
+                    <br><b>ISP：</b>${scamInfo.isp}
+                    <br><b>Org：</b>${scamInfo.org}
+                    <br><b>ASN：</b>${scamInfo.as}
+                    <br>------------------------------------------
+                    <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
+                    </div>
+                    `;
+
+                    // 调用 $done 结束请求并返回结果
+                    $done({
+                        title: "Scamalytics IP欺诈评分查询",
+                        htmlMessage: resultHtml,
                     });
                 });
-            } catch (e) {
-                console.log(`第 ${i + 1} 次请求失败，重试中...`);
+            } else {
+                return handleError("IP信息获取失败，请检查接口或网络状态。");
             }
-        }
-        throw new Error("请求失败，已达到最大重试次数");
-    }
-
-    try {
-        // 获取 IP 信息
-        const ipData = await requestWithRetry(ipApiParams);
-        const ipInfo = JSON.parse(ipData);
-
-        if (ipInfo.status !== "success") throw new Error("IP信息获取失败");
-
-        const { query: ipValue, city = "N/A", country = "N/A", isp = "N/A", org = "N/A", as = "N/A" } = ipInfo;
-
-        // 使用 IP 查询 Scamalytics
-        const requestParams = {
-            url: `https://scamalytics.com/search?ip=${ipValue}`,
-            timeout: 5000,
-            headers: headers,
-        };
-
-        const scamData = await requestWithRetry(requestParams);
-        const preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
-        const preMatch = scamData.match(preRegex);
-        const preContent = preMatch ? preMatch[1] : null;
-
-        let score = "N/A", risk = "N/A";
-
-        if (preContent) {
-            const jsonRegex = /({[\s\S]*?})/;
-            const jsonMatch = preContent.match(jsonRegex);
-
-            if (jsonMatch) {
-                const parsedData = JSON.parse(jsonMatch[1]);
-                score = parsedData.score || "N/A";
-                risk = parsedData.risk || "N/A";
-            }
-        }
-
-        const riskMap = {
-            "very high": ["🔴", "非常高风险"],
-            high: ["🟠", "高风险"],
-            medium: ["🟡", "中等风险"],
-            low: ["🟢", "低风险"],
-        };
-
-        const [riskemoji = "⚪", riskDescription = "未知风险"] = riskMap[risk] || [];
-
-        // 组织最终结果
-        const scamInfo = {
-            ip: ipValue,
-            score: score,
-            risk: risk,
-            city: city,
-            country: country,
-            isp: isp,
-            org: org,
-            as: as,
-        };
-
-        // 输出最终结果日志
-console.log(`Scamalytics IP欺诈评分查询结果：
-IP地址: ${scamInfo.ip}
-IP城市: ${scamInfo.city}
-IP国家: ${scamInfo.country}
-IP欺诈分数: ${scamInfo.score}
-IP风险等级: ${riskemoji} ${riskDescription}
-ISP: ${scamInfo.isp}
-Org: ${scamInfo.org}
-ASN: ${scamInfo.as}`);
-
-        // 返回 HTML 结果
-        const resultHtml = `
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-            <br>------------------------------------------
-            <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
-            <br><b>IP城市：</b>${scamInfo.city}
-            <br><b>IP国家：</b>${scamInfo.country}
-            <br><br>
-            <br><b>IP欺诈分数：</b>       ${scamInfo.score}
-            <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-            <br><br>
-            <br><b>ISP：</b>${scamInfo.isp}
-            <br><b>Org：</b>${scamInfo.org}
-            <br><b>ASN：</b>${scamInfo.as}
-            <br>------------------------------------------
-            <br><font color="red"><b>当前节点：</b> ➟ ${nodeName}</font>
-            </div>
-        `;
-
-        $done({
-            title: "Scamalytics IP欺诈评分查询",
-            htmlMessage: resultHtml,
+        })
+        .catch(error => {
+            return handleError(error);
         });
-
-    } catch (e) {
-        handleError(e.message);
-    }
 }
 
-// 启动查询
+// 启动IP信息查询
 fetchIpInfo();
