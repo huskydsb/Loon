@@ -88,29 +88,26 @@ function fetchIpInfo() {
                     }
 
                     // 使用正则表达式提取 <pre> 标签中的内容
-                    let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/;
+                    let preRegex = /<pre[^>]*>([\s\S]*?)<\/pre>/i;
                     let preMatch = data.match(preRegex);
                     let preContent = preMatch ? preMatch[1] : null;
 
                     let score = "N/A";
                     let risk = "N/A";
                     if (preContent) {
-                        // 使用正则提取 JSON 字符串
-                        let jsonRegex = /({[\s\S]*?})/;
-                        let jsonMatch = preContent.match(jsonRegex);
-
-                        if (jsonMatch) {
-                            let jsonData = jsonMatch[1];
-
-                            // 尝试解析 JSON 数据
-                            try {
-                                let parsedData = JSON.parse(jsonData);
-                                score = parsedData.score || "N/A";
-                                risk = parsedData.risk || "N/A";
-                            } catch (e) {
-                                console.error("解析Scamalytics JSON时出错:", e);
-                            }
+                        // 使用更健壮的正则表达式提取键值对
+                        const kvRegex = /"([^"]+)":\s*"([^"]*)"/g;
+                        const dataObj = {};
+                        let match;
+                        
+                        while ((match = kvRegex.exec(preContent)) !== null) {
+                            const key = match[1].trim().toLowerCase();
+                            const value = match[2].trim();
+                            dataObj[key] = value;
                         }
+                        
+                        score = dataObj.score || "N/A";
+                        risk = dataObj.risk || "N/A";
                     }
 
                     // 控制台输出查询结果
@@ -128,19 +125,19 @@ function fetchIpInfo() {
                     var riskemoji;
                     var riskDescription;
                     if (risk === "very high") {
-                        riskemoji = "🔴"; // 代表非常高风险
+                        riskemoji = "🔴";
                         riskDescription = "非常高风险";
                     } else if (risk === "high") {
-                        riskemoji = "🟠"; // 代表高风险
+                        riskemoji = "🟠";
                         riskDescription = "高风险";
                     } else if (risk === "medium") {
-                        riskemoji = "🟡"; // 代表中等风险
+                        riskemoji = "🟡";
                         riskDescription = "中等风险";
                     } else if (risk === "low") {
-                        riskemoji = "🟢"; // 代表低风险
+                        riskemoji = "🟢";
                         riskDescription = "低风险";
                     } else {
-                        riskemoji = "⚪"; // 未知风险
+                        riskemoji = "⚪";
                         riskDescription = "未知风险";
                     }
 
@@ -163,10 +160,10 @@ function fetchIpInfo() {
                     <span style="color: red;"><b>IP地址：</b></span><span style="color: red;">${scamInfo.ip}</span>
                     <br><b>IP城市：</b>${scamInfo.city}
                     <br><b>IP国家：</b>${scamInfo.country}
-                    <br><br> <!-- 空行 -->
+                    <br><br>
                     <br><b>IP欺诈分数：</b>       ${scamInfo.score}
                     <br><b>IP风险等级：</b>${riskemoji} ${riskDescription}
-                    <br><br> <!-- 空行 -->
+                    <br><br>
                     <br><b>ISP：</b>${scamInfo.isp}
                     <br><b>Org：</b>${scamInfo.org}
                     <br><b>ASN：</b>${scamInfo.as}
