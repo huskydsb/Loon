@@ -1,6 +1,6 @@
 #!name = ZIPPO 会员中心签到任务
 #!desc = 自动签到 ZIPPO 会员中心并获取授权，签到任务默认在每天上午 10:00 执行。需要启用获取 Cookie 脚本。
-#!openUrl = 
+#!openUrl = https://t.me/sliverkiss_blog
 #!tag = 签到脚本
 #!system = 
 #!system_version = 
