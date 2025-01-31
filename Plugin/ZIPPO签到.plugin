@@ -1,5 +1,5 @@
 #!name = ZIPPO 会员中心签到任务
-#!desc = 
+#!desc = 搜索“ZIPPO会员中心”小程序，登录后重新进入，点击“我的”，看到“数据获取成功”即可用脚本。
 #!openUrl = https://t.me/sliverkiss_blog
 #!tag = 签到脚本
 #!system = 
