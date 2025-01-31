@@ -4,7 +4,7 @@
 #!author = 插件中所有脚本的作者
 #!tag = 定时任务
 #!homepage = https://t.me/sliverkiss_blog
-#!icon = 
+#!icon = https://cdn-icons-png.flaticon.com/512/7096/7096433.png
 #!date = 2024-01-12
 
 [Argument]
