@@ -1,0 +1,19 @@
+#!name = 网上国网接口重写
+#!desc = 🔴 接管网上国网 95598 电费账单接口，重定向自定义返回内容。
+#!author = dompling
+#!version = 1.1.0
+#!date = 2025-04-15 02:20
+#!category = 通用重写
+#!icon = https://raw.githubusercontent.com/Orz-3/mini/master/Color/StateGrid.png
+#!tag = 电力,账单,95598,重写
+#!loon_version = 3.2.9(837)
+#!system_version = 
+
+[Argument]
+enable-wsgw-rewrite = switch, true, false, tag = 启用网上国网重写, desc = 控制是否启用接口拦截与内容替换功能
+
+[Script]
+网上国网账单接口重写 = type=http-request, pattern=^https?:\/\/api\.wsgw-rewrite\.com\/electricity\/bill\/all, script-path=https://raw.githubusercontent.com/dompling/Script/master/wsgw/index.js, requires-body=true, max-size=-1, timeout=60, enable={enable-wsgw-rewrite}, tag=95598账单重写, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/StateGrid.png
+
+[Mitm]
+hostname = api.wsgw-rewrite.com
