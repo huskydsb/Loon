@@ -9,12 +9,12 @@
 #!loon_version = 3.2.9(837)
 
 [Argument]
-# 是否启用账单接口拦截（建议在使用重写脚本时开启）
-enable-wsgw-bill-rewrite = switch, true, false, tag = 启用接口重写, desc = 控制是否启用网上国网账单接口拦截与替换功能
+# 控制是否启用获取 cookie 的功能
+enable-wsgw-cookie = switch, true, false, tag = 启用Cookie获取, desc = 是否启用获取网上国网 cookie 的脚本功能
 
 [Script]
-# 账单接口重写脚本（用于自定义返回账单内容）
-网上国网账单接口重写 = type=http-request, pattern=^https?:\/\/api\.wsgw-rewrite\.com\/electricity\/bill\/all, script-path=https://raw.githubusercontent.com/dompling/Script/master/wsgw/index.js, requires-body=true, max-size=-1, timeout=60, enable={enable-wsgw-bill-rewrite}, tag=95598账单重写, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/StateGrid.png
+# 拦截接口获取 cookie，保存到本地
+网上国网获取 coookie = type=http-request, pattern=^https?:\/\/api\.wsgw-rewrite\.com\/electricity\/bill\/all, script-path=https://raw.githubusercontent.com/dompling/Script/master/wsgw/index.js, requires-body=true, timeout=60, enable={enable-wsgw-cookie}, tag=网上国网获取cookie, img-url=https://pp.myapp.com/ma_icon/0/icon_52797616_1731556991/256
 
 [Mitm]
 hostname = api.wsgw-rewrite.com
