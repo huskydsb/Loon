@@ -1,0 +1,15 @@
+#!name = Emby 解锁
+#!desc = 解锁 Emby 验证服务，绕过设备验证。
+#!icon = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png
+#!openUrl = 
+#!version = 1.0.0
+#!date = 2025-04-15 01:00
+#!tag = 解锁,Emby
+#!system_version = 
+#!loon_version = 3.2.9(837)
+
+[Script]
+http-request ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/UnlockEmby.js, requires-body=true, timeout=60, tag=embyUnlocked, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png
+
+[Mitm]
+hostname = mb3admin.com
