@@ -9,6 +9,9 @@
 #!loon_version = 3.2.9(837)
 
 [Script]
+
+http-response ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/UnlockEmby.js, requires-body=true, timeout=60, tag=embyUnlocked, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png
+
 http-request ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/UnlockEmby.js, requires-body=true, timeout=60, tag=embyUnlocked, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png
 
 [Mitm]
