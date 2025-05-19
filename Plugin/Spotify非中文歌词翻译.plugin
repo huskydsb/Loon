@@ -1,0 +1,10 @@
+[Script]
+http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-lyric.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify歌词翻译, argument=appid=你的AppID&securityKey=你的密钥&enableTranslate=true
+
+[Mitm]
+hostname = spclient.wg.spotify.com
+
+[Argument]
+appid = input, "", tag = 百度翻译 AppID, desc = 请填写你申请的百度翻译 AppID（例如：20240512002049789）
+securityKey = input, "", tag = 百度翻译密钥, desc = 请填写你申请的百度翻译密钥（例如：l7GyyLKLwfFbopakAz9n）
+enableTranslate = switch, "true", "false", tag = 启用翻译功能, desc = 控制是否启用歌词翻译
