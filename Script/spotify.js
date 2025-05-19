@@ -74,13 +74,19 @@ if(resStatus !== 200) {
         console.log(`歌词语言为:${originLanguage}`);
         if (typeof $argument !== 'undefined') {
             //console.log($argument);
-            try {
-                const params = Object.fromEntries($argument.split('&').map(item => item.split('=')));
-                Object.assign(options, params);
-            } catch (error) {
-                commonApi.msg(notifyName, '$argument解析失败', $argument);
-            }
-        }
+          try {
+    let params = {};
+    if (typeof $argument === 'string') {
+        params = Object.fromEntries(
+            $argument.split('&').filter(Boolean).map(item => item.split('='))
+        );
+    } else if (typeof $argument === 'object' && $argument !== null) {
+        params = $argument;
+    }
+    Object.assign(options, params);
+} catch (error) {
+    commonApi.msg(notifyName, '$argument解析失败', JSON.stringify($argument, null, 2));
+}
         const {appid, securityKey} = options;
         //console.log(`appid:${appid},securityKey:${securityKey}`);
 
