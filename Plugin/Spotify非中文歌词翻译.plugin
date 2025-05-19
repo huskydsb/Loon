@@ -1,6 +1,19 @@
+#!name=Spotify 歌词翻译插件
+#!desc=使用百度翻译 API 实现 Spotify 歌词实时翻译\n需配置 appid 和密钥参数（Argument）\n支持歌词语言识别与翻译提示
+#!icon=https://raw.githubusercontent.com/huskydsb/Loon/main/Icon/spotify.png
+#!openUrl=https://github.com/huskydsb/Loon/tree/main/Script
+#!tag=歌词翻译, Spotify, 百度翻译
+#!system=iOS
+#!system_version=15
+#!loon_version=3.2.1(372)
+#!date=2025-05-19 18:30:00
+
 [Script]
-http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/spotify.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify歌词翻译, argument=appid=你的AppID&securityKey=你的密钥
+http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/spotify.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify歌词翻译, argument=appid=你的AppID&securityKey=你的密钥
 
 [Argument]
-appid = input, "", tag = 百度翻译 AppID, desc = 从百度翻译开放平台获取你的 AppID
-securityKey = input, "", tag = 百度翻译密钥, desc = 从百度翻译开放平台获取你的密钥
+appid = input, "", tag = 百度翻译 AppID, desc = 请从百度翻译开放平台获取 AppID（https://fanyi-api.baidu.com）
+securityKey = input, "", tag = 百度翻译密钥, desc = 请从百度翻译开放平台获取对应的密钥（SecretKey）
+
+[Mitm]
+hostname =spclient.wg.spotify.com
