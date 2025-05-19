@@ -72,7 +72,7 @@ if(resStatus !== 200) {
         $done({});
     } else if ('z1' !== originLanguage) {
         console.log(`歌词语言为:${originLanguage}`);
-      if (typeof $argument !== 'undefined') {
+if (typeof $argument !== 'undefined') {
     try {
         let params = {};
         if (typeof $argument === 'string') {
@@ -84,11 +84,12 @@ if(resStatus !== 200) {
         }
         Object.assign(options, params);
     } catch (error) {
-        // 静默失败，不做任何处理
+        // 忽略解析错误
     }
 }
 
-const { appid, securityKey } = options;
+const {appid, securityKey} = options;
+
         const query = colorLyricsResponseObj.lyrics.lines
             .map(x => x.words)
             .filter(words => words && words !== '♪')
