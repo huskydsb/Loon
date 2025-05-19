@@ -72,21 +72,20 @@ if(resStatus !== 200) {
         $done({});
     } else if ('z1' !== originLanguage) {
         console.log(`歌词语言为:${originLanguage}`);
-        if (typeof $argument !== 'undefined') {
-console.log(`$argument 原始值类型: ${typeof $argument}, 内容:`, $argument);
-
-try {
-    let params = {};
-    if (typeof $argument === 'string') {
-        params = Object.fromEntries(
-            $argument.split('&').filter(Boolean).map(item => item.split('='))
-        );
-    } else if (typeof $argument === 'object' && $argument !== null) {
-        params = $argument;
+      if (typeof $argument !== 'undefined') {
+    try {
+        let params = {};
+        if (typeof $argument === 'string') {
+            params = Object.fromEntries(
+                $argument.split('&').filter(Boolean).map(item => item.split('='))
+            );
+        } else if (typeof $argument === 'object' && $argument !== null) {
+            params = $argument;
+        }
+        Object.assign(options, params);
+    } catch (error) {
+        // 静默失败，不做任何处理
     }
-    Object.assign(options, params);
-} catch (error) {
-    console.log(`$argument 解析内容:`, $argument);
 }
 
 const { appid, securityKey } = options;
