@@ -1,7 +1,7 @@
 #!name=Spotify 歌词翻译插件
 #!desc=使用百度翻译 API 实现 Spotify 歌词实时翻译\n需配置 appid 和密钥参数（Argument）\n支持歌词语言识别与翻译提示
-#!icon=https://raw.githubusercontent.com/huskydsb/Loon/main/Icon/spotify.png
-#!openUrl=https://github.com/huskydsb/Loon/tree/main/Script
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png
+#!openUrl=https://apps.apple.com/us/app/spotify-%E9%9F%B3%E4%B9%90%E5%92%8C%E6%92%AD%E5%AE%A2/id324684580?l=zh-Hans-CN
 #!tag=歌词翻译, Spotify, 百度翻译
 #!system=iOS
 #!system_version=15
