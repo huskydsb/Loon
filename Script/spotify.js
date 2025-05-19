@@ -73,8 +73,9 @@ if(resStatus !== 200) {
     } else if ('z1' !== originLanguage) {
         console.log(`歌词语言为:${originLanguage}`);
         if (typeof $argument !== 'undefined') {
-            //console.log($argument);
-          try {
+console.log(`$argument 原始值类型: ${typeof $argument}, 内容:`, $argument);
+
+try {
     let params = {};
     if (typeof $argument === 'string') {
         params = Object.fromEntries(
@@ -85,11 +86,10 @@ if(resStatus !== 200) {
     }
     Object.assign(options, params);
 } catch (error) {
-    commonApi.msg(notifyName, '$argument解析失败', JSON.stringify($argument, null, 2));
+    console.log(`$argument 解析内容:`, $argument);
 }
-        const {appid, securityKey} = options;
-        //console.log(`appid:${appid},securityKey:${securityKey}`);
 
+const { appid, securityKey } = options;
         const query = colorLyricsResponseObj.lyrics.lines
             .map(x => x.words)
             .filter(words => words && words !== '♪')
