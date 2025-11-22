@@ -1,0 +1,20 @@
+#!name = 网上国网账单接口重写
+#!desc = 🔴 接管网上国网 95598 电费账单接口，配合自定义返回内容使用。
+#!openUrl = http://www.sgcc.com.cn/
+#!author = dompling[https://github.com/dompling]
+#!icon = https://pp.myapp.com/ma_icon/0/icon_52797616_1731556991/256.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.9(837)
+#!tag = 电力,账单,95598
+
+[Argument]
+# 启用网上国网 Cookie 抓取功能
+enable-wsgw-cookie = switch, true, false, tag = 启用Cookie获取, desc = 是否启用获取网上国网 cookie 的脚本功能
+
+[Script]
+# 获取网上国网 Cookie（远程脚本）
+http-request ^https?:\/\/api\.wsgw-rewrite\.com\/electricity\/bill\/all script-path=https://raw.githubusercontent.com/dompling/Script/master/wsgw/index.js, requires-body=true, timeout=60, enable={enable-wsgw-cookie}, tag=网上国网获取cookie, img-url=https://pp.myapp.com/ma_icon/0/icon_52797616_1731556991/256
+
+[Mitm]
+hostname = api.wsgw-rewrite.com

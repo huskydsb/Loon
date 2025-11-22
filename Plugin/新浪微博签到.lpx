@@ -1,0 +1,31 @@
+#!name = 新浪微博签到任务
+#!desc = 自动签到微博并获取 Cookie，支持定时签到与请求拦截。
+#!openUrl = https://weibo.com
+#!author = fmz200[https://github.com/fmz200]
+#!icon = https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取Cookie 的脚本
+enable-weibotalk-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取微博超话 Cookie 功能
+
+# 设置签到的定时任务
+cron-weibotalk-signin = input, "5 0 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天0:05执行）
+
+# 签到任务启用开关
+Task-weibotalk = switch, true, false, tag = 签到任务开关, desc = 定时运行[微博超话]签到任务
+
+[Script]
+
+# 获取新浪微博 Cookie 脚本（拦截请求头以保存 Cookie）
+http-request ^https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=false, enable={enable-weibotalk-cookie}, timeout=60, tag=新浪微博cookie获取, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png
+
+# 新浪微博定时签到脚本（主任务）
+cron {cron-weibotalk-signin} script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/weibo/weibo_signin.js, timeout=120, tag=新浪微博签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png, enabled={Task-weibotalk}
+
+[MitM]
+hostname = api.weibo.cn, weibo.com, weibo.cn

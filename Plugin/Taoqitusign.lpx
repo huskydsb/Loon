@@ -1,0 +1,29 @@
+#!name = 淘气兔签到任务
+#!desc = 自动获取 Cookie 并在每天晚上 22:00 执行签到
+#!openUrl = https://vip.taoqitu.pro/
+#!author = huskydsb[https://github.com/huskydsb]
+#!icon = https://vip.taoqitu.pro/img/logo.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+# 启用淘气兔 Cookie 获取脚本
+enable-taoqitu-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用淘气兔 Cookie 抓取功能
+
+# 启用淘气兔签到任务脚本
+enable-taoqitu-signin = switch, true, false, tag = 签到任务开关, desc = 是否启用淘气兔签到功能
+
+# 设置淘气兔签到任务的执行时间
+cron-taoqitu-signin = input, "0 22 * * *", tag = 签到任务时间, desc = 定时任务表达式（默认每天22:00）
+
+[Script]
+# 获取淘气兔 Cookie（远程脚本）
+http-request ^https:\/\/api-cdn\.taoqitu\.me\/gateway\/tqt\/cn\/user\/comm\/config$ script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/taoqitugetcookie.js, timeout=60, enable={enable-taoqitu-cookie}, tag=淘气兔获取cookie, img-url=https://cdn-icons-png.flaticon.com/512/9361/9361991.png
+
+# 淘气兔签到任务（远程脚本）
+cron {cron-taoqitu-signin} script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/taoqitusign.js, timeout=60, enable={enable-taoqitu-signin}, tag=淘气兔签到定时任务, img-url=https://cdn-icons-png.flaticon.com/512/9361/9361991.png
+
+[MitM]
+hostname = api-cdn.taoqitu.me

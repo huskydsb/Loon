@@ -1,0 +1,31 @@
+#!name = 晓晓优选签到任务
+#!desc = 晓晓优选（晓晓霸王餐）签到任务。打开小程序，点击“我的”进入页面以获取 CK，获取后请尽量不要频繁打开小程序以免 CK 失效。
+#!openUrl = https://xiaoxiaoyouxuan.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/xxyx.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取 CK 的脚本
+enable-xxyx-token = switch, true, false, tag = 获取Token开关, desc = 是否启用拦截并保存 晓晓优选 CK/参数
+
+# 设置签到的定时任务
+cron-xxyx-signin = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:00执行）
+
+# 签到任务启用开关
+Task-xxyx = switch, true, false, tag = 签到任务开关, desc = 定时运行[晓晓优选]签到任务
+
+[Script]
+
+# 获取晓晓优选 CK（拦截页面响应以保存参数）
+http-response ^https:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/my script-path=https://gist.githubusercontent.com/Sliverkiss/991a81be1fc8cf2a1937432be68f5521/raw/xxyx.js, requires-body=true, enable={enable-xxyx-token}, timeout=60, tag=晓晓点单获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/xxyx.png
+
+# 定时签到脚本（主任务）
+cron {cron-xxyx-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/991a81be1fc8cf2a1937432be68f5521/raw/xxyx.js, timeout=120, tag=晓晓霸王餐, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/xxyx.png, enabled={Task-xxyx}
+
+[MitM]
+hostname = xxyx-client-api.xiaoxiaoyouxuan.com

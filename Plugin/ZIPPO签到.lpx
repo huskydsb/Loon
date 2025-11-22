@@ -1,0 +1,31 @@
+#!name = ZIPPO 会员中心签到任务
+#!desc = 搜索"ZIPPO会员中心"小程序，登录后重新进入，点击"我的"，看到"数据获取成功"即可用脚本。
+#!openUrl = https://www.zippo.com.cn/
+#!author = Yuheng0101[https://github.com/Yuheng0101]
+#!icon = https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到任务
+
+[Argument]
+
+# 控制是否启用获取ZIPPO授权Cookie的脚本
+enable-zippo-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取ZIPPO授权Cookie功能
+
+# 设置签到的定时任务
+cron-zippo-signin = input, "0 10 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天10:00执行）
+
+# 签到任务启用开关
+Task-zippo = switch, true, false, tag = 签到任务开关, desc = 定时运行[ZIPPO会员中心]签到任务
+
+[Script]
+
+# 获取 ZIPPO 会员中心授权
+http-request ^https?:\/\/wx-center\.zippo\.com\.cn\/api\/users\/profile script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, requires-body=true, enable={enable-zippo-cookie}, timeout=120, tag=𝐙𝐈𝐏𝐏𝐎会员中心获取Authorization, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg
+
+# ZIPPO 会员中心签到任务
+cron {cron-zippo-signin} script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/zippo.js, timeout=10, tag=𝐙𝐈𝐏𝐏𝐎会员中心签到, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Assets/zippo.jpg, enabled={Task-zippo}
+
+[MitM]
+hostname = wx-center.zippo.com.cn

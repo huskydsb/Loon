@@ -1,0 +1,19 @@
+#!name = Spotify 歌词翻译插件
+#!desc = 使用百度翻译 API 实现 Spotify 歌词实时翻译,支持歌词语言识别与翻译提示
+#!openUrl = https://www.spotify.com
+#!author = huskydsb[https://github.com/huskydsb]
+#!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 歌词翻译, Spotify, 百度翻译
+
+[Script]
+http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/spotify.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify歌词翻译, argument=[{appid},{securityKey}]
+
+[Argument]
+appid = input, "", tag = 百度翻译appid, desc = 请在百度翻译开放平台创建应用后获取
+securityKey = input, "", tag = 百度翻译密钥, desc = 与 AppID 配套的密钥，用于签名请求
+
+[Mitm]
+hostname =spclient.wg.spotify.com

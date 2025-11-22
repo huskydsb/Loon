@@ -1,0 +1,31 @@
+#!name = 日清食品体验馆签到任务
+#!desc = 自动获取日清食品体验馆参数并执行签到（若脚本支持）。配置后访问相应页面触发拦截以获取 token/参数。
+#!openUrl = https://www.cupnoodles-museum.jp/zh-cn/yokohama/about/
+#!author = xzxxn777[https://github.com/xzxxn777]
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/rqsp.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取日清 token 的脚本
+enable-rqsp-token = switch, true, false, tag = 获取Token开关, desc = 是否启用拦截并保存日清参数/CK
+
+# 设置签到的定时任务（默认每天 08:00 执行）
+cron-rqsp = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天08:00执行）
+
+# 签到任务启用开关
+Task-rqsp = switch, true, false, tag = 签到任务开关, desc = 定时运行[日清食品体验馆]签到任务
+
+[Script]
+
+# 获取日清 token（拦截响应以保存参数）
+http-response ^https:\/\/prod-api\.nissinfoodium\.com\.cn\/gw-shop\/app\/v1\/user\/detail script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RQSP/RQSP.js, requires-body=1, max-size=0, enable={enable-rqsp-token}, timeout=60, tag=日清食品体验馆_获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/rqsp.png
+
+# 定时签到脚本（主任务）
+cron {cron-rqsp} script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RQSP/RQSP.js, timeout=3600, tag=日清食品体验馆, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/rqsp.png, enabled={Task-rqsp}
+
+[MitM]
+hostname = prod-api.nissinfoodium.com.cn

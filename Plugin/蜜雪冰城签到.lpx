@@ -1,0 +1,31 @@
+#!name = 蜜雪冰城签到任务
+#!desc = 自动签到蜜雪冰城并获取token，需开启 HTTPS 解密。
+#!openUrl = 
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取 Token 的脚本
+enable-mxbc-token = switch, true, false, tag = 获取Token开关, desc = 是否启用获取蜜雪冰城 Token 功能
+
+# 设置签到的定时任务
+cron-mxbc-signin = input, "0 */12 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每12小时运行一次）
+
+# 签到任务启用开关
+Task-mxbc = switch, true, false, tag = 签到任务开关, desc = 定时运行[蜜雪冰城]签到任务
+
+[Script]
+
+# 定时签到脚本
+cron {cron-mxbc-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, timeout=60, tag=蜜雪冰城签到, img-url=https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true, enabled={Task-mxbc}
+
+# 获取 token 脚本
+http-response ^https:\/\/mxsa\.mxbc\.net\/api\/v1\/customer\/info script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, requires-body=true, timeout=60, tag=蜜雪冰城获取token, img-url=https://github.com/huskydsb/Loon/blob/main/icon/IMG_0167.jpeg?raw=true, enable={enable-mxbc-token}
+
+[MitM]
+hostname = mxsa.mxbc.net

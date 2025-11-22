@@ -1,0 +1,31 @@
+#!name = 麦斯威尔福利社签到任务
+#!desc = 自动获取麦斯威尔福利社参数并执行签到（若脚本支持）。配置后访问对应页面触发拦截以获取 token/参数。
+#!openUrl = https://themaxwell.house
+#!author = xzxxn777[https://github.com/xzxxn777]
+#!icon = https://raw.githubusercontent.com/Xhy333/QuantumultX/main/icon/Mswer.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取麦斯威尔 token 的脚本
+enable-mswefls-token = switch, true, false, tag = 获取Token开关, desc = 是否启用拦截并保存麦斯威尔参数/CK
+
+# 设置签到的定时任务（示例默认每天 11:11 和 18:11 执行）
+cron-mswefls = input, "11 11,18 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天 11:11 与 18:11 执行）
+
+# 签到任务启用开关
+Task-mswefls = switch, true, false, tag = 签到任务开关, desc = 定时运行[麦斯威尔福利社]签到任务
+
+[Script]
+
+# 获取麦斯威尔 token（拦截响应以保存参数）
+http-response ^https:\/\/jde\.mtbcpt\.com\/api\/JDEMaxwellApi\/QueryHomeInfo script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/MSWEFLS/MSWEFLS.js, requires-body=1, max-size=0, enable={enable-mswefls-token}, timeout=60, tag=麦斯威尔福利社_获取token, img-url=https://raw.githubusercontent.com/Xhy333/QuantumultX/main/icon/Mswer.png
+
+# 定时签到脚本（主任务）
+cron {cron-mswefls} script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/MSWEFLS/MSWEFLS.js, timeout=3600, tag=麦斯威尔福利社, img-url=https://raw.githubusercontent.com/Xhy333/QuantumultX/main/icon/Mswer.png, enabled={Task-mswefls}
+
+[MitM]
+hostname = jde.mtbcpt.com

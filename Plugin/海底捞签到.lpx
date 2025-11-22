@@ -1,0 +1,35 @@
+#!name = 海底捞签到任务
+#!desc = 自动执行海底捞微信小程序签到脚本，默认每天8:00执行。
+# 使用说明：
+# 1. 登录海底捞微信小程序，抓包 superapp-public.kiwa-tech.com 域名下的 _haidilao_app_token
+# 2. 将 token 填写到 hdl_data，多账号用 @ 分割
+# 3. 可选推送：bark_key 不填则使用脚本内置/青龙推送逻辑
+#!openUrl = https://www.haidilao.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/hdl.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 获取 Cookie 的启用开关
+CookieCapture-hdl = switch, true, false, tag = 获取Cookie开关, desc = 是否启用自动抓取海底捞 token（写入持久存储）
+
+# 设置签到时间
+cron-hdl-signin = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天 08:00）
+
+# 启用开关
+Task-hdl = switch, true, false, tag = 签到任务开关, desc = 定时运行[海底捞]签到任务
+
+[Script]
+
+# 获取海底捞 Cookie 的请求，触发抓取 Cookie 脚本
+http-response ^https:\/\/superapp-public\.kiwa-tech\.com\/activity\/wxapp\/signin\/querySwitch script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/hdl_cookie.js, tag=海底捞Cookie, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/hdl.png
+
+# 海底捞签到任务，定时每天执行（时间可用变量控制）
+cron {cron-hdl-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/354e7994f9ee5cc9cc353b6aba320052/raw/hdl.js, tag=海底捞签到, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/hdl.png
+
+[MITM]
+hostname = superapp-public.kiwa-tech.com

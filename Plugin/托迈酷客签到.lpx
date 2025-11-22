@@ -1,0 +1,31 @@
+#!name = 托迈酷客签到任务
+#!desc = 活动规则：每日签到可获得积分。添加重写规则进入"复游会"小程序即可获取 Cookie。Environment variable: ThomasCook_Cookie.
+#!openUrl = https://www.thomascook.com.cn/
+#!author = FoKit[https://github.com/FoKit]
+#!icon = https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Tmkk.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 环境变量开关
+ThomasCook_Cookie = string, "", tag = 托迈酷客 Cookie, desc = 脚本使用的 Cookie，优先使用运行时抓取到的 Cookie。
+
+# 定时任务表达式（默认每天 08:00 执行）
+cron-thomascook = input, "0 8 * * *", tag = 定时任务时间, desc = 定时任务表达式（例如每天 08:00 执行）
+
+# 定时任务开关（启/停定时执行）
+Task-thomascook = switch, true, false, tag = 签到任务开关, desc = 定时运行[复游会]签到任务
+
+[Script]
+
+# 定时任务 —— 使用插件变量 cron-thomascook（默认 0 8 * * *）
+cron {cron-thomascook} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, timeout=120, tag=托迈酷客, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Tmkk.png, enabled={Task-thomascook}
+
+# 被动抓包触发：获取托迈酷客 Cookie（http-request）
+http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=false, timeout=60, tag=复游会获取Cookie, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Tmkk.png
+
+[MitM]
+hostname = apis.folidaymall.com

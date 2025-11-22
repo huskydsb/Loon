@@ -1,0 +1,34 @@
+#!name = 杜蕾斯会员中心签到任务
+#!desc = 自动签到杜蕾斯会员中心并获取 Cookie 与签名参数，支持定时签到与请求脚本拦截（需启用 HTTPS 解密）。首次使用请在 APP 或页面完成授权获取参数。
+#!openUrl = https://vip.ixiliu.cn
+#!author = axtyet/czy13724[https://github.com/axtyet]
+#!icon = https://raw.githubusercontent.com/huskydsb/icon/main/img/Durex官方APP旗艦店.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取 Cookie 的脚本
+enable-dls-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取杜蕾斯会员 Cookie 功能
+
+# 设置签到的定时任务
+cron-dls-signin = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:00执行）
+
+# 签到任务启用开关
+Task-dls = switch, true, false, tag = 签到任务开关, desc = 定时运行[杜蕾斯会员中心]签到任务
+
+[Script]
+
+# 获取 Cookie / 参数 脚本（拦截获取用户信息以保存 Cookie）
+http-request ^https:\/\/vip\.ixiliu\.cn\/mp\/user\/info$ script-path=https://raw.githubusercontent.com/axtyet/Quan-X/main/cyz_13724/scripts/dls.js, requires-body=true, enable={enable-dls-cookie}, timeout=60, tag=杜蕾斯获取Cookie, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/Durex官方APP旗艦店.png
+
+# 请求体拦截（提交签到所需的 body）
+http-request ^https:\/\/vip\.ixiliu\.cn\/mp\/sign\/applyV2$ script-path=https://raw.githubusercontent.com/axtyet/Quan-X/main/cyz_13724/scripts/dls.js, requires-body=true, enable={enable-dls-cookie}, timeout=60, tag=杜蕾斯拦截签到请求, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/Durex官方APP旗艦店.png
+
+# 定时签到脚本（主任务）
+cron {cron-dls-signin} script-path=https://raw.githubusercontent.com/axtyet/Quan-X/main/cyz_13724/scripts/dls.js, timeout=120, tag=杜蕾斯会员中心签到, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/Durex官方APP旗艦店.png, enabled={Task-dls}
+
+[MitM]
+hostname = vip.ixiliu.cn

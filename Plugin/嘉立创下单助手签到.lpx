@@ -1,0 +1,30 @@
+#!name = 嘉立创签到任务
+#!desc = 打开嘉立创下单助手我的页面自动捕获嘉立创 AccessToken 并执行每日签到任务，支持金豆和第七天奖励自动领取。
+#!openUrl = https://m.jlc.com
+#!icon = https://www.jlcgroup.cn/ssr/img/know_group_pic.a80459a.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取嘉立创 AccessToken 的脚本
+enable-jlc-token = switch, true, false, tag = 获取Token开关, desc = 是否启用通过拦截获取嘉立创 AccessToken
+
+# 设置签到的定时任务时间
+cron-jlc = input, "0 9 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天09:00执行）
+
+# 签到任务启用开关
+Task-jlc = switch, true, false, tag = 签到任务开关, desc = 定时运行[嘉立创]签到任务
+
+[Script]
+
+# 捕获 AccessToken（仅首次或更新时通知）
+http-request https:\/\/m\.jlc\.com\/api\/appPlatform\/center\/order\/setting\/list script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/jlctoken.js, requires-body=false, enable={enable-jlc-token}, timeout=60, tag=嘉立创获取Token, img-url=https://www.jlcgroup.cn/ssr/img/know_group_pic.a80459a.png
+
+# 定时签到任务
+cron {cron-jlc} script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/jlc.js, timeout=120, tag=嘉立创签到, img-url=https://www.jlcgroup.cn/ssr/img/know_group_pic.a80459a.png
+
+[MitM]
+hostname = m.jlc.com

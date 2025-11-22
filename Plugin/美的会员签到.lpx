@@ -1,0 +1,31 @@
+#!name = 美的会员签到任务
+#!desc = 获取美的会员 Cookie 并定时签到，需开启 HTTPS 解密。
+#!openUrl = https://mvip.midea.cn
+#!author = huskydsb[https://github.com/huskydsb]
+#!icon = https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到任务
+
+[Argument]
+
+# 控制是否启用获取 Cookie 的脚本
+enable-midea-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取美的会员 Cookie 功能
+
+# 设置签到的定时任务
+cron-midea-signin = input, "9 9 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天早上 9 点 9 分）
+
+# 签到任务启用开关
+Task-midea = switch, true, false, tag = 签到任务开关, desc = 定时运行[美的会员]签到任务
+
+[Script]
+
+# 获取 Cookie 脚本
+http-request ^https:\/\/mvip\.midea\.cn\/next\/mucuserinfo\/getmucuserinfo script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, requires-body=true, enable={enable-midea-cookie}, timeout=10, tag=美的会员获取Cookie, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
+
+# 自动签到脚本
+cron {cron-midea-signin} script-path=https://raw.githubusercontent.com/huskydsb/Loon/refs/heads/main/Script/midea.js, timeout=300, tag=美的会员签到, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Midea.png
+
+[MitM]
+hostname = mvip.midea.cn

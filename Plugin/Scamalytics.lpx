@@ -1,0 +1,13 @@
+#!name = Scamalytics IP欺诈风险评分
+#!desc = 通过Scamalytics查询当前节点落地IP的欺诈评分。请在节点页面选择一个节点长按，出现菜单后进行测试。
+#!openUrl = https://scamalytics.com/
+#!author = huskydsb[https://t.me/huskydb]
+#!icon = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Scamalytics.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 节点检测
+#!homepage = https://scamalytics.com/
+
+[Script]
+generic script-path = https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Scamalytic.js, timeout = 30, tag = IP欺诈评分查询, img-url = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Scamalytics.png

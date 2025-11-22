@@ -1,0 +1,32 @@
+#!name = 红牛会员俱乐部签到任务
+#!desc = 自动获取红牛会员俱乐部的 Token 并定时签到。
+#!openUrl = https://wxmall.maimall.com/redbull
+#!author = xzxxn777[https://github.com/xzxxn777]
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/redbull.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取 Token 脚本
+enable-redbull-token = switch, true, false, tag = 获取Token开关, desc = 是否启用获取 Token 功能
+
+# 设置自动签到的定时任务
+cron-redbull-signin = input, "44 8,18 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:44和18:44执行）
+
+# 签到任务启用开关
+Task-redbull = switch, true, false, tag = [红牛会员俱乐部]签到任务, desc = 定时运行[红牛会员俱乐部]签到任务
+
+[Script]
+
+# 获取 Token 脚本（拦截以保存授权参数）
+http-response ^https:\/\/xiaodian\.miyatech\.com\/api\/user\/login\/wx-jc script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RedBull/RedBull.js, requires-body=true, enable={enable-redbull-token}, timeout=60, tag=红牛会员俱乐部_获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/redbull.png
+
+
+# 定时签到脚本（主任务）
+cron {cron-redbull-signin} script-path=https://raw.githubusercontent.com/xzxxn777/Surge/main/Script/RedBull/RedBull.js, timeout=3600, tag=红牛会员俱乐部, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/redbull.png, enabled={Task-redbull}, wake-system=1
+
+[MitM]
+hostname = xiaodian.miyatech.com

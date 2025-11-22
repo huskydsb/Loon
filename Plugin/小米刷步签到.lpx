@@ -1,0 +1,27 @@
+#!name = 小米刷步签到任务
+#!desc = 小米运动刷步数自动签到，每天8:33执行任务。
+#!openUrl = https://account.xiaomi.com
+#!author = Yuheng0101[https://github.com/Yuheng0101]
+#!icon = https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/mi/color.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+#!homepage = https://github.com/Yuheng0101/X/tree/main/Tasks/mi
+
+[Argument]
+
+# 设置签到的定时任务
+cron-mi-signin = input, "33 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（默认每天8:33执行）
+
+# 签到任务启用开关
+Task-xiaomi = switch, true, false, tag = 签到任务开关, desc = 定时运行[小米刷步]步数任务
+
+[Script]
+# 小米运动刷步数签到脚本
+cron {cron-mi-signin} script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/mi/step.js, tag=小米刷步, img-url=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/mi/color.png, enabled=true
+
+[MitM]
+hostname = account.xiaomi.com
+
+

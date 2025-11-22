@@ -1,0 +1,31 @@
+#!name = 鸿星尔克签到任务
+#!desc = 自动执行鸿星尔克签到脚本。配置定时任务后，按设定时间执行签到。
+#!openUrl = https://www.hxek.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+#获取 Cookie 的启用开关
+CookieCapture-hxek = switch, true, false，tag = 获取Cookie开关, desc = 是否启用抓取cookie
+
+# 设置签到的定时任务
+cron-hxek = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:00执行）
+
+# 签到任务启用开关
+Task-hxek = switch, true, false, tag = 签到任务开关, desc = 定时运行[鸿星尔克]签到任务
+
+[Script]
+
+# 获取鸿星尔克cookie
+http-request ^https://hope.demogic.com/gic-wx-app/get-member-asset.json script-path=https://raw.githubusercontent.com/Former-Years/Surge/refs/heads/main/Script/erke.js, tag=鸿星尔克Cookie, enabled={CookieCapture-hxek}, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png
+
+# 定时签到脚本（主任务）
+cron {cron-hxek} script-path=https://raw.githubusercontent.com/Sliverkiss/GoodNight/master/Script/hxek.js, timeout=120, tag=鸿星尔克签到, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png, enabled={Task-hxek}
+获取 Cookie 的 http-request 触发规则（新增 enabled 开关）
+
+[MITM]
+hostname = hope.demogic.com

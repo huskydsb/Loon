@@ -1,0 +1,31 @@
+#!name = 阿里云盘签到任务
+#!desc = 自动获取阿里云盘授权参数并执行签到。配置后登录阿里云盘或触发对应请求以获取 token/参数。
+#!openUrl = https://www.aliyundrive.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AliYunDrive.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取阿里云盘 token/参数 的脚本
+enable-aliyun-token = switch, true, false, tag = 获取Token开关, desc = 是否启用通过拦截获取阿里云盘授权/参数
+
+# 设置签到的定时任务
+cron-aliyun = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天08:00执行）
+
+# 签到任务启用开关
+Task-aliyun = switch, true, false, tag = 签到任务开关, desc = 定时运行[阿里云盘]签到任务
+
+[Script]
+
+# 获取阿里云盘参数
+http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, requires-body=true, enable={enable-aliyun-token}, timeout=60, tag=阿里云盘获取token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AliYunDrive.png
+
+# 定时签到脚本（主任务）
+cron {cron-aliyun} script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, timeout=120, tag=阿里云签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/AliYunDrive.png, enabled={Task-aliyun}
+
+[MitM]
+hostname = auth.alipan.com, auth.aliyundrive.com

@@ -1,0 +1,31 @@
+#!name = 哈啰单车签到任务
+#!desc = 自动获取哈啰单车参数并执行奖励金签到。配置后在哈啰单车客户端触发相应请求即可获取 token/参数。
+#!openUrl = https://www.hellobike.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取哈啰单车 token/参数 的脚本
+enable-hldc-token = switch, true, false, tag = 获取Token开关, desc = 是否启用通过拦截获取哈啰单车签到参数
+
+# 设置签到的定时任务
+cron-hldc = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:00执行）
+
+# 签到任务启用开关
+Task-hldc = switch, true, false, tag = 签到任务开关, desc = 定时运行[哈啰单车]签到任务
+
+[Script]
+
+# 获取哈啰单车 token/参数
+http-request ^https:\/\/api\.hellobike\.com\/api\?user\.taurus\.pointInfo(?:\?.*)?$ script-path=https://gist.githubusercontent.com/Sliverkiss/4e0081f7b18a2cea9dbdf13545e60885/raw/d53857028ced29aed98affb5d4a602b2a8bf94cf/hldc.js, requires-body=true, enable={enable-hldc-token}, timeout=60, tag=哈啰单车获取token, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png
+
+# 定时签到脚本（主任务）
+cron {cron-hldc} script-path=https://gist.githubusercontent.com/Sliverkiss/4e0081f7b18a2cea9dbdf13545e60885/raw/d53857028ced29aed98affb5d4a602b2a8bf94cf/hldc.js, timeout=120, tag=哈啰单车奖励金签到, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/Hxek.png, enabled={Task-hldc}
+
+[MitM]
+hostname = api.hellobike.com

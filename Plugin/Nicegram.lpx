@@ -1,0 +1,15 @@
+#!name = Nicegram会员
+#!desc = 要激活高级版，请单击底部的"助手"，然后单击"释放您的 Nicegram 福利"，最后单击底部的"开始"。完成此操作后，Premium已解锁
+#!openUrl = 
+#!author = huskydsb[https://t.me/huskydb]
+#!icon = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Nicegram.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 会员解锁
+
+[Script]
+http-response ^https?:\/\/nicegram\.cloud\/api\/v\d\/(ai-assistant\/purchase-list|user\/info|telegram\/auth) script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/Nicegram.js, requires-body=true, timeout=60, tag=nicegram, img-url = https://raw.githubusercontent.com/huskydsb/Loon/main/icon/Nicegram.png
+
+[MITM]
+hostname = nicegram.cloud

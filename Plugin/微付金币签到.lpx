@@ -1,0 +1,32 @@
+#!name = 微付金币签到任务
+#!desc = 自动获取微信支付优惠券信息并签到，签到任务默认在每天上午9:30执行。
+#!openUrl = 
+#!author = FoKit[https://github.com/FoKit]
+#!icon = https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/wechat.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+
+[Argument]
+
+# 控制是否启用获取微付金币 Cookie 脚本
+enable-wechat-pay-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取微信支付优惠券的 Cookie 功能
+
+# 设置签到的定时任务
+cron-wechat-pay-signin = input, "30 9 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天9:30执行）
+
+# 签到任务启用开关
+Task-wechat-pay = switch, true, false, tag = 签到任务开关, desc = 定时运行[微付金币]签到任务
+
+[Script]
+
+# 获取微付金币 Cookie 脚本
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, requires-body=true, enable={enable-wechat-pay-cookie}, timeout=60, tag=微付金币获取cookie, img-url=https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/wechat.png
+
+# 微付金币签到任务
+cron {cron-wechat-pay-signin} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, timeout=120, tag=微付金币, img-url=https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/wechat.png, enabled={Task-wechat-pay}
+
+[MitM]
+hostname = payapp.weixin.qq.com

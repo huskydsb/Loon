@@ -1,0 +1,31 @@
+#!name = 奈雪的茶签到任务
+#!desc = 打开小程序，点击我的，进入签到页面。获取 CK 后不要再打开小程序，避免 CK 失效。
+#!openUrl = https://www.naixue.com
+#!author = Sliverkiss[https://github.com/Sliverkiss]
+#!icon = https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+
+[Argument]
+
+# 控制是否启用获取 Token 的脚本
+enable-naixue-token = switch, true, false, tag = 获取Token开关, desc = 是否启用获取奈雪点单 token/CK 功能
+
+# 设置签到的定时任务
+cron-naixue-signin = input, "0 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:00执行）
+
+# 签到任务启用开关
+Task-naixue = switch, true, false, tag = 签到任务开关, desc = 定时运行[奈雪的茶]签到任务
+
+[Script]
+
+# 获取奈雪点单 token/CK（拦截用户信息以保存参数）
+http-request ^https:\/\/tm-web\.pin-dao\.cn\/user\/base-userinfo script-path=https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js, requires-body=true, timeout=60, enable={enable-naixue-token}, tag=奈雪点单获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png
+
+# 定时签到脚本（仅签到）
+cron {cron-naixue-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js, timeout=60, tag=奈雪的茶签到, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png, enabled={Task-naixue}
+
+[MitM]
+hostname = tm-web.pin-dao.cn

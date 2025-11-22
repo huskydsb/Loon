@@ -1,0 +1,31 @@
+#!name = 携程旅行签到任务
+#!desc = 自动签到携程旅行并获取授权，签到任务默认在每天上午8:30执行。需要启用获取 Cookie 脚本。
+#!openUrl = https://m.ctrip.com
+#!author = NobyDa[https://github.com/NobyDa]
+#!icon = https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到任务
+
+[Argument]
+
+# 控制是否启用获取携程旅行 Cookie 脚本
+enable-ctrip-cookie = switch, true, false, tag = 获取Cookie开关, desc = 是否启用获取携程旅行 Cookie 功能
+
+# 设置签到的定时任务
+cron-ctrip-signin = input, "30 8 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天8:30执行）
+
+# 签到任务启用开关
+Task-ctrip = switch, true, false, tag = 签到任务开关, desc = 定时运行[携程旅行]签到任务
+
+[Script]
+
+# 获取携程旅行 Cookie 脚本
+http-response ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, requires-body=true, enable={enable-ctrip-cookie}, timeout=60, tag=携程旅行(获取授权), img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png
+
+# 携程旅行签到任务
+cron {cron-ctrip-signin} script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Ctrip-DailyBonus/Ctrip.js, timeout=60, tag=携程旅行签到, img-url=https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png, enabled={Task-ctrip}
+
+[MitM]
+hostname = m.ctrip.com

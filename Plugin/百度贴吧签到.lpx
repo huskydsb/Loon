@@ -1,0 +1,37 @@
+#!name = 百度贴吧签到任务
+#!desc = 自动签到百度贴吧，获取 Cookie 后可定时执行签到任务。配置后在贴吧页面触发请求即可获取 Cookie/参数。
+#!openUrl = https://tieba.baidu.com
+#!author = blackmatrix7[https://github.com/blackmatrix7]
+#!icon = https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到任务
+
+[Argument]
+
+# 控制是否启用百度贴吧获取Cookie脚本
+enable-tieba-cookie = switch, true, false, tag = 启用获取Cookie, desc = 是否启用百度贴吧获取Cookie脚本
+
+# 设置签到的定时任务
+cron-tieba-signin = input, "0 10 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天10:00执行）
+
+# 签到任务启用开关
+Task-tieba = switch, true, false, tag = 签到任务开关, desc = 定时运行[百度贴吧签到]任务
+
+[Script]
+
+# 获取百度贴吧 Cookie 的请求
+http-request ^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login script-path=https://gist.githubusercontent.com/blackmatrix7/cebabe7a385fc6a9ad32e2f7a35851dc/raw/1363d8720c92267d0a97fcd8eb98673760891fc9/tieba_min.js, tag=贴吧_获取cookie1, enabled={enable-tieba-cookie}, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png, enabled={Task-tieba}
+
+http-request ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig script-path=https://gist.githubusercontent.com/blackmatrix7/cebabe7a385fc6a9ad32e2f7a35851dc/raw/1363d8720c92267d0a97fcd8eb98673760891fc9/tieba_min.js, tag=贴吧_获取cookie2, enabled={enable-tieba-cookie}, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png, enabled={Task-tieba}
+
+http-request ^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo script-path=https://gist.githubusercontent.com/blackmatrix7/cebabe7a385fc6a9ad32e2f7a35851dc/raw/1363d8720c92267d0a97fcd8eb98673760891fc9/tieba_min.js, tag=贴吧_获取cookie3, enabled={enable-tieba-cookie}, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png, enabled={Task-tieba}
+
+http-request ^https?:\/\/tiebac\.baidu\.com\/c\/s\/getClientConfig script-path=https://gist.githubusercontent.com/blackmatrix7/cebabe7a385fc6a9ad32e2f7a35851dc/raw/1363d8720c92267d0a97fcd8eb98673760891fc9/tieba_min.js, tag=贴吧_获取cookie4, enabled={enable-tieba-cookie}, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png, enabled={Task-tieba}
+
+# 定时签到脚本（主任务）
+cron {cron-tieba-signin} script-path=https://gist.githubusercontent.com/blackmatrix7/cebabe7a385fc6a9ad32e2f7a35851dc/raw/1363d8720c92267d0a97fcd8eb98673760891fc9/tieba_min.js, timeout=60, tag=tieba_signin, img-url=https://raw.githubusercontent.com/huskydsb/icon/main/img/百度贴吧.png, enabled={Task-tieba}
+
+[MitM]
+hostname = c.tieba.baidu.com, tiebac.baidu.com

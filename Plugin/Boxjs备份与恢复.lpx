@@ -1,0 +1,29 @@
+#!name = BoxJS 数据备份与恢复
+#!desc = 每天自动备份与恢复 BoxJS 数据，默认备份时间为22:00，恢复时间为22:05
+#!openUrl = http://boxjs.com
+#!author = dompling[https://github.com/dompling]
+#!icon = https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BoxJS.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = BoxJS管理
+
+[Argument]
+# 启用BoxJS备份功能
+enable-boxjs-backup = switch, true, false, tag = 启用备份功能, desc = 是否启用 BoxJS 数据的备份脚本
+
+# 启用BoxJS恢复功能
+enable-boxjs-restore = switch, true, false, tag = 启用恢复功能, desc = 是否启用 BoxJS 数据的恢复脚本
+
+# BoxJS备份定时任务
+cron-boxjs-backup = input, "0 22 * * *", tag = BoxJS备份时间, desc = 定时任务表达式（默认22:00）
+
+# BoxJS恢复定时任务
+cron-boxjs-restore = input, "5 22 * * *", tag = BoxJS恢复时间, desc = 定时任务表达式（默认22:05）
+
+[Script]
+# BoxJS 数据备份
+cron {cron-boxjs-backup} script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js, timeout=120, tag=Boxjs备份, enable={enable-boxjs-backup}, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BoxJS.png
+
+# BoxJS 数据恢复
+cron {cron-boxjs-restore} script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js, timeout=120, tag=Boxjs恢复, enable={enable-boxjs-restore}, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/BoxJS.png

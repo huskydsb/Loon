@@ -1,0 +1,28 @@
+#!name = 爱奇艺签到任务
+#!desc = 自动签到爱奇艺，获取 Cookie 后自动签到。每天9:00执行签到任务，获取 Cookie 可通过打开相应页面获取。
+#!openUrl = https://www.iqiyi.com
+#!author = NobyDa[https://github.com/NobyDa]
+#!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iQIYI&bilibili.png
+#!system = iOS
+#!system_version = 26.1
+#!loon_version = 3.2.4(787)
+#!tag = 签到脚本
+#!homepage = https://github.com/NobyDa/Script/tree/master/iQIYI-DailyBonus
+
+[Argument]
+
+# 获取Cookie开关
+enable-iqiyi-cookie = switch, true, false, tag = 爱奇艺获取cookie开关, desc = 是否启用获取爱奇艺 Cookie 脚本
+
+# 设置签到的定时任务
+cron-iqiyi-signin = input, "0 9 * * *", tag = 签到任务时间, desc = 定时任务表达式（例如每天9:00执行）
+
+[Script]
+# 爱奇艺签到任务，定时每天9:00执行
+cron {cron-iqiyi-signin} script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js, tag=爱奇艺签到, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iQIYI&bilibili.png
+
+# 获取爱奇艺 Cookie 的请求，触发获取 cookie 脚本
+http-response ^https:\/\/passport\.iqiyi\.com\/apis\/user\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js, tag=爱奇艺获取cookie, img-url=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iQIYI&bilibili.png
+
+[MitM]
+hostname = passport.iqiyi.com
