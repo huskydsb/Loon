@@ -1,8 +1,7 @@
 #!name = 名创优品签到任务
 #!desc = 打开名创优品小程序自动获取 UID/SKEY 并执行名创优品每日签到任务。
 #!openUrl = https://www.miniso.com
-#!icon = https://images.seeklogo.com/logo-png/35/1/miniso-logo-png_seeklogo-350058.png
-#!system = iOS
+#!icon = https://upload.wikimedia.org/wikipedia/commons/6/60/Miniso_logo.png
 #!system_version = 26.1
 #!loon_version = 3.2.4(787)
 #!tag = 签到脚本
@@ -22,10 +21,10 @@ Task-mcyp = switch, true, false, tag = 签到任务开关, desc = 定时运行�
 [Script]
 
 # 获取名创优品 Cookie（UID + SKEY）
-http-request ^https:\/\/member-center\.miniso\.com\/userinfo\/userinfo\/GetUserInfoV3$ script-path=https://raw.githubusercontent.com/yourname/yourrepo/main/miniso_cookie.js, requires-body=false, enable={enable-mcyp-cookie}, timeout=60, tag=名创优品获取Cookie, img-url=https://cdn-storeexpress.miniso.com/miniso.png
+http-request ^https:\/\/member-center\.miniso\.com\/userinfo\/userinfo\/GetUserInfoV3$ script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/mcypcookie.js, requires-body=false, enable={enable-mcyp-cookie}, timeout=60, tag=名创优品获取Cookie, img-url=https://upload.wikimedia.org/wikipedia/commons/6/60/Miniso_logo.png
 
 # 名创优品签到任务
-cron {cron-mcyp} script-path=https://raw.githubusercontent.com/yourname/yourrepo/main/miniso_sign.js, timeout=120, tag=名创优品签到, img-url=https://images.seeklogo.com/logo-png/35/1/miniso-logo-png_seeklogo-350058.png, enable={Task-mcyp}
+cron {cron-mcyp} script-path=https://raw.githubusercontent.com/huskydsb/Loon/main/Script/miniso.js, timeout=120, tag=名创优品签到, img-url=https://upload.wikimedia.org/wikipedia/commons/6/60/Miniso_logo.png, enable={Task-mcyp}
 
 
 [MITM]
