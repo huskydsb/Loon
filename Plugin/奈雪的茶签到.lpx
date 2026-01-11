@@ -22,7 +22,7 @@ Task-naixue = switch, true, false, tag = 签到任务开关, desc = 定时运行
 [Script]
 
 # 获取奈雪点单 token/CK（拦截用户信息以保存参数）
-http-request ^https:\/\/tm-web\.pin-dao\.cn\/user\/base-userinfo script-path=https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js, requires-body=true, timeout=60, enable={enable-naixue-token}, tag=奈雪点单获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png
+http-request ^https:\/\/tm-api\.pin-dao\.cn\/home\/api\/config\/user$ script-path=https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js, requires-body=true, timeout=60, enable={enable-naixue-token}, tag=奈雪点单获取token, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png
 
 # 定时签到脚本（仅签到）
 cron {cron-naixue-signin} script-path=https://gist.githubusercontent.com/Sliverkiss/4d0e9572b99530b7cb0e7298622aa2a9/raw/naixue.js, timeout=60, tag=奈雪的茶签到, img-url=https://raw.githubusercontent.com/sliverkiss/QuantumultX/main/icon/naixue.png, enabled={Task-naixue}
